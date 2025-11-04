@@ -6,7 +6,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export const runtime = 'edge';
+// Note: Using Node.js runtime (not Edge) because we need cookies() API for Supabase auth
+// Edge runtime would be faster but doesn't support cookies() from next/headers
 
 export async function POST(req: Request) {
   try {

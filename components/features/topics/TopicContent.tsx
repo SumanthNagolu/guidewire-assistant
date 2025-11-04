@@ -32,7 +32,15 @@ export default function TopicContent({ topic, userId }: TopicContentProps) {
   useEffect(() => {
     // Mark topic as started when user views it
     if (!topic.completion) {
-      markTopicStarted(userId, topic.id);
+      // Async IIFE pattern to properly handle async operation in useEffect
+      (async () => {
+        try {
+          await markTopicStarted(userId, topic.id);
+        } catch (error) {
+          // Silently handle - non-critical if this fails
+          console.error('Failed to mark topic as started:', error);
+        }
+      })();
     }
 
     const startTime = Date.now();
