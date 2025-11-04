@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getTopicById } from '@/modules/topics/queries';
 import { redirect } from 'next/navigation';
 import TopicContent from '@/components/features/topics/TopicContent';
+import MentorChat from '@/components/features/ai-mentor/MentorChat';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -135,8 +136,18 @@ export default async function TopicDetailPage({
         </div>
       )}
 
-      {/* Topic Content (Video, Slides, etc.) */}
-      <TopicContent topic={topic} userId={user.id} />
+      {/* Two-column layout: Content and AI Mentor */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Main Content */}
+        <div className="lg:col-span-2">
+          <TopicContent topic={topic} userId={user.id} />
+        </div>
+
+        {/* AI Mentor Sidebar */}
+        <div className="lg:col-span-1">
+          <MentorChat topicId={topic.id} topicTitle={topic.title} />
+        </div>
+      </div>
     </div>
   );
 }
