@@ -75,7 +75,7 @@ export async function signUp(formData: FormData): Promise<ApiResponse> {
     }
 
     // Create user profile
-    const { error: profileError } = await supabase.from('user_profiles').insert({
+    const { error: profileError } = await (supabase.from('user_profiles') as any).insert({
       id: authData.user.id,
       email: authData.user.email!,
       first_name: firstName,
@@ -135,11 +135,13 @@ export async function signIn(formData: FormData): Promise<ApiResponse> {
     }
 
     // Check if profile setup is complete
+    type ProfileCheck = { onboarding_completed: boolean };
+
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('onboarding_completed')
       .eq('id', data.user.id)
-      .single();
+      .single<ProfileCheck>();
 
     revalidatePath('/', 'layout');
 
