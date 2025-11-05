@@ -35,11 +35,11 @@ const main = async () => {
   });
 
   // Check 2: Products table
-  type Product = { code: string; name: string };
+  type Product = { id: string; code: string; name: string };
 
   const { data: products, error: productsError } = await supabase
     .from('products')
-    .select('code, name')
+    .select('id, code, name')
     .eq('code', 'CC')
     .returns<Product[]>();
 
