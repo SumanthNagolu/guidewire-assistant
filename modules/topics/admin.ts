@@ -172,8 +172,8 @@ export async function bulkUpsertTopics(
     return { success: false, errors };
   }
 
-  const { error: upsertError, data } = await client
-    .from('topics')
+  const { error: upsertError, data } = await (client
+    .from('topics') as any)
     .upsert(sanitizedTopics, { onConflict: 'id' })
     .select('id');
 
