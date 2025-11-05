@@ -248,8 +248,8 @@ export async function updateProfile(formData: FormData): Promise<ApiResponse> {
 
   try {
     // Update user profile
-    const { error: updateError } = await supabase
-      .from('user_profiles')
+    const { error: updateError } = await (supabase
+      .from('user_profiles') as any)
       .update({
         first_name: firstName,
         last_name: lastName,
