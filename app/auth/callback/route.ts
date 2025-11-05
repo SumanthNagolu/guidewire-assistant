@@ -23,7 +23,7 @@ export async function GET(request: Request) {
       // Create profile if it doesn't exist (for OAuth users)
       if (!profile) {
         const metadata = data.user.user_metadata;
-        await supabase.from('user_profiles').insert({
+        await (supabase.from('user_profiles') as any).insert({
           id: data.user.id,
           email: data.user.email!,
           first_name: metadata.full_name?.split(' ')[0] || metadata.name?.split(' ')[0] || null,

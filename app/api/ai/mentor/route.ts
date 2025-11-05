@@ -325,10 +325,7 @@ Respond in a supportive, encouraging tone that promotes active learning.`;
 
           for await (const chunk of response) {
             lastChunk = chunk;
-            const content =
-              chunk?.choices?.[0]?.delta?.content ??
-              chunk?.choices?.[0]?.text ??
-              '';
+            const content = chunk?.choices?.[0]?.delta?.content ?? '';
             
             if (content) {
               fullResponse += content;
