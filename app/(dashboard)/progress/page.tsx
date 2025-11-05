@@ -18,11 +18,20 @@ export default async function ProgressPage() {
   }
 
   // Get user profile
+  type Profile = {
+    id: string;
+    first_name: string | null;
+    last_name: string | null;
+    assumed_persona: string | null;
+    preferred_product_id: string | null;
+    products: { name: string; code: string } | null;
+  };
+
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('*, products(name, code)')
     .eq('id', user.id)
-    .single();
+    .single<Profile>();
 
   // Get products
   type Product = {
@@ -39,6 +48,23 @@ export default async function ProgressPage() {
     .returns<Product[]>();
 
   // Get all user completions with topic info
+  type Completion = {
+    id: string;
+    user_id: string;
+    topic_id: string;
+    completion_percentage: number;
+    time_spent_seconds: number;
+    completed_at: string | null;
+    topics: {
+      id: string;
+      title: string;
+      position: number;
+      duration_minutes: number;
+      product_id: string;
+      products: { name: string; code: string };
+    };
+  };
+
   const { data: completions } = await supabase
     .from('topic_completions')
     .select(`
@@ -53,7 +79,8 @@ export default async function ProgressPage() {
       )
     `)
     .eq('user_id', user.id)
-    .order('updated_at', { ascending: false });
+    .order('updated_at', { ascending: false })
+    .returns<Completion[]>();
 
   // Calculate stats per product
   const productStats = await Promise.all(
