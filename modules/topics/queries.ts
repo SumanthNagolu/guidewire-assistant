@@ -186,12 +186,21 @@ export async function getTopicById(
   }
 
   // Get user's completion for this topic
+  type Completion = {
+    id: string;
+    topic_id: string;
+    user_id: string;
+    completion_percentage: number;
+    completed_at: string | null;
+    time_spent_seconds: number;
+  };
+
   const { data: completion } = await supabase
     .from('topic_completions')
     .select('*')
     .eq('user_id', userId)
     .eq('topic_id', topicId)
-    .single();
+    .single<Completion>();
 
   // Check if prerequisites are met
   const { data: prerequisitesMet } = await (supabase.rpc as any)(
