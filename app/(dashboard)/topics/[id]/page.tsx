@@ -12,8 +12,9 @@ import { type PersonaKey } from '@/modules/onboarding/persona-guidance';
 export default async function TopicDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const supabase = await createClient();
 
   const {
@@ -24,7 +25,7 @@ export default async function TopicDetailPage({
     redirect('/login');
   }
 
-  const topic = await getTopicById(params.id, user.id);
+  const topic = await getTopicById(id, user.id);
 
   if (!topic) {
     return (

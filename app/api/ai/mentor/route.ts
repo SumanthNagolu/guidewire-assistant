@@ -4,7 +4,6 @@ import {
   getMentorUsageWindow,
 } from '@/modules/ai-mentor/queries';
 import type { Database, Json } from '@/types/database';
-import { OpenAIStream, StreamingTextResponse } from 'ai';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
@@ -263,63 +262,78 @@ Respond in a supportive, encouraging tone that promotes active learning.`;
       max_tokens: 500,
       temperature: 0.7,
     });
-
-    // Track tokens and response
+    const encoder = new TextEncoder();
     let fullResponse = '';
-    const stream = OpenAIStream(response, {
-      onCompletion: (completion: string) => {
-        fullResponse = completion;
-      },
-      onFinal: async (final: unknown) => {
-        const usage = extractUsage(final);
-        const tokensUsed =
-          usage?.total_tokens ?? Math.ceil(fullResponse.length / 4);
+    let lastChunk: unknown = null;
 
-        const assistantMetadata = usage ? ({ usage } as Json) : undefined;
+    const persistAssistantMessage = async () => {
+      const usage = extractUsage(lastChunk);
+      const tokensUsed = usage?.total_tokens ?? Math.ceil(fullResponse.length / 4);
 
-        const finalRecord = isRecord(final) ? final : null;
-        const resolvedModel =
-          finalRecord && typeof finalRecord.model === 'string'
-            ? finalRecord.model
-            : model;
+      const assistantMetadata = usage ? ({ usage } as Json) : undefined;
+      const finalRecord = isRecord(lastChunk) ? lastChunk : null;
+      const resolvedModel =
+        finalRecord && typeof finalRecord.model === 'string'
+          ? finalRecord.model
+          : model;
 
-        const assistantInsert: MessageInsert = {
-          conversation_id: currentConversationId,
-          role: 'assistant',
-          content: fullResponse,
-          tokens_used: tokensUsed,
-          model_used: resolvedModel,
-          metadata: assistantMetadata,
+      const assistantInsert: MessageInsert = {
+        conversation_id: currentConversationId,
+        role: 'assistant',
+        content: fullResponse,
+        tokens_used: tokensUsed,
+        model_used: resolvedModel,
+        metadata: assistantMetadata,
+      };
+
+      const { error: assistantError } = await db
+        .from('ai_messages')
+        .insert(assistantInsert)
+        .select('id')
+        .single();
+
+      if (assistantError) {
+        console.error('Failed to record mentor assistant message:', assistantError);
+      }
+
+      if (usage?.prompt_tokens && userMessageRow?.id) {
+        const mergedMetadata: Record<string, unknown> = {
+          ...(userMessageRow.metadata ?? {}),
+          usage: {
+            prompt_tokens: usage.prompt_tokens,
+          },
         };
 
-        const { error: assistantError } = await db
+        const { error: updateError } = await db
           .from('ai_messages')
-          .insert(assistantInsert)
-          .select('id')
-          .single();
+          .update({
+            metadata: mergedMetadata as Json,
+          })
+          .eq('id', userMessageRow.id);
 
-        if (assistantError) {
-          console.error('Failed to record mentor assistant message:', assistantError);
+        if (updateError) {
+          console.error('Failed to update mentor user message metadata:', updateError);
         }
+      }
+    };
 
-        if (usage?.prompt_tokens && userMessageRow?.id) {
-          const mergedMetadata: Record<string, unknown> = {
-            ...(userMessageRow.metadata ?? {}),
-            usage: {
-              prompt_tokens: usage.prompt_tokens,
-            },
-          };
-
-          const { error: updateError } = await db
-            .from('ai_messages')
-            .update({
-              metadata: mergedMetadata as Json,
-            })
-            .eq('id', userMessageRow.id);
-
-          if (updateError) {
-            console.error('Failed to update mentor user message metadata:', updateError);
+    const readable = new ReadableStream<Uint8Array>({
+      async start(controller) {
+        try {
+          for await (const chunk of response) {
+            lastChunk = chunk;
+            const content =
+              chunk?.choices?.[0]?.delta?.content ?? chunk?.choices?.[0]?.text ?? '';
+            if (content) {
+              fullResponse += content;
+              controller.enqueue(encoder.encode(content));
+            }
           }
+
+          await persistAssistantMessage();
+          controller.close();
+        } catch (streamError) {
+          controller.error(streamError);
         }
       },
     });
@@ -339,7 +353,13 @@ Respond in a supportive, encouraging tone that promotes active learning.`;
     };
 
     // Return streaming response with conversation ID in headers
-    return new StreamingTextResponse(stream, { headers: responseHeaders });
+    return new Response(readable, {
+      headers: {
+        ...responseHeaders,
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-store',
+      },
+    });
   } catch (error) {
     console.error('AI Mentor Error:', error);
     return jsonError('Internal server error', 500);
