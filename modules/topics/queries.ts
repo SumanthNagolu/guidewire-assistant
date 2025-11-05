@@ -114,7 +114,7 @@ export async function getTopicsByProduct(
       const completion = completionMap.get(topic.id);
       
       // Check if prerequisites are met
-      const { data: prerequisitesMet } = await supabase.rpc(
+      const { data: prerequisitesMet } = await (supabase.rpc as any)(
         'check_prerequisites',
         {
           p_user_id: userId,
