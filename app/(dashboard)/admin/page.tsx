@@ -38,9 +38,9 @@ export default async function AdminPage() {
     completionTrend,
     recentFeedback,
   ] = await Promise.all([
-    supabase.from('user_profiles').select('*', { count: 'only', head: true }),
-    supabase.from('topics').select('*', { count: 'only', head: true }),
-    supabase.from('ai_conversations').select('*', { count: 'only', head: true }),
+    supabase.from('user_profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('topics').select('*', { count: 'exact', head: true }),
+    supabase.from('ai_conversations').select('*', { count: 'exact', head: true }),
     getActivationMetrics(),
     getCompletionTrend(7),
     getRecentFeedbackEntries(5),

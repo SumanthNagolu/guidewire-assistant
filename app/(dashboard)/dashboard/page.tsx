@@ -38,14 +38,14 @@ export default async function DashboardPage() {
   // Get user's completions count
   const { count: completedCount } = await supabase
     .from('topic_completions')
-    .select('*', { count: 'only', head: true })
+    .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
     .not('completed_at', 'is', null);
 
   // Get total published topics
   const { count: totalTopics } = await supabase
     .from('topics')
-    .select('*', { count: 'only', head: true })
+    .select('*', { count: 'exact', head: true })
     .eq('published', true);
 
   const overallProgress = totalTopics

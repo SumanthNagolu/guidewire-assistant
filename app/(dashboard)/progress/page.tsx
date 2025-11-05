@@ -52,7 +52,7 @@ export default async function ProgressPage() {
     (products || []).map(async (product) => {
       const { count: totalTopics } = await supabase
         .from('topics')
-        .select('*', { count: 'only', head: true })
+        .select('*', { count: 'exact', head: true })
         .eq('product_id', product.id)
         .eq('published', true);
 

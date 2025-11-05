@@ -73,7 +73,7 @@ export default async function TopicDetailPage(props: PageProps<'/topics/[id]'>) 
       .maybeSingle(),
     supabase
       .from('topic_completions')
-      .select('*', { count: 'only', head: true })
+      .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id)
       .not('completed_at', 'is', null),
   ]);
