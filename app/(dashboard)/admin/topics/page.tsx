@@ -38,9 +38,15 @@ export default async function AdminTopicsPage() {
     `)
     .order('position', { ascending: true });
 
+  type TopicWithProduct = {
+    products: { name: string; code: string } | null;
+    [key: string]: any;
+  };
+
   // Group by product
-  const topicsByProduct = topics?.reduce((acc: any, topic) => {
-    const productCode = topic.products.code;
+  const topicsByProduct = topics?.reduce((acc: any, topic: TopicWithProduct) => {
+    const productCode = topic.products?.code;
+    if (!productCode) return acc;
     if (!acc[productCode]) {
       acc[productCode] = [];
     }

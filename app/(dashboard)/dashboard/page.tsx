@@ -23,17 +23,35 @@ export default async function DashboardPage() {
   }
 
   // Get user profile
+  type ProfileWithProduct = {
+    id: string;
+    first_name: string | null;
+    last_name: string | null;
+    assumed_persona: string | null;
+    preferred_product_id: string | null;
+    created_at: string;
+    products: { name: string; code: string } | null;
+  };
+
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('*, products(name, code)')
     .eq('id', user.id)
-    .single();
+    .single<ProfileWithProduct>();
 
   // Get products
+  type Product = {
+    id: string;
+    name: string;
+    code: string;
+    description: string | null;
+  };
+
   const { data: products } = await supabase
     .from('products')
     .select('*')
-    .order('code');
+    .order('code')
+    .returns<Product[]>();
 
   // Get user's completions count
   const { count: completedCount } = await supabase
@@ -61,7 +79,7 @@ export default async function DashboardPage() {
   let recommendedTopic: RecommendedTopic | null = null;
 
   if (preferredProductId) {
-    const { data: nextTopicId } = await supabase.rpc('get_next_topic', {
+    const { data: nextTopicId } = await (supabase.rpc as any)('get_next_topic', {
       p_user_id: user.id,
       p_product_id: preferredProductId,
     });
@@ -88,6 +106,10 @@ export default async function DashboardPage() {
     }
   }
 
+  type FirstCompletion = {
+    completed_at: string;
+  };
+
   const { data: firstCompletion } = await supabase
     .from('topic_completions')
     .select('completed_at')
@@ -95,13 +117,19 @@ export default async function DashboardPage() {
     .not('completed_at', 'is', null)
     .order('completed_at', { ascending: true })
     .limit(1)
-    .maybeSingle();
+    .maybeSingle<FirstCompletion>();
+
+  type ReminderSettings = {
+    opted_in: boolean;
+    updated_at: string | null;
+    last_opt_in_at: string | null;
+  };
 
   const { data: reminderSettings } = await supabase
     .from('learner_reminder_settings')
     .select('opted_in, updated_at, last_opt_in_at')
     .eq('user_id', user.id)
-    .maybeSingle();
+    .maybeSingle<ReminderSettings>();
 
   const latestFeedback = await getLatestFeedbackForUser(user.id);
 

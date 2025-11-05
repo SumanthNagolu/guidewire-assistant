@@ -18,11 +18,24 @@ export default async function DashboardLayout({
   }
 
   // Get user profile
+  type UserProfile = {
+    id: string;
+    email: string;
+    first_name: string | null;
+    last_name: string | null;
+    role: string;
+    onboarding_completed: boolean;
+    assumed_persona: string | null;
+    preferred_product_id: string | null;
+    created_at: string;
+    updated_at: string;
+  };
+
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('*')
     .eq('id', user.id)
-    .single();
+    .single<UserProfile>();
 
   // Check if profile setup is complete
   if (!profile?.onboarding_completed) {

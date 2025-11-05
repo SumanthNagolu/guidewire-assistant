@@ -26,11 +26,15 @@ export async function updateReminderSettingsAction(
 
   const now = new Date().toISOString();
 
+  type ExistingSettings = {
+    last_opt_in_at: string | null;
+  };
+
   const { data: existing } = await supabase
     .from('learner_reminder_settings')
     .select('last_opt_in_at')
     .eq('user_id', user.id)
-    .maybeSingle();
+    .maybeSingle<ExistingSettings>();
 
   const payload = {
     user_id: user.id,
@@ -39,8 +43,8 @@ export async function updateReminderSettingsAction(
     updated_at: now,
   };
 
-  const { error } = await supabase
-    .from('learner_reminder_settings')
+  const { error } = await (supabase
+    .from('learner_reminder_settings') as any)
     .upsert(payload, { onConflict: 'user_id' });
 
   if (error) {
