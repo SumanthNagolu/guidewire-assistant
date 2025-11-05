@@ -48,10 +48,13 @@ export async function getActivationMetrics(): Promise<{
     }
 
     // Get users with at least one completion
+    type CompletedUser = { user_id: string; completed_at: string };
+
     const { data: completedUsers, error: completionsError } = await supabase
       .from('topic_completions')
       .select('user_id, completed_at')
-      .not('completed_at', 'is', null);
+      .not('completed_at', 'is', null)
+      .returns<CompletedUser[]>();
 
     if (completionsError) {
       return { success: false, error: completionsError.message };
