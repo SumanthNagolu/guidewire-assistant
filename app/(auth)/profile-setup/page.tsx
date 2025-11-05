@@ -30,6 +30,7 @@ import {
 
 export default function ProfileSetupPage() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [products, setProducts] = useState<{ id: string; name: string; code: string }[]>([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedPersona, setSelectedPersona] = useState<PersonaKey | ''>('');
@@ -51,20 +52,35 @@ export default function ProfileSetupPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     const formData = new FormData(e.currentTarget);
     formData.set('preferredProductId', selectedProduct);
     formData.set('assumedPersona', selectedPersona ?? '');
 
+    console.log('Form data:', {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      assumedPersona: formData.get('assumedPersona'),
+      preferredProductId: formData.get('preferredProductId'),
+    });
+
     try {
       const result = await updateProfile(formData);
+      console.log('Update profile result:', result);
+      
       if (!result.success) {
-        toast.error(result.error || 'Failed to update profile');
+        const errorMsg = result.error || 'Failed to update profile';
+        setError(errorMsg);
+        toast.error(errorMsg);
         setLoading(false);
       }
       // Success will redirect via server action
     } catch (error) {
-      toast.error('An unexpected error occurred');
+      console.error('Profile update error:', error);
+      const errorMsg = error instanceof Error ? error.message : 'An unexpected error occurred';
+      setError(errorMsg);
+      toast.error(errorMsg);
       setLoading(false);
     }
   }
@@ -80,6 +96,12 @@ export default function ProfileSetupPage() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {error && (
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+                <p className="text-sm font-medium text-red-900">Error</p>
+                <p className="text-sm text-red-700 mt-1">{error}</p>
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name</Label>

@@ -22,7 +22,7 @@ const profileSetupSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   assumedPersona: z.string().min(1, 'Please select an assumed persona'),
-  preferredProductId: z.string().uuid('Please select a preferred product'),
+  preferredProductId: z.string().min(1, 'Please select a preferred product'),
 });
 
 // API Response type
