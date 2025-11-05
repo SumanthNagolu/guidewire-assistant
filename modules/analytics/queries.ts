@@ -260,10 +260,13 @@ export async function getTopicsPerUserData(): Promise<{
     }
 
     // Get all completions
+    type TopicCompletion = { user_id: string; completed_at: string };
+
     const { data: completions, error: completionsError } = await supabase
       .from('topic_completions')
       .select('user_id, completed_at')
-      .not('completed_at', 'is', null);
+      .not('completed_at', 'is', null)
+      .returns<TopicCompletion[]>();
 
     if (completionsError) {
       return { success: false, error: completionsError.message };
