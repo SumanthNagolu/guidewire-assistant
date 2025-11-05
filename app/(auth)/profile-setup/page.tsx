@@ -107,7 +107,7 @@ export default function ProfileSetupPage() {
               <Label htmlFor="assumedPersona">Assumed Experience Level</Label>
               <Select
                 value={selectedPersona}
-                onValueChange={setSelectedPersona}
+                onValueChange={(value) => setSelectedPersona(value as PersonaKey)}
                 required
                 disabled={loading}
               >
