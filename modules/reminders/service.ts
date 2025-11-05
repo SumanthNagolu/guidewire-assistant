@@ -44,10 +44,17 @@ export async function sendStalledLearnerReminders(): Promise<ReminderSummary> {
     return { candidates: 0, attempts: 0, triggered: 0, skipped: 0, errors };
   }
 
+  type ReminderSetting = {
+    user_id: string;
+    last_opt_in_at: string | null;
+    opted_in: boolean;
+  };
+
   const { data: settings, error: settingsError } = await admin
     .from('learner_reminder_settings')
     .select('user_id, last_opt_in_at, opted_in')
-    .eq('opted_in', true);
+    .eq('opted_in', true)
+    .returns<ReminderSetting[]>();
 
   if (settingsError) {
     errors.push(settingsError.message);

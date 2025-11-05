@@ -49,7 +49,7 @@ export async function submitWeeklyFeedbackAction(formData: FormData): Promise<Su
     ...parsed.data,
   };
 
-  const { error } = await supabase.from('beta_feedback_entries').insert(payload);
+  const { error } = await (supabase.from('beta_feedback_entries') as any).insert(payload);
 
   if (error) {
     return {
