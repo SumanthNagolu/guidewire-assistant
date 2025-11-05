@@ -47,7 +47,7 @@ export async function signUp(formData: FormData): Promise<ApiResponse> {
   if (!validation.success) {
     return {
       success: false,
-      error: validation.error.errors[0].message,
+      error: validation.error.issues[0].message,
     };
   }
 
@@ -114,7 +114,7 @@ export async function signIn(formData: FormData): Promise<ApiResponse> {
   if (!validation.success) {
     return {
       success: false,
-      error: validation.error.errors[0].message,
+      error: validation.error.issues[0].message,
     };
   }
 
@@ -238,7 +238,7 @@ export async function updateProfile(formData: FormData): Promise<ApiResponse> {
   if (!validation.success) {
     return {
       success: false,
-      error: validation.error.errors[0].message,
+      error: validation.error.issues[0].message,
     };
   }
 

@@ -246,10 +246,13 @@ export async function getTopicsPerUserData(): Promise<{
     const supabase = await createClient();
 
     // Get all user profiles
+    type Profile = { id: string; email: string; first_name: string | null };
+
     const { data: profiles, error: profilesError } = await supabase
       .from('user_profiles')
       .select('id, email, first_name')
-      .order('email', { ascending: true });
+      .order('email', { ascending: true })
+      .returns<Profile[]>();
 
     if (profilesError) {
       return { success: false, error: profilesError.message };
