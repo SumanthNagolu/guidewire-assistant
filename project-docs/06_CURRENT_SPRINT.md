@@ -2,9 +2,9 @@
 
 *This file is THE SINGLE SOURCE of what we're building RIGHT NOW*
 
-## Sprint: 3 - Content Expansion & Onboarding (Nov 18, 2025 → target Dec 2, 2025)
+## Sprint: 3 - Content Expansion & Onboarding (Nov 18, 2025 → Dec 2, 2025)
 **Vision Check**: "Every feature must help students get JOBS, not just certificates"
-**Status**: ACTIVE – Shipping ClaimCenter content and learner onboarding improvements
+**Status**: ✅ COMPLETE – ClaimCenter content seeded & onboarding path delivered
 
 ---
 
@@ -14,7 +14,7 @@ Deliver a guided first-lesson experience backed by a meaningful ClaimCenter cont
 ## 📋 Sprint Backlog
 
 ### IN PROGRESS
-
+- _None — sprint exit criteria met_
 
 ### COMPLETED ✅
 - [x] Sprint 3 planning and backlog definition
@@ -41,7 +41,7 @@ MASTER ROADMAP: "Sprint 3 – Content Expansion & Onboarding"
   ↓
 THIS SPRINT: "Deliver guided first-topic success + rich ClaimCenter content"
   ↓
-CURRENT TASK: "Build ClaimCenter content ingestion tooling"
+CURRENT TASK: "Archive learnings & tee up Sprint 4 (Assessments)"
 ```
 
 ---
@@ -58,7 +58,7 @@ CURRENT TASK: "Build ClaimCenter content ingestion tooling"
 ## 🎨 Current Working Context
 
 ### What's Open in Editor
-- `/project-docs/00_PROJECT_PLAN.md` – Roadmap baseline
+- `/project-docs/03_MASTER_PLAN.md` – Upcoming sprint ladder
 - `/project-docs/06_CURRENT_SPRINT.md` – This document
 - `/project-docs/99_CHANGELOG.md` – Session log
 
@@ -66,10 +66,10 @@ CURRENT TASK: "Build ClaimCenter content ingestion tooling"
 `main` (pre-deployment)
 
 ### Last Session
-Session 003 (Sprint 2 wrap) – November 18, 2025
+Session 006 (Sprint 3 wrap) – December 2, 2025
 
 ### Next Task
-Design content ingestion workflow (schema adjustments, admin UI, or import script) and update runbook sample payloads to snake_case.
+Kick off Sprint 4 planning: scope quiz engine + interview simulator backlog and define acceptance criteria.
 
 ### Terminal Commands
 ```bash
@@ -112,6 +112,22 @@ npm run dev
 Does today's work help students get jobs? **YES**
 - Deployment unlocks real learners and job-ready feedback loops.
 - Ensures mentor guidance remains cost-effective and reliable in production.
+
+---
+
+### Session 006 Wrap – Dec 2, 2025 – 2 hours
+**Completed**:
+- ✅ Added admin import actions (`Load 50 ClaimCenter Topics`) with sample dataset wiring
+- ✅ Verified onboarding experience updates (dashboard checklist, persona cues, topics CTA)
+- ✅ Updated runbook/README to document seeding workflow and sprint closure
+
+**Next Session Focus**:
+- [ ] Draft Sprint 4 backlog (quiz engine, interview simulator, assessment analytics)
+
+**Vision Alignment Check**:
+Does today's work help students get jobs? **YES**
+- Seeded curriculum plus guided onboarding ensures learners hit Topic #1 inside 24h.
+- Sequential nudges keep students progressing toward interview-ready mastery.
 
 ---
 

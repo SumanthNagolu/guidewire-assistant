@@ -59,12 +59,20 @@ export default function DashboardNav({ user, profile }: DashboardNavProps) {
               Progress
             </Link>
             {profile?.role === 'admin' && (
-              <Link
-                href="/admin"
-                className="text-sm font-medium text-gray-700 hover:text-blue-600"
-              >
-                Admin
-              </Link>
+              <>
+                <Link
+                  href="/admin"
+                  className="text-sm font-medium text-gray-700 hover:text-blue-600"
+                >
+                  Admin
+                </Link>
+                <Link
+                  href="/admin/analytics"
+                  className="text-sm font-medium text-gray-700 hover:text-blue-600"
+                >
+                  Analytics
+                </Link>
+              </>
             )}
           </div>
         </div>

@@ -1,6 +1,8 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { createAdminClient, createClient } from '@/lib/supabase/server';
 import { bulkUpsertTopics, type IngestionTopic } from '@/modules/topics/admin';
 
@@ -15,6 +17,33 @@ const initialState: ImportState = {
   success: false,
 };
 
+type AdminContext =
+  | { success: true; adminClient: ReturnType<typeof createAdminClient> }
+  | { success: false; error: string };
+
+const ensureAdminContext = async (): Promise<AdminContext> => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { success: false, error: 'Unauthorized: Please sign in.' };
+  }
+
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+
+  if (profile?.role !== 'admin') {
+    return { success: false, error: 'Only admins can import topics.' };
+  }
+
+  return { success: true, adminClient: createAdminClient() };
+};
+
 const parseTopics = (payload: string): IngestionTopic[] => {
   const data = JSON.parse(payload);
 
@@ -25,30 +54,36 @@ const parseTopics = (payload: string): IngestionTopic[] => {
   return data as IngestionTopic[];
 };
 
+const importTopics = async (topics: IngestionTopic[]): Promise<ImportState> => {
+  const context = await ensureAdminContext();
+
+  if (!context.success) {
+    return { success: false, error: context.error };
+  }
+
+  const result = await bulkUpsertTopics(context.adminClient, topics);
+
+  if (!result.success) {
+    return {
+      success: false,
+      error: result.errors?.join('\n') ?? 'Failed to import topics.',
+    };
+  }
+
+  revalidatePath('/admin/topics');
+
+  return {
+    success: true,
+    count: result.count,
+    message: `Imported ${result.count ?? topics.length} topics successfully.`,
+  };
+};
+
 export async function importTopicsAction(
   _: ImportState = initialState,
   formData: FormData
 ): Promise<ImportState> {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return { success: false, error: 'Unauthorized: Please sign in.' };
-    }
-
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    if (profile?.role !== 'admin') {
-      return { success: false, error: 'Only admins can import topics.' };
-    }
-
     const file = formData.get('file');
 
     if (!file || !(file instanceof File)) {
@@ -69,23 +104,7 @@ export async function importTopicsAction(
       };
     }
 
-    const adminClient = createAdminClient();
-    const result = await bulkUpsertTopics(adminClient, topics);
-
-    if (!result.success) {
-      return {
-        success: false,
-        error: result.errors?.join('\n') ?? 'Failed to import topics.',
-      };
-    }
-
-    revalidatePath('/admin/topics');
-
-    return {
-      success: true,
-      count: result.count,
-      message: `Imported ${result.count ?? topics.length} topics successfully.`,
-    };
+    return importTopics(topics);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : 'Unexpected error occurred.';
@@ -95,3 +114,15 @@ export async function importTopicsAction(
 
 export { initialState as importTopicsInitialState };
 
+export const importSampleTopicsAction = async (): Promise<ImportState> => {
+  try {
+    const samplePath = path.resolve(process.cwd(), 'data/claimcenter-topics.json');
+    const payload = await readFile(samplePath, 'utf8');
+    const topics = parseTopics(payload);
+    return importTopics(topics);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'Failed to load sample dataset.';
+    return { success: false, error: message };
+  }
+};

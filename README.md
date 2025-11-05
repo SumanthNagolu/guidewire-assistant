@@ -75,10 +75,12 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) and create your account!
 
 6. **(Optional) Seed ClaimCenter topics:**
+   - **One-click import (recommended):** in the app, visit `Admin → Topic Management` and press **Load 50 ClaimCenter Topics**.
+   - **CLI import:**
 ```bash
 npm run seed:claimcenter
 ```
-Requires `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in your environment—place them in `.env` or `.env.local` so the script can read them. Update `data/claimcenter-topics.json` to customize content before seeding.
+Both options require `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in your environment—place them in `.env` or `.env.local` so the script can read them. Update `data/claimcenter-topics.json` to customize content before seeding.
 
 ### Detailed Setup Guides
 
@@ -139,6 +141,7 @@ Requires `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in your enviro
 
 ### 👨‍💼 Admin Panel
 - Bulk topic upload via CSV
+- One-click sample dataset import (50 ClaimCenter topics)
 - User management
 - Platform analytics
 - Cost monitoring

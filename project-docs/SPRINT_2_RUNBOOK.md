@@ -33,7 +33,20 @@ WHERE email = 'your-email@domain.com';
 - Supabase `ai_messages` table stores per-message usage metadata (`metadata.usage`).
 
 ## 3. Content Seeding (5-10 ClaimCenter Topics)
+<<<<<<< HEAD
 Use Supabase SQL Editor or Admin UI. Sample SQL for first two topics:
+=======
+Use the Admin UI for the fastest import, or leverage Supabase SQL for custom datasets.
+
+### Admin UI (recommended)
+1. Sign in as an admin and open `Admin → Topic Management`.
+2. Click **Load 50 ClaimCenter Topics** to ingest the starter dataset from `data/claimcenter-topics.json`.
+3. Refresh the page to confirm the ClaimCenter track lists 50 sequential topics.
+4. (Optional) Upload your own JSON file with the **Upload & Import** form (schema snippet provided on the page).
+
+### Manual SQL (custom payloads)
+Use the Supabase SQL Editor for bespoke seeding. Sample SQL for the first two topics:
+>>>>>>> 1680914 (feat: finalize sprint 3 content and onboarding)
 ```sql
 INSERT INTO topics (id, product_id, position, title, description, prerequisites, duration_minutes, content, published)
 VALUES
@@ -78,11 +91,19 @@ VALUES
 Replace `<<TOPIC_ID_OF_TOPIC_1>>` with the ID generated from the first insert (copy from Supabase results). Repeat pattern for additional topics (position increments sequentially).
 
 ### Checklist
+<<<<<<< HEAD
 - [ ] Insert first unlocked topic (position = 1) with `prerequisites = []`.
 - [ ] Insert subsequent topics with `prerequisites = ['<prev-topic-id>']` chain.
 - [ ] Confirm durations reflect realistic study time (20-40 minutes).
 - [ ] Include `video_url`, `slides_url`, and `learning_objectives` arrays (public or unlisted resources).
 - [ ] Validate seeded topics in the UI (video, slides, objectives render as expected).
+=======
+- [ ] Import the starter dataset (Admin UI button or CLI) and verify 50 topics exist.
+- [ ] Confirm Topic #1 is unlocked (`prerequisites = []`).
+- [ ] Confirm each subsequent topic references the prior topic ID.
+- [ ] Spot check durations (20-40 minutes) and learning objectives per topic.
+- [ ] Open Topic #1 in the app—verify video, slides, checklist, and mentor guidance render correctly.
+>>>>>>> 1680914 (feat: finalize sprint 3 content and onboarding)
 
 ### Ingestion Workflow Tips (Sprint 3)
 1. **Normalize payloads** – ensure any CSV/JSON importer maps to snake_case keys shown above.

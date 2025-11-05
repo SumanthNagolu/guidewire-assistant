@@ -442,3 +442,40 @@ Evaluate Sprint 3 outputs (ClaimCenter content expansion + onboarding improvemen
 Sprint 3 outputs do not yet advance the jobs-first mission; without content and onboarding improvements, learners cannot progress toward hiring outcomes.
 
 ---
+<<<<<<< HEAD
+=======
+
+## Session 006 - December 2, 2025 (Sprint 3 Completion)
+
+### 🎯 Sprint Goal
+Close Sprint 3 by delivering the promised content ingestion, seeded curriculum, and guided onboarding experience.
+
+### ✅ Completed
+1. **Admin ingestion tooling**
+   - Added sample dataset import (`Load 50 ClaimCenter Topics`) + JSON upload with validation
+   - Reused action for CLI seeding (`scripts/seed-claimcenter.ts`)
+2. **Content seeding**
+   - 50 ClaimCenter topics curated with sequential prerequisites, durations, objectives
+   - Topics dashboard surfaces progress + sequential CTA card
+3. **Onboarding enhancements**
+   - Dashboard first-topic checklist and persona guidance
+   - Topic detail coach marks, learning checklist, and mentor CTA
+4. **Docs & runbook updates**
+   - README + runbook document one-click seeding workflow
+   - Sprint 3 marked complete with handoff notes in `06_CURRENT_SPRINT.md`
+
+### 🧪 Verification
+- Admin import tested locally (toast feedback, Supabase revalidation)
+- Topics page displays “Up next” CTA and locked-topic messaging
+- Dashboard surfaces activation stats + reminder opt-in
+
+### 📌 Follow-ups Pushed to Sprint 4
+- Quiz engine (auto-graded MCQ + attempt history)
+- Interview simulator (scenario scoring with AI mentor)
+- Subscription gating + advanced analytics dashboards
+
+### 🔗 Vision Alignment
+✅ Learners now have rich content, sequential guardrails, and Socratic guidance to reach job readiness; activation metrics monitor first-topic completion inside 24 hours.
+
+---
+>>>>>>> 1680914 (feat: finalize sprint 3 content and onboarding)

@@ -8,13 +8,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, Clock } from 'lucide-react';
 import { type PersonaKey } from '@/modules/onboarding/persona-guidance';
+import type { PageProps } from 'next';
 
-export default async function TopicDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default async function TopicDetailPage(props: PageProps<'/topics/[id]'>) {
   const supabase = await createClient();
 
   const {
@@ -24,6 +20,8 @@ export default async function TopicDetailPage({
   if (!user) {
     redirect('/login');
   }
+
+  const { id } = await props.params;
 
   const topic = await getTopicById(id, user.id);
 

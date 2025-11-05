@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Send, Bot, User as UserIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import ReactMarkdown from 'react-markdown';
+import { extractSSEEvents } from '@/lib/streams/sse';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -75,26 +76,67 @@ export default function MentorChat({ topicId, topicTitle }: MentorChatProps) {
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       let assistantMessage = '';
+      let buffer = '';
+      let streamClosed = false;
+
+      const processEvents = (events: ReturnType<typeof extractSSEEvents>['events']) => {
+        for (const event of events) {
+          if (event.type === 'token') {
+            let token = '';
+            try {
+              const payload = JSON.parse(event.data) as { value?: unknown };
+              token = typeof payload.value === 'string' ? payload.value : '';
+            } catch {
+              token = event.data;
+            }
+
+            if (token) {
+              assistantMessage += token;
+              setMessages((prev) => {
+                const newMessages = [...prev];
+                newMessages[newMessages.length - 1] = {
+                  role: 'assistant',
+                  content: assistantMessage,
+                };
+                return newMessages;
+              });
+            }
+          }
+
+          if (event.type === 'close') {
+            streamClosed = true;
+          }
+        }
+      };
 
       // Add empty assistant message that we'll update
       setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
       if (reader) {
-        while (true) {
+        while (!streamClosed) {
           const { done, value } = await reader.read();
-          if (done) break;
 
-          const chunk = decoder.decode(value);
-          assistantMessage += chunk;
+          if (value) {
+            buffer += decoder.decode(value, { stream: true });
 
-          // Update the last message (assistant's) with streamed content
-          setMessages((prev) => {
-            const newMessages = [...prev];
-            newMessages[newMessages.length - 1] = {
-              role: 'assistant',
-              content: assistantMessage,
-            };
-            return newMessages;
+            const { events, buffer: nextBuffer } = extractSSEEvents(buffer);
+            buffer = nextBuffer;
+            processEvents(events);
+          }
+
+          if (done) {
+            buffer += decoder.decode();
+            const { events, buffer: nextBuffer } = extractSSEEvents(buffer);
+            buffer = nextBuffer;
+            processEvents(events);
+
+            streamClosed = true;
+          }
+        }
+
+        if (!streamClosed) {
+          await reader.cancel().catch(() => {
+            // Ignored cancellation errors
           });
         }
       }

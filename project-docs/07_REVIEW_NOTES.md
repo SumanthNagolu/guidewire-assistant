@@ -13,11 +13,11 @@
 3. **Email reminders & compliance** *(Low)* — Ensure opt-in state is stored and RLS policies cover new tables/functions prior to sending nudges.
 
 ### Action Log (Sprint 3)
-- [ ] Content ingestion tooling delivered; runbook + docs updated to snake_case payloads.
-- [ ] 50 ClaimCenter topics seeded with prerequisite chains validated in staging.
-- [ ] Onboarding enhancements deployed (guided checklist, contextual tips, persona reminders).
-- [ ] Stalled learner reminder job active with audit logging and opt-out support.
-- [ ] Activation metrics dashboard live tracking time-to-first-completion and topics-per-learner.
+- [x] Content ingestion tooling delivered; runbook + docs updated to snake_case payloads.
+- [x] 50 ClaimCenter topics seeded with prerequisite chains validated in staging.
+- [x] Onboarding enhancements deployed (guided checklist, contextual tips, persona reminders).
+- [x] Stalled learner reminder job active with audit logging and opt-out support.
+- [x] Activation metrics dashboard live tracking time-to-first-completion and topics-per-learner.
 
 ---
 
@@ -108,6 +108,29 @@ VALUES
 
 ---
 
+<<<<<<< HEAD
+=======
+## Session 006 – Gap Analysis vs End Target
+
+### Scope of Comparison
+- Benchmarked current repo against `project-docs/03_MASTER_PLAN.md`, `04_TECHNICAL_SPEC.md`, and sprint outcomes to determine readiness for the full Guidewire training vision (250 sequential topics, onboarding funnels, AI coaching, interview prep, monetization, analytics).
+
+### Critical Gaps
+1. **Content Scale (High)** – No ingestion tooling or seeded datasets beyond templates; platform lacks the 50–250 topic inventory required for initial launch.
+2. **Onboarding & Activation (High)** – Missing guided first-topic experience, persona-based nudges, and activation analytics; violates retention guardrails highlighted in master plan.
+3. **Engagement Automation (High)** – No stalled-learner reminder workflow, email opt-in storage, or Supabase Edge jobs; prevents automated cohort support.
+4. **Assessment & Interview Systems (High)** – Quiz engine and interview simulator from roadmap remain unimplemented; only mentor module exists.
+5. **Monetization & Analytics (Medium)** – No Stripe integration, advanced dashboards, or cost alerting features expected in later sprints; tracker should note as future scope.
+6. **Operations & QA (Medium)** – Lacks admin tooling for bulk topic management, QA checklists, and test coverage; required for scaling to 250 topics.
+
+### Near-Term Priorities
+- Deliver ingestion tooling + seed first curriculum batch.
+- Implement onboarding enhancements with activation metrics and reminder workflow.
+- Plan execution path for assessments/interview simulator in upcoming sprint to align with master plan sequencing.
+
+---
+
+>>>>>>> 1680914 (feat: finalize sprint 3 content and onboarding)
 ## Session 002 – Sprint 2 Wrap (November 18, 2025)
 
 ### Executive Summary

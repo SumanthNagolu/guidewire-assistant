@@ -1,9 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useTransition } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { toast } from 'sonner';
-import { importTopicsAction, importTopicsInitialState } from '@/app/(dashboard)/admin/topics/actions';
+import {
+  importSampleTopicsAction,
+  importTopicsAction,
+  importTopicsInitialState,
+} from '@/app/(dashboard)/admin/topics/actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,6 +24,7 @@ function SubmitButton() {
 
 export function TopicUploadForm() {
   const [state, formAction] = useFormState(importTopicsAction, importTopicsInitialState);
+  const [pendingSample, startSample] = useTransition();
 
   useEffect(() => {
     if (!state) {
@@ -34,11 +39,7 @@ export function TopicUploadForm() {
   }, [state]);
 
   return (
-    <form
-      action={formAction}
-      encType="multipart/form-data"
-      className="space-y-4"
-    >
+    <form action={formAction} encType="multipart/form-data" className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="topics-file">Upload JSON file</Label>
         <Input
@@ -55,6 +56,34 @@ export function TopicUploadForm() {
       </div>
 
       <SubmitButton />
+
+      <div className="pt-2">
+        <Button
+          type="button"
+          variant="outline"
+          disabled={pendingSample}
+          onClick={() =>
+            startSample(async () => {
+              const result = await importSampleTopicsAction();
+
+              if (!result) {
+                return;
+              }
+
+              if (result.error) {
+                toast.error(result.error);
+                return;
+              }
+
+              if (result.success) {
+                toast.success(result.message ?? 'Sample topics imported successfully.');
+              }
+            })
+          }
+        >
+          {pendingSample ? 'Loading sample topics…' : 'Load 50 ClaimCenter Topics'}
+        </Button>
+      </div>
 
       {state?.success && state.count !== undefined ? (
         <p className="text-sm text-green-600">
