@@ -169,6 +169,7 @@ def generate_sql(quiz_data: dict) -> str:
         question_text = escape_sql(q['question'])
         options_json = json.dumps(q['options']).replace("'", "''")
         explanation = escape_sql(q['explanation']) if q['explanation'] else ''
+        explanation_value = f"'{explanation}'" if explanation else 'NULL'
         
         sql_lines.extend([
             f"-- Question {idx}",
@@ -188,7 +189,7 @@ def generate_sql(quiz_data: dict) -> str:
             f"  '{question_text}',",
             f"  '{options_json}'::jsonb,",
             f"  '{q['correct_answer']}',",
-            f"  {f\"'{explanation}'\" if explanation else 'NULL'},",
+            f"  {explanation_value},",
             "  1",
             ");",
             "",
