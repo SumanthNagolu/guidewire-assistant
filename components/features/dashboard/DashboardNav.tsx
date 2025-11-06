@@ -65,7 +65,7 @@ export default function DashboardNav({ user, profile }: DashboardNavProps) {
               AI Mentor
             </Link>
             <Link
-              href="/assessments/quizzes"
+              href="/assessments"
               className="text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               Assessments
