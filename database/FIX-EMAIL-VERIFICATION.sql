@@ -13,11 +13,11 @@
 -- ========================================
 -- This confirms all existing unconfirmed users
 -- Useful if you've already created test accounts
+-- Note: confirmed_at is a GENERATED column (= LEAST(email_confirmed_at, phone_confirmed_at))
+-- and cannot be set directly. Only update email_confirmed_at.
 
 UPDATE auth.users
-SET 
-  email_confirmed_at = NOW(),
-  confirmed_at = NOW()
+SET email_confirmed_at = NOW()
 WHERE email_confirmed_at IS NULL;
 
 -- ========================================

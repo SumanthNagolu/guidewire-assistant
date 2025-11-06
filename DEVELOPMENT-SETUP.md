@@ -26,10 +26,9 @@ Run this in **Supabase SQL Editor**:
 
 ```sql
 -- Option A: Auto-confirm existing users
+-- Note: confirmed_at is a GENERATED column, so only update email_confirmed_at
 UPDATE auth.users
-SET 
-  email_confirmed_at = NOW(),
-  confirmed_at = NOW()
+SET email_confirmed_at = NOW()
 WHERE email_confirmed_at IS NULL;
 
 -- Option B: Delete unconfirmed test users (to start fresh)
@@ -124,9 +123,9 @@ SELECT email, email_confirmed_at, created_at
 FROM auth.users
 WHERE email_confirmed_at IS NULL;
 
--- Confirm specific user
+-- Confirm specific user (confirmed_at is auto-generated)
 UPDATE auth.users
-SET email_confirmed_at = NOW(), confirmed_at = NOW()
+SET email_confirmed_at = NOW()
 WHERE email = 'user@example.com';
 
 -- OR delete and recreate
