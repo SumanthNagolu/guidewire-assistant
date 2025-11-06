@@ -277,10 +277,33 @@ export async function updateProfile(formData: FormData): Promise<ApiResponse> {
   });
 
   try {
+    // First, check if profile exists
+    console.log('[updateProfile] Checking if profile exists...');
+    const { data: existingProfile, error: checkError } = await supabase
+      .from('user_profiles')
+      .select('id, email, first_name, last_name')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (checkError) {
+      console.error('[updateProfile] Error checking profile:', checkError);
+      return { success: false, error: `Failed to check profile: ${checkError.message}` };
+    }
+
+    if (!existingProfile) {
+      console.error('[updateProfile] Profile does not exist for user:', user.id);
+      return { 
+        success: false, 
+        error: 'User profile not found. Please contact support or try signing up again.' 
+      };
+    }
+
+    console.log('[updateProfile] Profile found:', existingProfile);
+
     // Update user profile
     console.log('[updateProfile] Attempting database update...');
-    const { error: updateError, data: updatedData } = await (supabase
-      .from('user_profiles') as any)
+    const { error: updateError, data: updatedData } = await supabase
+      .from('user_profiles')
       .update({
         first_name: firstName,
         last_name: lastName,
@@ -294,7 +317,15 @@ export async function updateProfile(formData: FormData): Promise<ApiResponse> {
 
     if (updateError) {
       console.error('[updateProfile] Database update error:', updateError);
-      return { success: false, error: updateError.message };
+      return { success: false, error: `Update failed: ${updateError.message}` };
+    }
+
+    if (!updatedData || updatedData.length === 0) {
+      console.error('[updateProfile] No rows updated - possible RLS issue');
+      return { 
+        success: false, 
+        error: 'Failed to update profile. Please check permissions.' 
+      };
     }
 
     console.log('[updateProfile] Database updated successfully:', updatedData);
