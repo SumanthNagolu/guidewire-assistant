@@ -53,10 +53,10 @@ export default async function AIMentorPage() {
           <div className="text-sm text-gray-700 space-y-2">
             <p className="font-medium">💡 How to get the most from your mentor:</p>
             <ul className="list-disc pl-5 space-y-1">
-              <li>Ask "why" and "how" questions to deepen understanding</li>
+              <li>Ask &quot;why&quot; and &quot;how&quot; questions to deepen understanding</li>
               <li>Request examples related to your experience level</li>
               <li>Explore how concepts connect to real-world scenarios</li>
-              <li>The mentor uses the Socratic method—it guides, doesn't just answer</li>
+              <li>The mentor uses the Socratic method—it guides, doesn&apos;t just answer</li>
             </ul>
           </div>
         </CardContent>
@@ -71,7 +71,7 @@ export default async function AIMentorPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MentorChat topicId={null} topicTitle="General Discussion" />
+          <MentorChat topicTitle="General Discussion" />
         </CardContent>
       </Card>
 
@@ -85,29 +85,29 @@ export default async function AIMentorPage() {
             <div className="text-sm space-y-1">
               <p className="font-medium text-blue-900">🏢 Architecture & Design:</p>
               <ul className="text-blue-800 space-y-1 pl-4">
-                <li>• "How does ClaimCenter's data model support complex claims?"</li>
-                <li>• "What are best practices for PolicyCenter integrations?"</li>
+                <li>• &quot;How does ClaimCenter&apos;s data model support complex claims?&quot;</li>
+                <li>• &quot;What are best practices for PolicyCenter integrations?&quot;</li>
               </ul>
             </div>
             <div className="text-sm space-y-1">
               <p className="font-medium text-blue-900">💼 Real-World Scenarios:</p>
               <ul className="text-blue-800 space-y-1 pl-4">
-                <li>• "Walk me through a typical claim lifecycle scenario"</li>
-                <li>• "How would you design a custom billing calculation?"</li>
+                <li>• &quot;Walk me through a typical claim lifecycle scenario&quot;</li>
+                <li>• &quot;How would you design a custom billing calculation?&quot;</li>
               </ul>
             </div>
             <div className="text-sm space-y-1">
               <p className="font-medium text-blue-900">🎯 Interview Prep:</p>
               <ul className="text-blue-800 space-y-1 pl-4">
-                <li>• "What are common interview questions about Guidewire Cloud?"</li>
-                <li>• "How do I explain my experience with rule configuration?"</li>
+                <li>• &quot;What are common interview questions about Guidewire Cloud?&quot;</li>
+                <li>• &quot;How do I explain my experience with rule configuration?&quot;</li>
               </ul>
             </div>
             <div className="text-sm space-y-1">
               <p className="font-medium text-blue-900">🔧 Technical Deep Dives:</p>
               <ul className="text-blue-800 space-y-1 pl-4">
-                <li>• "Explain Gosu closures with a practical example"</li>
-                <li>• "How does Guidewire handle transaction management?"</li>
+                <li>• &quot;Explain Gosu closures with a practical example&quot;</li>
+                <li>• &quot;How does Guidewire handle transaction management?&quot;</li>
               </ul>
             </div>
           </div>
