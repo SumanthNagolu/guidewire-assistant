@@ -12,6 +12,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Validate OpenAI API key exists
+if (!process.env.OPENAI_API_KEY) {
+  console.error('[Interview API] OPENAI_API_KEY environment variable is not set!');
+}
+
 const requestSchema = z.object({
   sessionId: z.string().uuid().optional(),
   templateId: z.string().uuid().optional(),
@@ -57,6 +62,12 @@ const jsonError = (error: string, status = 400) =>
 
 export async function POST(req: Request) {
   try {
+    // Check if OpenAI API key is configured
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('[Interview API] OPENAI_API_KEY is not configured');
+      return jsonError('AI service is not configured. Please contact support.', 503);
+    }
+
     const raw = await req.json().catch(() => null);
     const parsed = requestSchema.safeParse(raw);
 

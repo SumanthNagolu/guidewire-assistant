@@ -44,6 +44,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Validate OpenAI API key exists
+if (!process.env.OPENAI_API_KEY) {
+  console.error('[AI Mentor] OPENAI_API_KEY environment variable is not set!');
+}
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === 'object' && !Array.isArray(value);
 
@@ -83,6 +88,12 @@ const extractUsage = (value: unknown) => {
 
 export async function POST(req: Request) {
   try {
+    // Check if OpenAI API key is configured
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('[AI Mentor] OPENAI_API_KEY is not configured');
+      return jsonError('AI service is not configured. Please contact support.', 503);
+    }
+
     const body = await req.json().catch(() => null);
     const parsed = mentorRequestSchema.safeParse(body);
 
