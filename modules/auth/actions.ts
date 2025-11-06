@@ -67,6 +67,13 @@ export async function signUp(formData: FormData): Promise<ApiResponse> {
     });
 
     if (authError) {
+      // Provide user-friendly error messages
+      if (authError.message.includes('already registered') || authError.message.includes('already been registered')) {
+        return { 
+          success: false, 
+          error: 'This email is already registered. Please log in instead.' 
+        };
+      }
       return { success: false, error: authError.message };
     }
 
@@ -74,13 +81,31 @@ export async function signUp(formData: FormData): Promise<ApiResponse> {
       return { success: false, error: 'Failed to create user' };
     }
 
+    // Check if this is a duplicate signup attempt (user exists but email not confirmed)
+    // Supabase allows this, but we should inform the user
+    if (authData.user.identities && authData.user.identities.length === 0) {
+      return {
+        success: false,
+        error: 'An account with this email already exists. Please check your email for the confirmation link or log in.',
+      };
+    }
+
     // Note: User profile is automatically created by database trigger (handle_new_user)
     // See database/FIX-SIGNUP-TRIGGER.sql
 
     revalidatePath('/', 'layout');
+    
+    // Return success with helpful message based on email confirmation status
+    const message = authData.user.email_confirmed_at 
+      ? 'Account created successfully! You can now log in.' 
+      : 'Account created! Please check your email to verify your account.';
+    
     return {
       success: true,
-      data: { needsEmailVerification: !authData.user.email_confirmed_at },
+      data: { 
+        needsEmailVerification: !authData.user.email_confirmed_at,
+        message 
+      },
     };
   } catch (error) {
     return {
