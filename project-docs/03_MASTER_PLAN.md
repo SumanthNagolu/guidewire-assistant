@@ -26,6 +26,52 @@ For AI services, the cost analysis is striking. **GPT-4o-mini costs $0.15 per mi
 
 Budget projections across the first six months with moderate growth to 500 users show: Development months 1-2 cost $0 using free tiers, month 3 launch runs $35 ($25 Supabase Pro + $10 AI), month 4 rises to $50, month 5 to $65, and month 6 reaches $100 including hosting upgrades. **Total six-month cost: $250-300**, leaving $1,700 from your $2,000 budget for contingencies, marketing, or additional features. Even aggressive growth to 1,000 users by month 6 only pushes costs to $500-600 total.
 
+## Content management: Direct Supabase Storage upload for large training assets
+
+Managing 160+ training topics with 73GB of content (PowerPoint slides, video demos, PDF assignments) requires a pragmatic approach that balances structure with operational efficiency. The platform uses a **dual-identifier system** for topics: UUID primary keys for database relationships and human-readable sequential codes (e.g., `pc-04-001`) for prerequisites and user-facing references. This approach provides both database performance and intuitive content organization.
+
+### Content structure and import process
+
+The content is organized hierarchically: **Product → Module → Topic**. Each product (PolicyCenter, ClaimCenter, BillingCenter, plus a COMMON category for foundation content) contains modules (Introduction, Configuration, Rating), which in turn contain sequentially numbered topics. This structure maps directly to the `topics` table schema with the addition of a `code` column for sequential identifiers.
+
+The import process consists of three SQL scripts executed in sequence:
+
+1. **ADD-COMMON-PRODUCT.sql**: Creates the COMMON product (code: 'COMMON', name: 'Foundation') for Guidewire Cloud, SurePath, Developer Fundamentals, and Integration content. This must run first as the import script references all four products (BC, CC, COMMON, PC).
+
+2. **FIX-TOPICS-SCHEMA.sql**: Adds the `code` VARCHAR(50) column to the `topics` table with a unique constraint and index. This column stores human-readable sequential IDs like "pc-04-001" while the `id` column remains a UUID for database relationships. The script includes `TRUNCATE TABLE topics CASCADE` to ensure clean imports.
+
+3. **import-topics-fixed.sql**: Bulk imports all 160 topics using `gen_random_uuid()` for the `id` column and sequential codes for the `code` column. Each topic includes metadata (title, description, duration), file references in JSONB format, and product associations. The script uses `ON CONFLICT (code) DO UPDATE` to enable safe re-execution.
+
+The actual training files (PPTX, MP4, PDF) remain in the original `data/` directory structure and upload **directly to Supabase Storage** rather than being reorganized locally. This approach avoids duplicating 73GB of content on the development machine (critical when disk space is limited) and provides a production-ready CDN-backed solution immediately.
+
+### Storage bucket configuration and file URL management
+
+Create a public Supabase Storage bucket named `training-content` with appropriate MIME type allowances (.pptx, .mp4, .pdf, .docx, .xlsx) and a file size limit suitable for large video files (100MB+). Upload content using either the Supabase web UI for small batches or the Supabase CLI for bulk operations: `supabase storage upload training-content/ data/ --recursive`.
+
+After upload, update each topic's `content` JSONB column with actual Storage URLs:
+
+```sql
+UPDATE topics
+SET content = jsonb_set(
+  jsonb_set(
+    content,
+    '{slides_url}',
+    '"https://your-project.supabase.co/storage/v1/object/public/training-content/chapter-4/In_policy_01/PC_Intro_01_Accounts.pptx"'::jsonb
+  ),
+  '{video_urls}',
+  '["https://your-project.supabase.co/storage/v1/object/public/training-content/chapter-4/In_policy_01/demo-01.mp4"]'::jsonb
+)
+WHERE code = 'pc-01-001';
+```
+
+This two-phase approach (import metadata, then update URLs) allows flexible content updates without re-running the full import. For automated URL updates across all 160 topics, create a Node.js script that lists Storage files, matches them to topics by position/chapter, and bulk updates the database.
+
+### Content versioning and updates
+
+The `code` column provides stable references for prerequisites and user bookmarks even if underlying file URLs change. To update content: upload new files to Storage with version suffixes (e.g., `slides-v2.pptx`), update the relevant topic's `content` JSONB, and optionally keep old versions for rollback. The `ON CONFLICT (code) DO UPDATE` pattern in the import script means you can regenerate and re-run imports without losing custom metadata edits.
+
+**Key implementation details**: See `CONTENT-MIGRATION-SUMMARY.md` for the complete content inventory and import workflow. `IMPORT-TOPICS-GUIDE.md` provides troubleshooting for common import errors. `SUPABASE-CONTENT-UPLOAD-GUIDE.md` covers three upload methods (web UI, CLI, API) with code examples. All training content remains in the `data/` folder during development and is not committed to Git due to size constraints.
+
 ## Cursor AI mastery: Instruction files and prompt engineering for rapid development
 
 The single most impactful factor in achieving your 20-30 hour timeline is mastering Cursor AI's workflow. Developers who create detailed instruction files report dramatically better results than those using single-sentence prompts. The secret behind viral "I built this in 1 hour" demos is typically a 200-400 line instruction file prepared beforehand that encodes architectural decisions, code patterns, and technical requirements.

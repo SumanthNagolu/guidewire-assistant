@@ -82,6 +82,68 @@ npm run seed:claimcenter
 ```
 Both options require `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in your environment—place them in `.env` or `.env.local` so the script can read them. Update `data/claimcenter-topics.json` to customize content before seeding.
 
+### Content Setup (160 Topics + 73GB Files)
+
+The platform includes 160 training topics with PowerPoint slides, video demos, and PDF assignments. Follow these steps to import content:
+
+**Step 1: Import Topics to Database (3 SQL Scripts)**
+
+Run these in Supabase SQL Editor in order:
+
+```bash
+# 1. Create COMMON product for foundation content
+cat database/ADD-COMMON-PRODUCT.sql | pbcopy
+# Paste in Supabase and run
+
+# 2. Add 'code' column to topics table
+cat database/FIX-TOPICS-SCHEMA.sql | pbcopy
+# Paste and run
+
+# 3. Import all 160 topics
+cat import-topics-fixed.sql | pbcopy
+# Paste and run (takes 10-20 seconds)
+```
+
+**Step 2: Upload Content Files to Supabase Storage**
+
+Create a storage bucket and upload training files:
+
+1. Supabase Dashboard → Storage → New Bucket
+   - Name: `training-content`
+   - Public: ✅ Yes
+   - File size limit: 100MB+
+
+2. Upload files using Supabase CLI (recommended) or Web UI:
+```bash
+# Install CLI
+brew install supabase/tap/supabase
+
+# Login and link
+supabase login
+supabase link --project-ref YOUR_PROJECT_REF
+
+# Upload all content (73GB - takes time!)
+supabase storage upload training-content/ data/ --recursive
+```
+
+**Verification:**
+```sql
+-- Should return 160
+SELECT COUNT(*) FROM topics;
+
+-- Should show 4 products with topic counts
+SELECT p.code, COUNT(t.id) as topics
+FROM products p
+LEFT JOIN topics t ON t.product_id = p.id
+GROUP BY p.code;
+```
+
+**📚 Detailed Documentation:**
+- **Quick Reference**: `CONTENT-QUICK-REFERENCE.md` - All commands and queries
+- **Import Guide**: `IMPORT-TOPICS-GUIDE.md` - Step-by-step with troubleshooting
+- **Upload Guide**: `SUPABASE-CONTENT-UPLOAD-GUIDE.md` - Three upload methods
+- **Migration Summary**: `CONTENT-MIGRATION-SUMMARY.md` - Complete workflow
+
 ### Detailed Setup Guides
 
 - **Database Setup**: See `database/SETUP.md` for step-by-step Supabase configuration
