@@ -141,12 +141,7 @@ CREATE POLICY "Users can manage own feedback" ON beta_feedback_entries
 
 CREATE POLICY "Admins can view feedback" ON beta_feedback_entries
   FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+  USING (public.is_admin());
 
 -- ============================================================================
 -- PROGRESS TRACKING
@@ -243,6 +238,23 @@ CREATE INDEX IF NOT EXISTS idx_messages_created_at ON ai_messages(created_at);
 -- ASSESSMENTS (QUIZZES & ASSIGNMENTS)
 -- ============================================================================
 
+-- Quiz definitions (groups of questions)
+CREATE TABLE IF NOT EXISTS quizzes (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+  topic_id UUID REFERENCES topics(id) ON DELETE SET NULL,
+  title VARCHAR(150) NOT NULL,
+  description TEXT,
+  passing_percentage INTEGER DEFAULT 70 CHECK (passing_percentage BETWEEN 0 AND 100),
+  is_active BOOLEAN DEFAULT true,
+  created_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_quizzes_product ON quizzes(product_id);
+CREATE INDEX IF NOT EXISTS idx_quizzes_topic ON quizzes(topic_id);
+
 -- Quiz questions
 CREATE TABLE IF NOT EXISTS quiz_questions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -258,8 +270,12 @@ CREATE TABLE IF NOT EXISTS quiz_questions (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+ALTER TABLE quiz_questions
+  ADD COLUMN IF NOT EXISTS quiz_id UUID REFERENCES quizzes(id) ON DELETE CASCADE;
+
 -- Index for quiz queries
 CREATE INDEX IF NOT EXISTS idx_quiz_questions_topic ON quiz_questions(topic_id);
+CREATE INDEX IF NOT EXISTS idx_quiz_questions_quiz ON quiz_questions(quiz_id);
 
 -- Quiz attempts (user quiz submissions)
 CREATE TABLE IF NOT EXISTS quiz_attempts (
@@ -275,9 +291,71 @@ CREATE TABLE IF NOT EXISTS quiz_attempts (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+ALTER TABLE quiz_attempts
+  ADD COLUMN IF NOT EXISTS quiz_id UUID REFERENCES quizzes(id) ON DELETE SET NULL;
+
 -- Indexes for quiz attempt queries
 CREATE INDEX IF NOT EXISTS idx_quiz_attempts_user ON quiz_attempts(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_quiz_attempts_topic ON quiz_attempts(topic_id);
+CREATE INDEX IF NOT EXISTS idx_quiz_attempts_quiz ON quiz_attempts(quiz_id);
+
+-- =========================================================================
+-- INTERVIEW SIMULATOR TABLES
+-- =========================================================================
+
+CREATE TABLE IF NOT EXISTS interview_templates (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+  title VARCHAR(150) NOT NULL,
+  description TEXT,
+  persona VARCHAR(100),
+  focus_area VARCHAR(100),
+  rubric JSONB DEFAULT '{}'::jsonb,
+  is_active BOOLEAN DEFAULT true,
+  created_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_interview_templates_product ON interview_templates(product_id);
+CREATE INDEX IF NOT EXISTS idx_interview_templates_active ON interview_templates(is_active);
+
+CREATE TABLE IF NOT EXISTS interview_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  template_id UUID REFERENCES interview_templates(id) ON DELETE SET NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'in_progress' CHECK (status IN ('in_progress', 'completed', 'cancelled')),
+  started_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  completed_at TIMESTAMP WITH TIME ZONE,
+  duration_seconds INTEGER,
+  readiness_score DECIMAL(5,2),
+  metadata JSONB DEFAULT '{}'::jsonb
+);
+
+CREATE INDEX IF NOT EXISTS idx_interview_sessions_user ON interview_sessions(user_id, started_at DESC);
+CREATE INDEX IF NOT EXISTS idx_interview_sessions_status ON interview_sessions(status);
+
+CREATE TABLE IF NOT EXISTS interview_messages (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  session_id UUID NOT NULL REFERENCES interview_sessions(id) ON DELETE CASCADE,
+  role VARCHAR(20) NOT NULL CHECK (role IN ('system', 'interviewer', 'candidate')),
+  content TEXT NOT NULL,
+  metadata JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_interview_messages_session ON interview_messages(session_id, created_at);
+
+CREATE TABLE IF NOT EXISTS interview_feedback (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  session_id UUID UNIQUE NOT NULL REFERENCES interview_sessions(id) ON DELETE CASCADE,
+  summary TEXT,
+  strengths TEXT,
+  improvements TEXT,
+  recommendations TEXT,
+  rubric_scores JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 
 -- ============================================================================
 -- FUNCTIONS
@@ -369,6 +447,23 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+-- Helper function: check if current user is an admin
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM user_profiles
+    WHERE id = auth.uid() AND role = 'admin'
+  );
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated;
+
 -- ============================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ============================================================================
@@ -381,6 +476,11 @@ ALTER TABLE ai_conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quiz_questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quiz_attempts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE quizzes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE interview_templates ENABLE ROW LEVEL SECURITY;
+ALTER TABLE interview_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE interview_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE interview_feedback ENABLE ROW LEVEL SECURITY;
 
 -- Products table (public read access)
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
@@ -404,12 +504,7 @@ CREATE POLICY "Users can insert own profile"
 -- Admins can view all profiles
 CREATE POLICY "Admins can view all profiles"
   ON user_profiles FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+  USING (public.is_admin());
 
 -- Topics policies
 CREATE POLICY "Published topics are viewable by authenticated users"
@@ -418,12 +513,7 @@ CREATE POLICY "Published topics are viewable by authenticated users"
 
 CREATE POLICY "Admins can manage topics"
   ON topics FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+  USING (public.is_admin());
 
 -- Topic completions policies
 CREATE POLICY "Users can view own completions"
@@ -441,12 +531,7 @@ CREATE POLICY "Users can update own completions"
 -- Admins can view all completions
 CREATE POLICY "Admins can view all completions"
   ON topic_completions FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+  USING (public.is_admin());
 
 -- AI conversations policies
 CREATE POLICY "Users can view own conversations"
@@ -489,12 +574,16 @@ CREATE POLICY "Authenticated users can view quiz questions"
 
 CREATE POLICY "Admins can manage quiz questions"
   ON quiz_questions FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+  USING (public.is_admin());
+
+-- Quizzes policies
+CREATE POLICY "Authenticated users can view active quizzes"
+  ON quizzes FOR SELECT
+  USING (is_active = true AND auth.role() = 'authenticated');
+
+CREATE POLICY "Admins can manage quizzes"
+  ON quizzes FOR ALL
+  USING (public.is_admin());
 
 -- Quiz attempts policies
 CREATE POLICY "Users can view own quiz attempts"
@@ -508,12 +597,73 @@ CREATE POLICY "Users can create own quiz attempts"
 -- Admins can view all quiz attempts
 CREATE POLICY "Admins can view all quiz attempts"
   ON quiz_attempts FOR SELECT
+  USING (public.is_admin());
+
+-- Interview template policies
+CREATE POLICY "Authenticated users can view active interview templates"
+  ON interview_templates FOR SELECT
+  USING (is_active = true AND auth.role() = 'authenticated');
+
+CREATE POLICY "Admins can manage interview templates"
+  ON interview_templates FOR ALL
+  USING (public.is_admin());
+
+-- Interview session policies
+CREATE POLICY "Users can view own interview sessions"
+  ON interview_sessions FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can create interview sessions"
+  ON interview_sessions FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own interview sessions"
+  ON interview_sessions FOR UPDATE
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Admins can view interview sessions"
+  ON interview_sessions FOR SELECT
+  USING (public.is_admin());
+
+-- Interview messages policies
+CREATE POLICY "Users can view messages in own interview sessions"
+  ON interview_messages FOR SELECT
   USING (
     EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM interview_sessions s
+      WHERE s.id = interview_messages.session_id
+      AND s.user_id = auth.uid()
     )
   );
+
+CREATE POLICY "Users can insert messages in own interview sessions"
+  ON interview_messages FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM interview_sessions s
+      WHERE s.id = interview_messages.session_id
+      AND s.user_id = auth.uid()
+    )
+  );
+
+CREATE POLICY "Admins can view interview messages"
+  ON interview_messages FOR SELECT
+  USING (public.is_admin());
+
+-- Interview feedback policies
+CREATE POLICY "Users can view feedback for own interview sessions"
+  ON interview_feedback FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM interview_sessions s
+      WHERE s.id = interview_feedback.session_id
+      AND s.user_id = auth.uid()
+    )
+  );
+
+CREATE POLICY "Admins can manage interview feedback"
+  ON interview_feedback FOR ALL
+  USING (public.is_admin());
 
 -- ============================================================================
 -- TRIGGERS
@@ -545,6 +695,12 @@ CREATE TRIGGER update_ai_conversations_updated_at BEFORE UPDATE ON ai_conversati
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_quiz_questions_updated_at BEFORE UPDATE ON quiz_questions
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_quizzes_updated_at BEFORE UPDATE ON quizzes
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_interview_templates_updated_at BEFORE UPDATE ON interview_templates
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_learner_reminder_settings_updated_at BEFORE UPDATE ON learner_reminder_settings

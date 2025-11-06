@@ -94,7 +94,7 @@ export async function getLatestFeedbackForUser(userId: string): Promise<Feedback
     return null;
   }
 
-  return data ?? null;
+  return (data ?? null) as FeedbackEntry | null;
 }
 
 export async function getRecentFeedbackEntries(limit = 5): Promise<FeedbackEntry[]> {
@@ -127,7 +127,7 @@ export async function getRecentFeedbackEntries(limit = 5): Promise<FeedbackEntry
     } | null;
   };
 
-  return (data as RawFeedbackRow[]).map((entry) => ({
+  return (data as unknown as RawFeedbackRow[]).map((entry) => ({
     id: entry.id,
     sentiment: entry.sentiment,
     confidence_level: entry.confidence_level,

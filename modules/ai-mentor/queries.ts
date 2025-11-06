@@ -92,7 +92,7 @@ export async function getConversations(
     return [];
   }
 
-  return data || [];
+  return (data || []) as Conversation[];
 }
 
 export async function getConversationMessages(
@@ -112,7 +112,7 @@ export async function getConversationMessages(
     return [];
   }
 
-  return data || [];
+  return (data || []) as Message[];
 }
 
 export async function getMentorUsageWindow(

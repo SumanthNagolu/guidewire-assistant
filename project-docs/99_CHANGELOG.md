@@ -4,6 +4,40 @@
 
 ---
 
+## Session 007 - December 3, 2025 (Sprint 4 Kickoff)
+
+### 🎯 Sprint Goal
+Launch the assessments pillar with a working quiz engine, mock interview simulator, and readiness analytics to guide learners toward hiring outcomes.
+
+### ✅ Completed
+1. **Assessments schema & RLS**
+   - Added `quizzes`, `quiz_attempts` linkage, interview session tables, and `public.is_admin()` helper.
+   - Created migration script `2025-12-03_assessments.sql` + updated setup guide.
+2. **Quiz engine MVP**
+   - Admin + learner flows with scoring, randomized delivery, and server actions.
+   - New dashboard entry + results review with feedback and reminders.
+3. **Interview simulator v1**
+   - Streaming AI interviewer, structured feedback, readiness scoring, and summary export.
+   - Front-end simulator with template selection, transcript logging, and summary capture.
+4. **Analytics refresh**
+   - Admin dashboard cards for pass rate, average score, readiness index, high-risk learners.
+   - Learner dashboard highlights upcoming assessments and latest results.
+
+### 🧪 Verification
+- Local build & lint pending (scheduled in Sprint 4 QA task).
+- Manual walkthrough of quiz + interview flows (happy path, error states) completed.
+- Supabase policies validated via authenticated requests (learner/admin roles).
+
+### 📌 Follow-ups
+- Automated tests + QA script for assessment flows.
+- Admin UI for quiz/interview content authoring (bulk import & template library).
+- PDF export styling + reminder automation for overdue assessments.
+
+### 🔗 Vision Alignment
+✅ Learners can now prove mastery and rehearse interviews inside the product—critical steps toward the jobs-first mission.
+
+---
+
 ## Session 001 - November 4, 2025
 
 ### 🎯 Sprint Goal

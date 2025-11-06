@@ -243,6 +243,6 @@ export async function getNextTopic(
     .eq('id', nextTopicId)
     .single();
 
-  return topic;
+  return topic as Topic | null;
 }
 

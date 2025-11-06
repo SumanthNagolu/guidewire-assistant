@@ -27,6 +27,16 @@ export type TopicsPerUserData = {
   lastCompletionDate: string | null;
 };
 
+export type AssessmentAnalytics = {
+  publishedQuizzes: number;
+  quizAttempts: number;
+  quizPassRate: number;
+  quizAverageScore: number;
+  interviewSessionsCompleted: number;
+  interviewAverageReadiness: number;
+  interviewAtRiskCount: number;
+};
+
 /**
  * Get overall activation metrics for dashboard
  */
@@ -314,6 +324,88 @@ export async function getTopicsPerUserData(): Promise<{
     });
 
     return { success: true, data };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return { success: false, error: message };
+  }
+}
+
+export async function getAssessmentAnalytics(): Promise<{
+  success: boolean;
+  data?: AssessmentAnalytics;
+  error?: string;
+}> {
+  try {
+    const supabase = await createClient();
+
+    const { count: quizCount, error: quizCountError } = await supabase
+      .from('quizzes')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_active', true);
+
+    if (quizCountError) {
+      return { success: false, error: quizCountError.message };
+    }
+
+    const { data: attempts, error: attemptsError } = await supabase
+      .from('quiz_attempts')
+      .select('score, max_score, percentage, passed')
+      .returns<Array<{ score: number; max_score: number; percentage: number | null; passed: boolean }>>();
+
+    if (attemptsError) {
+      return { success: false, error: attemptsError.message };
+    }
+
+    const totalAttempts = attempts?.length ?? 0;
+    const passedAttempts = attempts?.filter((attempt) => attempt.passed).length ?? 0;
+    const averageScore =
+      attempts && attempts.length > 0
+        ?
+            attempts.reduce((sum, attempt) => {
+              const normalized =
+                typeof attempt.percentage === 'number'
+                  ? attempt.percentage
+                  : Number(attempt.percentage ?? (attempt.score / Math.max(attempt.max_score, 1)) * 100);
+              return sum + normalized;
+            }, 0) / attempts.length
+        : 0;
+
+    const passRate = totalAttempts > 0 ? (passedAttempts / totalAttempts) * 100 : 0;
+
+    const { data: sessions, error: sessionError } = await supabase
+      .from('interview_sessions')
+      .select('readiness_score, status')
+      .eq('status', 'completed')
+      .returns<Array<{ readiness_score: number | null; status: string }>>();
+
+    if (sessionError) {
+      return { success: false, error: sessionError.message };
+    }
+
+    const completedSessions = sessions?.length ?? 0;
+    const readinessScores = sessions
+      ?.map((session) => session.readiness_score)
+      .filter((score): score is number => typeof score === 'number') ?? [];
+
+    const averageReadiness =
+      readinessScores.length > 0
+        ? readinessScores.reduce((sum, score) => sum + score, 0) / readinessScores.length
+        : 0;
+
+    const atRiskCount = readinessScores.filter((score) => score < 60).length;
+
+    return {
+      success: true,
+      data: {
+        publishedQuizzes: quizCount ?? 0,
+        quizAttempts: totalAttempts,
+        quizPassRate: Math.round(passRate * 10) / 10,
+        quizAverageScore: Math.round(averageScore * 10) / 10,
+        interviewSessionsCompleted: completedSessions,
+        interviewAverageReadiness: Math.round(averageReadiness * 10) / 10,
+        interviewAtRiskCount: atRiskCount,
+      },
+    };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     return { success: false, error: message };

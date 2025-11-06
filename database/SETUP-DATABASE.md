@@ -181,6 +181,25 @@ npm run seed:claimcenter
 
 ---
 
+## 📋 **Step 6: Enable Assessments & Interviews**
+
+Sprint 4 adds quizzes and the mock interview simulator. Apply the migration to create new tables and policies.
+
+### Instructions:
+
+1. Open **SQL Editor** in Supabase
+2. Click **"New Query"**
+3. Copy contents of `database/2025-12-03_assessments.sql`
+4. Run the script
+5. Confirm it finishes with "Success"
+
+✅ **This creates:**
+- `quizzes` table + links to existing quiz questions
+- Interview templates, sessions, messages, and feedback tables
+- Updated RLS policies using `public.is_admin()` helper
+
+---
+
 ## ✅ **Verification Checklist**
 
 After completing all steps:
@@ -191,6 +210,7 @@ After completing all steps:
 - [ ] Can view topics at `/topics`
 - [ ] (If admin) Can access `/admin`
 - [ ] (If topics seeded) See ClaimCenter topics listed
+- [ ] Quizzes/Interview pages load without database errors
 
 ---
 

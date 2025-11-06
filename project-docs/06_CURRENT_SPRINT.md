@@ -2,28 +2,26 @@
 
 *This file is THE SINGLE SOURCE of what we're building RIGHT NOW*
 
-## Sprint: 3 - Content Expansion & Onboarding (Nov 18, 2025 → Dec 2, 2025)
+## Sprint: 4 - Assessments & Interview Readiness (Dec 3, 2025 → Dec 16, 2025)
 **Vision Check**: "Every feature must help students get JOBS, not just certificates"
-**Status**: ✅ COMPLETE – ClaimCenter content seeded & onboarding path delivered
+**Status**: 🚀 ACTIVE – Building mastery validation & hiring simulations
 
 ---
 
 ## 🎯 Sprint Goal
-Deliver a guided first-lesson experience backed by a meaningful ClaimCenter content set so beta learners complete Topic 1 within 24 hours and build momentum through their first 10 topics.
+Launch assessment and interview capabilities so learners can prove mastery and rehearse hiring conversations while we capture actionable readiness signals.
 
 ## 📋 Sprint Backlog
 
 ### IN PROGRESS
-- _None — sprint exit criteria met_
+- QA & testing plan for assessments (unit tests + manual script)
+- Document admin workflows for quiz authoring & interview templates
 
 ### COMPLETED ✅
-- [x] Sprint 3 planning and backlog definition
-- [x] Build ClaimCenter content ingestion tooling (admin uploader + snake_case content schema update)
-- [x] Seed first 50 ClaimCenter topics with videos, slides, learning objectives, and prerequisite chains
-- [x] Implement stalled-learner reminder (Supabase Edge Function email, opt-in, RLS-safe)
-- [x] Instrument activation metrics for time-to-first-completion and per-learner topic averages (dashboard/report)
-- [x] Enhance onboarding flow: persona guidance, first-topic checklist, contextual tips in topic view
-- [x] Capture beta feedback loop (weekly check-in form + changelog integration)
+- [x] Drafted quiz engine spec (schema, authoring UX, scoring rules)
+- [x] Implemented quiz engine (admin tooling, learner attempt flow, scoring, analytics)
+- [x] Delivered interview simulator v1 with streaming AI prompts, evaluation, and summary report
+- [x] Added readiness analytics dashboards (quiz performance + interview readiness)
 
 ### POST-SPRINT WATCHLIST
 - Quiz engine (multiple choice, attempt history)
@@ -39,26 +37,26 @@ VISION: "Students must get jobs"
   ↓
 MASTER ROADMAP: "Sprint 3 – Content Expansion & Onboarding"
   ↓
-THIS SPRINT: "Deliver guided first-topic success + rich ClaimCenter content"
+THIS SPRINT: "Validate mastery & simulate interviews with actionable insights"
   ↓
-CURRENT TASK: "Archive learnings & tee up Sprint 4 (Assessments)"
+CURRENT TASK: "Lock assessment requirements & prepare engineering breakdown"
 ```
 
 ---
 
 ## 📊 Sprint Targets
-- **Velocity**: 5 committed backlog items
-- **Content**: 50 ClaimCenter topics published with validated prerequisite sequencing
-- **Learner Activation**: ≥70% of new beta learners finish Topic 1 within 24h; average 10 topics completed per active learner
-- **Engagement**: Reminder workflow running with opt-in tracking + weekly feedback entries
-- **Quality**: Onboarding satisfaction ≥4/5 in beta survey (target sample >=5 responses)
+- **Velocity**: 6 committed backlog items
+- **Assessments**: Quiz engine MVP with authoring + randomized attempts live for first product track
+- **Interview Simulator**: AI-driven mock interview delivering structured feedback & readiness score
+- **Insights**: Dashboard surfaces assessment outcomes (pass rate, readiness index, attempt history)
+- **Quality**: Learner satisfaction ≥4/5 on new assessment experience; interview simulator NPS ≥40
 
 ---
 
 ## 🎨 Current Working Context
 
 ### What's Open in Editor
-- `/project-docs/03_MASTER_PLAN.md` – Upcoming sprint ladder
+- `/project-docs/03_MASTER_PLAN.md` – Sprint ladder + assessment scope
 - `/project-docs/06_CURRENT_SPRINT.md` – This document
 - `/project-docs/99_CHANGELOG.md` – Session log
 
@@ -69,7 +67,7 @@ CURRENT TASK: "Archive learnings & tee up Sprint 4 (Assessments)"
 Session 006 (Sprint 3 wrap) – December 2, 2025
 
 ### Next Task
-Kick off Sprint 4 planning: scope quiz engine + interview simulator backlog and define acceptance criteria.
+Finalize Sprint 4 acceptance criteria and break work into engineering tasks (quiz engine, interview simulator, dashboard updates).
 
 ### Terminal Commands
 ```bash
@@ -83,15 +81,13 @@ npm run dev
 
 ## 🧭 Decision Log (Sprint 3 Focus)
 
-### Why invest in ingestion tooling first?
-- Reliable, structured imports ensure consistency across 50 topics and reduce manual admin effort.
-- Snake_case schema aligns with Supabase conventions, easing future analytics and API exposure.
+### Why launch assessments now?
+- Learners need proof of mastery to convert into interviews—quizzes/interviews close that loop.
+- Assessment data unlocks readiness analytics and helps mentors tailor guidance.
 
-### Why prioritize first-topic onboarding experience?
-- Early success is the best predictor of completion—guided walkthrough reduces churn and aligns with jobs-first vision.
-
-### Why automate learner nudges?
-- Maintains cohort momentum without manual intervention, keeping costs low while supporting human-quality mentorship.
+### Why pair quizzes with interview simulator?
+- Quizzes validate knowledge; interview sims validate communication and scenario handling.
+- Shared infrastructure (question banks, scoring, feedback) keeps engineering efficient.
 
 ---
 

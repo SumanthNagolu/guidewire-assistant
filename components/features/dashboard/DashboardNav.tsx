@@ -58,6 +58,12 @@ export default function DashboardNav({ user, profile }: DashboardNavProps) {
             >
               Progress
             </Link>
+            <Link
+              href="/assessments/quizzes"
+              className="text-sm font-medium text-gray-700 hover:text-blue-600"
+            >
+              Assessments
+            </Link>
             {profile?.role === 'admin' && (
               <>
                 <Link

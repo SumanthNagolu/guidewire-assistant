@@ -217,7 +217,7 @@ Respond in a supportive, encouraging tone that promotes active learning.`;
       Pick<Database['public']['Tables']['ai_messages']['Row'], 'role' | 'content'>
     >)
       .reverse()
-      .map((msg) => ({ role: msg.role, content: msg.content }));
+      .map((msg) => ({ role: msg.role as 'user' | 'assistant', content: msg.content }));
 
     const messages: ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },

@@ -10,6 +10,8 @@ import ReminderOptInToggle from '@/components/features/dashboard/ReminderOptInTo
 import FeedbackForm from '@/components/features/dashboard/FeedbackForm';
 import { personaPlaybooks, type PersonaKey } from '@/modules/onboarding/persona-guidance';
 import { getLatestFeedbackForUser } from '@/modules/feedback/actions';
+import { getActiveQuizzes, getRecentQuizAttempts } from '@/modules/assessments/quizzes';
+import { getActiveInterviewTemplates } from '@/modules/assessments/interviews';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -131,7 +133,13 @@ export default async function DashboardPage() {
     .eq('user_id', user.id)
     .maybeSingle<ReminderSettings>();
 
-  const latestFeedback = await getLatestFeedbackForUser(user.id);
+  const [latestFeedback, availableQuizzes, recentQuizAttempts, interviewTemplates] =
+    await Promise.all([
+      getLatestFeedbackForUser(user.id),
+      getActiveQuizzes({ productId: preferredProductId ?? undefined }),
+      getRecentQuizAttempts(3),
+      getActiveInterviewTemplates(preferredProductId ?? undefined),
+    ]);
 
   const personaHighlight = profile?.assumed_persona
     ? personaPlaybooks[profile.assumed_persona as PersonaKey]
@@ -241,6 +249,73 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         )}
+
+        <Card className="border border-emerald-100 bg-emerald-50/70">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-emerald-900">
+              Next Assessments
+            </CardTitle>
+            <CardDescription>
+              Validate mastery and prep for interviews to unlock the next learning tier.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-emerald-900">
+            {availableQuizzes.length > 0 ? (
+              <div className="space-y-2">
+                <p className="font-medium">Upcoming Quiz</p>
+                <p>{availableQuizzes[0].title}</p>
+                <p className="text-xs text-emerald-700">
+                  Passing score: {availableQuizzes[0].passing_percentage}%
+                </p>
+                <Link href={`/assessments/quizzes/${availableQuizzes[0].id}`} className="inline-flex">
+                  <Button size="sm" variant="outline" className="gap-2">
+                    Start Quiz
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <p className="text-sm text-emerald-700">
+                We&apos;re prepping new quizzes for your track. Keep progressing through topics for now.
+              </p>
+            )}
+
+            {recentQuizAttempts.length > 0 && (
+              <div className="rounded-lg bg-white/60 p-3">
+                <p className="text-xs uppercase tracking-wide text-emerald-600 mb-1">
+                  Latest Result
+                </p>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Score</span>
+                  <span className="font-semibold">
+                    {Number(recentQuizAttempts[0].percentage ?? 0).toFixed(2)}%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Status</span>
+                  <Badge variant={recentQuizAttempts[0].passed ? 'default' : 'destructive'}>
+                    {recentQuizAttempts[0].passed ? 'Passed' : 'Review'}
+                  </Badge>
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <p className="font-medium">Mock Interview</p>
+              <p className="text-xs text-emerald-700">
+                {interviewTemplates.length > 0
+                  ? `Practice the ${interviewTemplates[0].title} scenario to strengthen communication.`
+                  : 'Interview templates will unlock after your first quiz.'}
+              </p>
+              <Link href="/assessments/interview" className="inline-flex">
+                <Button size="sm" variant="outline" className="gap-2">
+                  Run Interview
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Stats Overview */}

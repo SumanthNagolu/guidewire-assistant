@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { ActivationMetricsCards } from '@/components/features/analytics/ActivationMetricsCards';
 import {
   getActivationMetrics,
+  getAssessmentAnalytics,
   getTimeToFirstCompletionData,
   getTopicsPerUserData,
 } from '@/modules/analytics/queries';
@@ -34,6 +35,7 @@ export default async function AnalyticsPage() {
   const metricsResult = await getActivationMetrics();
   const timeToFirstResult = await getTimeToFirstCompletionData();
   const topicsPerUserResult = await getTopicsPerUserData();
+  const assessmentResult = await getAssessmentAnalytics();
 
   if (!metricsResult.success) {
     return (
@@ -51,6 +53,15 @@ export default async function AnalyticsPage() {
   const metrics = metricsResult.data!;
   const timeToFirstData = timeToFirstResult.data ?? [];
   const topicsPerUserData = topicsPerUserResult.data ?? [];
+  const assessmentMetrics = assessmentResult.data ?? {
+    publishedQuizzes: 0,
+    quizAttempts: 0,
+    quizPassRate: 0,
+    quizAverageScore: 0,
+    interviewSessionsCompleted: 0,
+    interviewAverageReadiness: 0,
+    interviewAtRiskCount: 0,
+  };
 
   // Calculate stats for time-to-first
   const activatedUsers = timeToFirstData.filter(
@@ -74,6 +85,54 @@ export default async function AnalyticsPage() {
 
       {/* Key Metrics Cards */}
       <ActivationMetricsCards metrics={metrics} />
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Quiz Performance</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm">
+            <div className="flex items-center justify-between border-b pb-2">
+              <span>Published Quizzes</span>
+              <span className="font-semibold">{assessmentMetrics.publishedQuizzes}</span>
+            </div>
+            <div className="flex items-center justify-between border-b pb-2">
+              <span>Total Attempts</span>
+              <span className="font-semibold">{assessmentMetrics.quizAttempts}</span>
+            </div>
+            <div className="flex items-center justify-between border-b pb-2">
+              <span>Pass Rate</span>
+              <span className="font-semibold">{assessmentMetrics.quizPassRate}%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Average Score</span>
+              <span className="font-semibold">{assessmentMetrics.quizAverageScore}%</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Interview Readiness</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm">
+            <div className="flex items-center justify-between border-b pb-2">
+              <span>Completed Sessions</span>
+              <span className="font-semibold">{assessmentMetrics.interviewSessionsCompleted}</span>
+            </div>
+            <div className="flex items-center justify-between border-b pb-2">
+              <span>Average Readiness</span>
+              <span className="font-semibold">{assessmentMetrics.interviewAverageReadiness}/100</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>At-Risk Learners (&lt;60 readiness)</span>
+              <span className="font-semibold text-amber-600">
+                {assessmentMetrics.interviewAtRiskCount}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Detailed Breakdowns */}
       <div className="grid gap-6 md:grid-cols-2">
