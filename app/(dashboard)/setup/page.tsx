@@ -22,7 +22,7 @@ export default async function SetupPage() {
 
   // Check storage bucket
   const { data: buckets } = await supabase.storage.listBuckets();
-  checks.storageBucket = buckets?.some((b) => b.id === 'course-content') || false;
+  checks.storageBucket = buckets?.some((b) => b.id === 'guidewire-assistant-training-content') || false;
 
   // Check interview templates
   const { count: templateCount } = await supabase

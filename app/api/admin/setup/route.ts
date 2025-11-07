@@ -67,7 +67,7 @@ async function setupStorageBucket(adminClient: any) {
   try {
     // Check if bucket already exists
     const { data: buckets } = await adminClient.storage.listBuckets();
-    const exists = buckets?.some((b: any) => b.id === 'course-content');
+    const exists = buckets?.some((b: any) => b.id === 'guidewire-assistant-training-content');
 
     if (exists) {
       return Response.json({
@@ -78,7 +78,7 @@ async function setupStorageBucket(adminClient: any) {
     }
 
     // Create bucket
-    const { data, error } = await adminClient.storage.createBucket('course-content', {
+    const { data, error } = await adminClient.storage.createBucket('guidewire-assistant-training-content', {
       public: false,
       fileSizeLimit: 524288000, // 500 MB
       allowedMimeTypes: [

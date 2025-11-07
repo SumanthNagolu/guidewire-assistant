@@ -82,7 +82,7 @@ async function uploadFile(localPath: string, storagePath: string): Promise<boole
     console.log(`   📤 Uploading ${storagePath} (${fileSizeKB} KB)...`);
 
     const { data, error } = await supabase.storage
-      .from('course-content')
+      .from('guidewire-assistant-training-content')
       .upload(storagePath, fileBuffer, {
         contentType: getContentType(localPath),
         upsert: true, // Overwrite if exists

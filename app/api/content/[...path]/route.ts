@@ -50,7 +50,7 @@ export async function GET(
 
     // Generate signed URL (valid for 1 hour)
     const { data, error } = await supabase.storage
-      .from('course-content')
+      .from('guidewire-assistant-training-content')
       .createSignedUrl(storagePath, 3600);
 
     if (error) {
