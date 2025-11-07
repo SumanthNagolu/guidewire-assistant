@@ -74,15 +74,17 @@ export default async function AdminTopicDetailPage({
 
   const { data: siblingTopics } = await supabase
     .from('topics')
-    .select('id, title, position, code, product_id')
-    .eq('product_id', (topic as any).product_id ?? null);
+    .select('id, title, position, code')
+    .eq('product_id', topic.product_id);
 
-  const prerequisiteOptions = (siblingTopics || []).map((item: any) => ({
-    id: item.id as string,
-    title: item.title as string,
-    position: item.position as number,
-    code: item.code as string,
-  }));
+  const prerequisiteOptions = (siblingTopics || [])
+    .filter((item: any) => item.id !== topic.id)
+    .map((item: any) => ({
+      id: item.id as string,
+      title: item.title as string,
+      position: item.position as number,
+      code: item.code as string,
+    }));
 
   const slidesFile =
     (topic.content?.slides as string | null) ??
