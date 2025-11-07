@@ -17,21 +17,28 @@ export async function POST(req: Request) {
       return jsonError('Unauthorized', 401);
     }
 
-    // Note: Temporarily allowing all authenticated users to run setup
-    // TODO: Uncomment this check once admin users are properly set up
-    /*
+    // Check if user is admin
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('role')
       .eq('id', user.id)
       .single();
 
-    if (profile?.role !== 'admin') {
-      return jsonError('Admin access required', 403);
-    }
-    */
+    // Allow admin users OR check for bootstrap key for initial setup
+    const { action, bootstrapKey } = await req.json();
+    const isBootstrap = bootstrapKey === process.env.SETUP_BOOTSTRAP_KEY;
+    const isAdmin = profile?.role === 'admin';
 
-    const { action } = await req.json();
+    if (!isAdmin && !isBootstrap) {
+      return jsonError(
+        'Admin access required. Contact your administrator or use the bootstrap key for initial setup.',
+        403
+      );
+    }
+
+    if (isBootstrap) {
+      console.log('[Admin Setup] Bootstrap setup triggered by:', user.email);
+    }
 
     if (!action) {
       return jsonError('Action is required', 400);

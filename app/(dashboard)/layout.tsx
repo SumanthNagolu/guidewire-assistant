@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import DashboardNav from '@/components/features/dashboard/DashboardNav';
+import { DashboardErrorBoundary } from '@/components/DashboardErrorBoundary';
 
 export default async function DashboardLayout({
   children,
@@ -46,7 +47,9 @@ export default async function DashboardLayout({
     <div className="min-h-screen bg-gray-50">
       <DashboardNav user={user} profile={profile} />
       <main className="container mx-auto px-4 py-8">
-        {children}
+        <DashboardErrorBoundary>
+          {children}
+        </DashboardErrorBoundary>
       </main>
     </div>
   );

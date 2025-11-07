@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getActiveInterviewTemplates } from '@/modules/assessments/interviews';
 import InterviewSimulator from '@/components/features/assessments/InterviewSimulator';
 import type { Database } from '@/types/database';
+import { InlineErrorBoundary } from '@/components/ErrorBoundary';
 
 export default async function InterviewPage() {
   const supabase = await createClient();
@@ -34,7 +35,9 @@ export default async function InterviewPage() {
         </p>
       </header>
 
-      <InterviewSimulator templates={templates} />
+      <InlineErrorBoundary>
+        <InterviewSimulator templates={templates} />
+      </InlineErrorBoundary>
     </div>
   );
 }

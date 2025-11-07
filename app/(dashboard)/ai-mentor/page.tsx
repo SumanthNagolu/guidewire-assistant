@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import MentorChat from '@/components/features/ai-mentor/MentorChat';
 import { MessageSquare, Sparkles } from 'lucide-react';
+import { InlineErrorBoundary } from '@/components/ErrorBoundary';
 
 export default async function AIMentorPage() {
   const supabase = await createClient();
@@ -71,7 +72,9 @@ export default async function AIMentorPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MentorChat topicTitle="General Discussion" />
+          <InlineErrorBoundary>
+            <MentorChat topicTitle="General Discussion" />
+          </InlineErrorBoundary>
         </CardContent>
       </Card>
 
