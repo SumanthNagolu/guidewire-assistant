@@ -7,6 +7,10 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Info } from 'lucide-react';
 import ContentViewer from '@/components/features/content/ContentViewer';
 
+// Force dynamic rendering for admin pages
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type TopicRecord = {
   id: string;
   code: string;

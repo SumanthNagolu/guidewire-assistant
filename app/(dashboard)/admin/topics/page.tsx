@@ -6,6 +6,10 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { TopicUploadForm } from '@/components/features/admin/TopicUploadForm';
+import TopicEditButton from '@/components/features/admin/TopicEditButton';
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 export default async function AdminTopicsPage() {
   const supabase = await createClient();
@@ -37,6 +41,12 @@ export default async function AdminTopicsPage() {
       products(name, code)
     `)
     .order('position', { ascending: true });
+
+  console.log('[Admin Topics] Total topics loaded:', topics?.length || 0);
+  if (topics && topics.length > 0) {
+    console.log('[Admin Topics] First topic ID:', topics[0].id);
+    console.log('[Admin Topics] First topic title:', topics[0].title);
+  }
 
   type TopicWithProduct = {
     products: { name: string; code: string } | null;
@@ -152,11 +162,7 @@ export default async function AdminTopicsPage() {
                         </p>
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" asChild>
-                      <Link href={`/admin/topics/${topic.id}`}>
-                        Edit
-                      </Link>
-                    </Button>
+                    <TopicEditButton topicId={topic.id} title={`Edit ${topic.title}`} />
                   </div>
                 ))}
                 {productTopics.length > 10 && (
