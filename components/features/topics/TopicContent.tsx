@@ -14,6 +14,7 @@ import {
   personaPlaybooks,
   type PersonaKey,
 } from '@/modules/onboarding/persona-guidance';
+import ContentViewer from '@/components/features/content/ContentViewer';
 
 interface TopicContentProps {
   topic: TopicWithProgress;
@@ -182,76 +183,16 @@ export default function TopicContent({
         </Card>
       )}
 
-      {/* Video Section */}
-      {hasVideo && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Video className="h-5 w-5" />
-              Video Lesson
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100">
-              {topic.content.video_url?.includes('youtube.com') ||
-              topic.content.video_url?.includes('youtu.be') ? (
-                <iframe
-                  src={getYouTubeEmbedUrl(topic.content.video_url)}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : topic.content.video_url?.includes('loom.com') ? (
-                <iframe
-                  src={topic.content.video_url}
-                  className="w-full h-full"
-                  allowFullScreen
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <Video className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                    <p>Video player not available</p>
-                    <a
-                      href={topic.content.video_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm mt-2 inline-block"
-                    >
-                      Open video in new tab
-                    </a>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Slides/Resources Section */}
-      {hasSlides && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Slides & Resources
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <a
-              href={topic.content.slides_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block"
-            >
-              <Button variant="outline">
-                <FileText className="mr-2 h-4 w-4" />
-                View Slides
-              </Button>
-            </a>
-          </CardContent>
-        </Card>
-      )}
+      {/* Content Viewer - Automatically handles slides, demos, and assignments */}
+      <ContentViewer
+        productCode={topic.products.code}
+        topicCode={topic.code}
+        content={{
+          slides: topic.content.slides || null,
+          demos: topic.content.demos || null,
+          assignment: topic.content.assignment || null,
+        }}
+      />
 
       {/* Notes Section */}
       {hasNotes && (
