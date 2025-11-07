@@ -21,8 +21,11 @@ export default async function SetupPage() {
   };
 
   // Check storage bucket
-  const { data: buckets } = await supabase.storage.listBuckets();
+  const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+  console.log('[Setup] Available buckets:', buckets?.map(b => b.id));
+  console.log('[Setup] Buckets error:', bucketsError);
   checks.storageBucket = buckets?.some((b) => b.id === 'guidewire-assistant-training-content') || false;
+  console.log('[Setup] Storage bucket check result:', checks.storageBucket);
 
   // Check interview templates
   const { count: templateCount } = await supabase
