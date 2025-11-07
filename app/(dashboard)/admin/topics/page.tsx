@@ -152,9 +152,11 @@ export default async function AdminTopicsPage() {
                         </p>
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm">
-                      Edit
-                    </Button>
+                    <Link href={`/admin/topics/${topic.id}`}>
+                      <Button variant="ghost" size="sm">
+                        Edit
+                      </Button>
+                    </Link>
                   </div>
                 ))}
                 {productTopics.length > 10 && (
