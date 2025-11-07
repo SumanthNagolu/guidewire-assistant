@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Users, BookOpen, MessageSquare, Settings } from 'lucide-react';
+import { Users, BookOpen, MessageSquare, Settings, Upload } from 'lucide-react';
 import { getActivationMetrics, getCompletionTrend } from '@/modules/analytics/activation';
 import { getRecentFeedbackEntries } from '@/modules/feedback/actions';
 
@@ -217,6 +217,23 @@ export default async function AdminPage() {
             <CardContent>
               <Link href="/admin/topics">
                 <Button>Manage Topics</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                Content Uploads
+              </CardTitle>
+              <CardDescription>
+                Upload slides, demo videos, and assignments for each topic.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/admin/content-upload">
+                <Button variant="secondary">Upload Content</Button>
               </Link>
             </CardContent>
           </Card>

@@ -84,6 +84,12 @@ export default function DashboardNav({ user, profile }: DashboardNavProps) {
                 >
                   Analytics
                 </Link>
+                <Link
+                  href="/admin/content-upload"
+                  className="text-sm font-medium text-gray-700 hover:text-blue-600"
+                >
+                  Content Upload
+                </Link>
               </>
             )}
           </div>

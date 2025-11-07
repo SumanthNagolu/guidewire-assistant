@@ -7,7 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { markTopicStarted, updateTopicProgress } from '@/modules/topics/mutations';
 import type { TopicWithProgress } from '@/modules/topics/queries';
-import { CheckCircle, CheckCircle2, Circle, FileText, Video, ClipboardCheck } from 'lucide-react';
+import { CheckCircle, CheckCircle2, Circle, ClipboardCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -42,12 +42,34 @@ export default function TopicContent({
   const startTimeRef = useRef<number>(Date.now());
 
   const isCompleted = Boolean(topic.completion?.completed_at);
-  const hasVideo = Boolean(topic.content.video_url);
-  const hasSlides = Boolean(topic.content.slides_url);
-  const hasNotes = Boolean(topic.content.notes);
   const productName = topic.products?.name ?? 'ClaimCenter';
   const personaCard = persona ? personaPlaybooks[persona] : undefined;
   const isFirstTopic = totalCompleted === 0 && !isCompleted;
+
+  // Normalize content assets (legacy support)
+  const slidesFile =
+    (topic.content?.slides as string | null) ??
+    (topic.content?.slides_url as string | null) ??
+    null;
+
+  const demosFromContent = Array.isArray(topic.content?.demos)
+    ? (topic.content?.demos as string[]).filter(Boolean)
+    : [];
+  const legacyVideoUrl =
+    typeof topic.content?.video_url === 'string' && topic.content.video_url.length > 0
+      ? topic.content.video_url
+      : null;
+  const demosList = legacyVideoUrl
+    ? Array.from(new Set([...demosFromContent, legacyVideoUrl]))
+    : demosFromContent;
+
+  const assignmentFile =
+    (topic.content?.assignment as string | null) ??
+    (topic.content?.assignment_url as string | null) ??
+    null;
+
+  const hasSlides = Boolean(slidesFile);
+  const hasNotes = Boolean(topic.content.notes);
 
   const checklist = useMemo(
     () => [
@@ -188,9 +210,9 @@ export default function TopicContent({
         productCode={topic.products.code}
         topicCode={topic.code}
         content={{
-          slides: topic.content.slides || null,
-          demos: topic.content.demos || null,
-          assignment: topic.content.assignment || null,
+          slides: slidesFile,
+          demos: demosList.length ? demosList : null,
+          assignment: assignmentFile,
         }}
       />
 
