@@ -1,8 +1,19 @@
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
+import { z } from 'zod';
+import { checkRateLimit, RateLimits, getClientIp, createRateLimitResponse } from '@/lib/rate-limit';
 
 const jsonError = (error: string, status = 400) =>
   Response.json({ success: false, error }, { status });
+
+// Zod schema for admin setup request
+const adminSetupSchema = z.object({
+  action: z.enum(['storage-bucket', 'interview-templates'], {
+    required_error: 'Action is required',
+    invalid_type_error: 'Action must be storage-bucket or interview-templates',
+  }),
+  bootstrapKey: z.string().optional(),
+});
 
 export async function POST(req: Request) {
   try {
@@ -11,25 +22,83 @@ export async function POST(req: Request) {
     // Check auth
     const {
       data: { user },
+      error: authError,
     } = await supabase.auth.getUser();
 
-    if (!user) {
+    if (authError || !user) {
+      console.error('[Admin Setup] Auth error:', authError);
       return jsonError('Unauthorized', 401);
     }
 
-    // Check if user is admin
-    const { data: profile } = await supabase
+    // Parse and validate request body
+    const body = await req.json().catch(() => null);
+    
+    if (!body) {
+      return jsonError('Invalid JSON payload', 400);
+    }
+
+    const validation = adminSetupSchema.safeParse(body);
+    
+    if (!validation.success) {
+      const firstError = validation.error.issues[0];
+      console.warn('[Admin Setup] Validation error:', firstError);
+      return jsonError(firstError.message, 400);
+    }
+
+    const { action, bootstrapKey } = validation.data;
+
+    // Check if user is admin (with proper error handling)
+    const { data: profile, error: profileError } = await supabase
       .from('user_profiles')
       .select('role')
       .eq('id', user.id)
       .single();
 
+    if (profileError) {
+      console.error('[Admin Setup] Profile fetch error:', profileError);
+      return jsonError('Failed to verify user permissions', 500);
+    }
+
     // Allow admin users OR check for bootstrap key for initial setup
-    const { action, bootstrapKey } = await req.json();
-    const isBootstrap = bootstrapKey === process.env.SETUP_BOOTSTRAP_KEY;
     const isAdmin = profile?.role === 'admin';
+    const isBootstrapAttempt = !!bootstrapKey;
+    
+    // Rate limit bootstrap attempts to prevent brute-force attacks
+    if (isBootstrapAttempt && !isAdmin) {
+      const clientIp = getClientIp(req);
+      const rateLimitKey = `bootstrap-setup:${clientIp}`;
+      const rateLimit = checkRateLimit(rateLimitKey, RateLimits.BOOTSTRAP_SETUP);
+      
+      if (!rateLimit.allowed) {
+        console.warn(
+          '[Admin Setup] Rate limit exceeded for bootstrap attempt from:',
+          clientIp,
+          'user:',
+          user.email
+        );
+        return createRateLimitResponse(
+          'Too many bootstrap setup attempts. Please try again later.',
+          rateLimit.resetAt,
+          rateLimit.retryAfter!
+        );
+      }
+      
+      console.log(
+        '[Admin Setup] Bootstrap attempt',
+        rateLimit.remaining,
+        'remaining attempts from:',
+        clientIp
+      );
+    }
+    
+    const isBootstrap = isBootstrapAttempt && bootstrapKey === process.env.SETUP_BOOTSTRAP_KEY;
 
     if (!isAdmin && !isBootstrap) {
+      if (isBootstrapAttempt) {
+        console.warn('[Admin Setup] Invalid bootstrap key from:', user.email);
+      } else {
+        console.warn('[Admin Setup] Access denied for:', user.email, 'role:', profile?.role);
+      }
       return jsonError(
         'Admin access required. Contact your administrator or use the bootstrap key for initial setup.',
         403
@@ -37,11 +106,10 @@ export async function POST(req: Request) {
     }
 
     if (isBootstrap) {
-      console.log('[Admin Setup] Bootstrap setup triggered by:', user.email);
-    }
-
-    if (!action) {
-      return jsonError('Action is required', 400);
+      console.log('[Admin Setup] ⚠️  Bootstrap setup triggered by:', user.email);
+      console.log('[Admin Setup] ⚠️  Remember to remove SETUP_BOOTSTRAP_KEY after creating admin user');
+    } else {
+      console.log('[Admin Setup] Admin action by:', user.email);
     }
 
     // Use service role client for admin operations

@@ -43,7 +43,18 @@ This document outlines security measures, best practices, and incident response 
 - Token usage tracking
 - Rate limit headers in responses
 
-⚠️ **Missing:** Auth endpoint rate limiting (TODO)
+✅ **Admin Setup Limits**
+- Bootstrap key: 5 attempts per 15 minutes per IP
+- Prevents brute-force attacks
+- Comprehensive logging
+
+✅ **Rate Limit Infrastructure**
+- In-memory rate limiter (`lib/rate-limit.ts`)
+- Configurable per-endpoint
+- Ready for Redis migration
+- Standard Retry-After headers
+
+⚠️ **Todo:** Auth endpoint rate limiting (login, signup, password reset)
 
 ### 4. Error Handling
 
@@ -280,6 +291,9 @@ We aim to respond within 24 hours and patch critical issues within 48 hours.
 
 ### Short-term (Next 30 days)
 
+- [x] ✅ Path traversal protection on content API
+- [x] ✅ Input validation on admin setup endpoint
+- [x] ✅ Rate limiting for bootstrap attempts
 - [ ] Add rate limiting middleware for auth endpoints
 - [ ] Implement CSRF protection
 - [ ] Add API usage analytics

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest } from 'next/server';
+import { z } from 'zod';
 
 /**
  * Content Delivery API
@@ -8,7 +9,66 @@ import { NextRequest } from 'next/server';
  * Usage:
  * GET /api/content/CC/cc-01-001/slides.pdf
  * GET /api/content/CC/cc-01-001/demo.mp4
+ * 
+ * Security:
+ * - Strict regex validation on all path segments
+ * - No path traversal allowed (../, ./, //)
+ * - Product codes: 2-6 uppercase letters (CC, PC, BC, FW, COMMON)
+ * - Topic codes: lowercase product-number-number (cc-01-001)
+ * - Filenames: alphanumeric, dots, dashes, underscores only
  */
+
+// Validation patterns (strict)
+const PRODUCT_CODE_PATTERN = /^[A-Z]{2,6}$/; // CC, PC, BC, FW, COMMON
+const TOPIC_CODE_PATTERN = /^[a-z]{2,6}-\d{2}-\d{3}$/; // cc-01-001, common-001
+const FILENAME_PATTERN = /^[a-zA-Z0-9._-]+$/; // Safe filename characters only
+
+/**
+ * Validates path segment against security requirements
+ * Prevents: path traversal, directory traversal, control characters, encoded attacks
+ */
+function isValidPathSegment(segment: string, pattern: RegExp, name: string): { valid: boolean; error?: string } {
+  // Check for null/undefined
+  if (!segment || typeof segment !== 'string') {
+    return { valid: false, error: `${name} is required` };
+  }
+
+  // Check for path traversal patterns
+  if (segment.includes('..') || segment.includes('./') || segment.includes('//')) {
+    return { valid: false, error: `${name} contains invalid path characters` };
+  }
+
+  // Check for control characters and encoded sequences
+  if (/[\x00-\x1F\x7F%]/.test(segment)) {
+    return { valid: false, error: `${name} contains control characters or encoded sequences` };
+  }
+
+  // Check against allowed pattern
+  if (!pattern.test(segment)) {
+    return { valid: false, error: `${name} format is invalid` };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Sanitizes filename by removing/replacing unsafe characters
+ */
+function sanitizeFilename(filename: string): string {
+  // Remove any path separators
+  filename = filename.replace(/[/\\]/g, '-');
+  
+  // Remove control characters
+  filename = filename.replace(/[\x00-\x1F\x7F]/g, '');
+  
+  // Remove dangerous patterns
+  filename = filename.replace(/\.\./g, '');
+  
+  // Only allow safe characters
+  filename = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+  
+  return filename;
+}
 
 export async function GET(
   request: NextRequest,
@@ -41,9 +101,42 @@ export async function GET(
     }
 
     const [productCode, topicCode, ...filenameParts] = pathSegments;
-    const filename = filenameParts.join('/'); // Handle filenames with slashes
+    
+    // SECURITY: Strict validation on all path segments
+    
+    // Validate product code
+    const productValidation = isValidPathSegment(productCode, PRODUCT_CODE_PATTERN, 'Product code');
+    if (!productValidation.valid) {
+      console.warn('[Content API] Invalid product code:', productCode);
+      return Response.json(
+        { success: false, error: productValidation.error },
+        { status: 400 }
+      );
+    }
 
-    // Construct storage path
+    // Validate topic code
+    const topicValidation = isValidPathSegment(topicCode, TOPIC_CODE_PATTERN, 'Topic code');
+    if (!topicValidation.valid) {
+      console.warn('[Content API] Invalid topic code:', topicCode);
+      return Response.json(
+        { success: false, error: topicValidation.error },
+        { status: 400 }
+      );
+    }
+
+    // Validate and sanitize filename
+    const rawFilename = filenameParts.join('-'); // Join with dash instead of slash
+    const filename = sanitizeFilename(rawFilename);
+    
+    if (!filename || !FILENAME_PATTERN.test(filename)) {
+      console.warn('[Content API] Invalid filename:', rawFilename);
+      return Response.json(
+        { success: false, error: 'Filename contains invalid characters' },
+        { status: 400 }
+      );
+    }
+
+    // Construct storage path (now guaranteed safe)
     const storagePath = `${productCode}/${topicCode}/${filename}`;
 
     console.log('[Content API] Generating signed URL for:', storagePath);
