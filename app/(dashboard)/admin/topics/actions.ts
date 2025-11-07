@@ -117,10 +117,23 @@ export { initialState as importTopicsInitialState };
 export const importSampleTopicsAction = async (): Promise<ImportState> => {
   try {
     const samplePath = path.resolve(process.cwd(), 'data/claimcenter-topics.json');
+    
+    // Check if file exists first
+    try {
+      await readFile(samplePath, 'utf8');
+    } catch (fileError) {
+      console.error('[importSampleTopics] File not found:', samplePath);
+      return {
+        success: false,
+        error: 'Sample file not found. Topics have been migrated to the database. Use the database to manage topics or upload a custom JSON file.',
+      };
+    }
+    
     const payload = await readFile(samplePath, 'utf8');
     const topics = parseTopics(payload);
     return importTopics(topics);
   } catch (error) {
+    console.error('[importSampleTopics] Error:', error);
     const message =
       error instanceof Error ? error.message : 'Failed to load sample dataset.';
     return { success: false, error: message };

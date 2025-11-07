@@ -71,18 +71,23 @@ export function TopicUploadForm() {
               }
 
               if (result.error) {
-                toast.error(result.error);
+                toast.error(result.error, { duration: 5000 });
                 return;
               }
 
               if (result.success) {
                 toast.success(result.message ?? 'Sample topics imported successfully.');
+                // Refresh the page to show newly imported topics
+                window.location.reload();
               }
             })
           }
         >
-          {pendingSample ? 'Loading sample topics…' : 'Load 50 ClaimCenter Topics'}
+          {pendingSample ? 'Loading sample topics…' : 'Load 50 ClaimCenter Topics (Legacy)'}
         </Button>
+        <p className="text-xs text-muted-foreground mt-2">
+          Note: Topics are now managed via the database. This button loads from a legacy JSON file if available.
+        </p>
       </div>
 
       {state?.success && state.count !== undefined ? (
