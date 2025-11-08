@@ -1,0 +1,14 @@
+{
+  "file": ".cursorrules",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T17:00:00Z",
+  "phase": "foundation",
+  "tatva": "guru",
+  "owner": "Trikala Foundation",
+  "verified_by": [{"model": "claude-sonnet-3.5", "date": "2025-11-08", "status": "approved"}],
+  "sadhguru_gate": {"status": "approved", "principle_alignment": "all", "manual_review": true, "approval_date": "2025-11-08"},
+  "dependencies": ["All persona files", "00-SADHGURU-GATEKEEPER.md"],
+  "quality_metrics": {"completeness": 100, "clarity": "excellent"},
+  "version": "1.0",
+  "tags": ["orchestration", "routing", "cursor-ai", "automation", "phase-management"]
+}

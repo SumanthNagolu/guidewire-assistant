@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Guidewire Training Platform",
-  description: "AI-powered Guidewire certification training",
+  title: "InTime eSolutions - Transform Your Career. Power Your Business.",
+  description: "Where Excellence Meets Opportunity - IT Staffing, Skill Development, and Cross-Border Solutions That Deliver Results.",
 };
 
 export default function RootLayout({
@@ -18,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         {children}
         <Toaster />
         <Sonner />

@@ -10,6 +10,47 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			// InTimeSolutions Brand Colors
+  			'trust-blue': {
+  				DEFAULT: '#003D82',
+  				50: '#E6EEF7',
+  				100: '#CCE0F0',
+  				500: '#003D82',
+  				600: '#002D5F',
+  				700: '#001F42',
+  			},
+  			'success-green': {
+  				DEFAULT: '#00A86B',
+  				50: '#E6F7F0',
+  				100: '#CCF0E0',
+  				500: '#00A86B',
+  				600: '#008554',
+  				700: '#00633F',
+  			},
+  			'innovation-orange': {
+  				DEFAULT: '#FF6B35',
+  				50: '#FFE8E0',
+  				100: '#FFD4C2',
+  				500: '#FF6B35',
+  				600: '#E84D1C',
+  				700: '#C43510',
+  			},
+  			'wisdom-gray': {
+  				DEFAULT: '#4A5568',
+  				50: '#F7FAFC',
+  				100: '#EDF2F7',
+  				200: '#E2E8F0',
+  				300: '#CBD5E0',
+  				400: '#A0AEC0',
+  				500: '#4A5568',
+  				600: '#2D3748',
+  				700: '#1A202C',
+  			},
+  			'sky-blue': {
+  				DEFAULT: '#90CDF4',
+  				500: '#90CDF4',
+  			},
+  			// Shadcn-compatible mappings
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -43,13 +84,22 @@ const config: Config = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
+  		},
+  		fontFamily: {
+  			'sans': ['Inter', 'Segoe UI', 'sans-serif'],
+  			'heading': ['Montserrat', 'Helvetica Neue', 'sans-serif'],
+  			'mono': ['JetBrains Mono', 'Courier New', 'monospace'],
+  		},
+  		fontSize: {
+  			'h1': ['48px', { lineHeight: '56px', fontWeight: '700' }],
+  			'h2': ['36px', { lineHeight: '44px', fontWeight: '600' }],
+  			'h3': ['28px', { lineHeight: '36px', fontWeight: '600' }],
+  			'h4': ['24px', { lineHeight: '32px', fontWeight: '500' }],
+  			'h5': ['20px', { lineHeight: '28px', fontWeight: '500' }],
+  		},
+  		spacing: {
+  			'section': '64px',
+  			'component': '32px',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

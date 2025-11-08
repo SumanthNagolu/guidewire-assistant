@@ -1,0 +1,168 @@
+# Trikala - Practical AI Orchestration (Simplified)
+
+## Current Focus: SHIP THE WEBSITE (Week 1-2)
+
+**Phase:** Public Website Development  
+**Deadline:** 2 weeks from now  
+**Goal:** Live website accepting inquiries
+
+---
+
+## Routing Rules (Simple)
+
+### Website Development Questions → Brahma (Designer) + Shiva (Developer)
+- Page layouts, UI design, styling
+- Component implementation
+- Forms and integrations
+
+### Content Questions → CEO
+- Page copy, messaging, value proposition
+- Course descriptions, pricing
+
+### Architecture Questions → Krishna
+- Database design, API structure
+- Integration decisions
+
+### Quality Questions → Vishnu
+- Testing, performance, accessibility
+- Pre-launch checks
+
+---
+
+## Quality Gates (Automated, Not Manual)
+
+### Pre-Commit (Auto-check)
+```bash
+✅ TypeScript compiles
+✅ Linter passes (no errors)
+✅ No console.logs in production code
+✅ No TODO comments
+```
+
+### Pre-Deploy (Auto-check)
+```bash
+✅ All pages load
+✅ Forms submit successfully
+✅ Mobile responsive
+✅ Performance score > 90
+✅ No broken links
+```
+
+**Auto-deploy if all green. No manual approval needed.**
+
+---
+
+## Non-Negotiables (From CEO)
+
+**Never:**
+- Skip TypeScript strict mode
+- Use Pages Router (App Router only)
+- Store API keys in client code
+- Ship broken forms
+- Deploy without testing
+
+**Always:**
+- Functional components with hooks
+- Early returns for errors
+- Mobile-first design
+- Accessibility (WCAG AA)
+- Fast page loads
+
+---
+
+## Workflow (Practical)
+
+### For Website Pages:
+1. Design page layout (Brahma)
+2. Implement component (Shiva)
+3. Test functionality (Vishnu)
+4. Deploy to staging
+5. CEO reviews on staging
+6. Deploy to production
+
+**No file-by-file approval. Batch review.**
+
+### For Features:
+1. Define feature clearly
+2. Design if needed
+3. Implement all files at once
+4. Run automated tests
+5. Manual QA review
+6. Deploy
+
+**No metadata updates. Git commits are source of truth.**
+
+---
+
+## Discovery Phase (When Needed)
+
+**Not 2000 questions. Just clarity.**
+
+Process:
+1. CEO explains what's needed
+2. Saraswati asks clarifying questions
+3. Continue until CEO says "Clear, let's build"
+4. Document key decisions
+5. Start building
+
+**Target: 30-50 questions per feature, not thousands**
+
+---
+
+## Personas (As Prompts, Not Characters)
+
+**Use persona context when helpful:**
+- Brahma: Think about UX, design, beauty
+- Shiva: Think about code quality, refactoring
+- Vishnu: Think about testing, edge cases
+- Krishna: Think about architecture, scale
+
+**Skip persona when not needed:**
+- Quick fixes → Just fix it
+- Simple updates → Just update
+- Obvious decisions → Just decide
+
+---
+
+## Success Metrics
+
+**This Week:**
+- ✅ Homepage designed and built
+- ✅ Contact form working
+- ✅ 5 key pages complete
+
+**Next Week:**
+- ✅ All pages complete
+- ✅ SEO optimized
+- ✅ Deployed to production
+- ✅ First inquiry received
+
+**Not tracking:**
+- ❌ Number of files approved
+- ❌ Metadata completeness
+- ❌ Philosophical alignment
+
+---
+
+## Emergency Override
+
+**CEO can skip ANY process if:**
+- We're behind schedule
+- Something needs to ship NOW
+- Process is slowing us down
+
+**Just document why in git commit.**
+
+---
+
+## The Real Rule
+
+**Ship working software that helps students get jobs.**
+
+Everything else is optional.
+
+---
+
+**Version:** 2.0 (Practical)  
+**Focus:** Delivery over process  
+**Status:** Active for Website Phase

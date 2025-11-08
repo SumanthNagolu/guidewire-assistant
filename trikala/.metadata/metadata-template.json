@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Trikala File Metadata Template",
+  "description": "Verification and tracking metadata for all Trikala project files",
+  "type": "object",
+  "required": ["file", "created", "phase", "verified_by", "sadhguru_gate"],
+  "properties": {
+    "file": {
+      "type": "string",
+      "description": "Name of the file this metadata tracks (e.g., 'VISION.md')",
+      "example": "VISION.md"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Creation date in YYYY-MM-DD format",
+      "example": "2025-11-08"
+    },
+    "last_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp",
+      "example": "2025-11-08T10:30:00Z"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "foundation",
+        "discovery",
+        "planning",
+        "design",
+        "development",
+        "testing",
+        "deployment",
+        "maintenance"
+      ],
+      "description": "SDLC phase this file belongs to"
+    },
+    "tatva": {
+      "type": "string",
+      "enum": [
+        "guru",
+        "yukti",
+        "srishti",
+        "jnana",
+        "sampada",
+        "vighna-nashana",
+        "samhara",
+        "bhakti",
+        "sthiti",
+        "dharma"
+      ],
+      "description": "Primary tatva/persona responsible for this file"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or persona who owns this file",
+      "example": "Sumanth (CEO)"
+    },
+    "verified_by": {
+      "type": "array",
+      "description": "List of AI models that have reviewed and verified this file",
+      "items": {
+        "type": "object",
+        "required": ["model", "date", "status"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "enum": [
+              "gpt-4",
+              "gpt-4-turbo",
+              "gpt-5",
+              "claude-opus-4",
+              "claude-sonnet-3.5",
+              "gemini-2.0",
+              "gemini-2.5"
+            ],
+            "description": "AI model used for verification"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of verification"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["approved", "approved_with_notes", "needs_revision", "rejected"],
+            "description": "Verification outcome"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Optional notes or feedback from verification"
+          },
+          "reviewer": {
+            "type": "string",
+            "description": "Name of person who performed review (if applicable)"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "sadhguru_gate": {
+      "type": "object",
+      "required": ["status", "principle_alignment"],
+      "description": "Sadhguru Gatekeeper approval tracking",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["approved", "pending", "needs_revision", "blocked"],
+          "description": "Gatekeeper approval status"
+        },
+        "principle_alignment": {
+          "type": "string",
+          "enum": ["good_karma", "fairness", "responsibility", "consciousness", "all"],
+          "description": "Which core principle this file aligns with"
+        },
+        "manual_review": {
+          "type": "boolean",
+          "description": "Whether manual review by Sumanth was required",
+          "default": false
+        },
+        "approval_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of gatekeeper approval"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Gatekeeper notes or reasoning"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "List of files this file depends on",
+      "items": {
+        "type": "string"
+      },
+      "example": ["00-SADHGURU-GATEKEEPER.md", "01-TATVA-VALUES.md"]
+    },
+    "dependents": {
+      "type": "array",
+      "description": "List of files that depend on this file",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "description": "Planned next actions or files to create",
+      "items": {
+        "type": "string"
+      }
+    },
+    "test_status": {
+      "type": "object",
+      "description": "Testing status (for code files)",
+      "properties": {
+        "unit_tests": {
+          "type": "string",
+          "enum": ["passing", "failing", "not_applicable", "not_created"]
+        },
+        "integration_tests": {
+          "type": "string",
+          "enum": ["passing", "failing", "not_applicable", "not_created"]
+        },
+        "coverage_percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "quality_metrics": {
+      "type": "object",
+      "description": "Quality indicators",
+      "properties": {
+        "completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage complete (0-100)"
+        },
+        "clarity": {
+          "type": "string",
+          "enum": ["excellent", "good", "needs_improvement", "unclear"]
+        },
+        "technical_debt": {
+          "type": "string",
+          "enum": ["none", "low", "medium", "high"]
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "description": "Document or file version",
+      "example": "1.0.0"
+    },
+    "change_history": {
+      "type": "array",
+      "description": "History of significant changes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "change_type": {
+            "type": "string",
+            "enum": ["created", "updated", "refactored", "deprecated"]
+          },
+          "description": {
+            "type": "string"
+          },
+          "changed_by": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Searchable tags for categorization",
+      "items": {
+        "type": "string"
+      },
+      "example": ["foundation", "philosophical", "governance"]
+    }
+  }
+}
+

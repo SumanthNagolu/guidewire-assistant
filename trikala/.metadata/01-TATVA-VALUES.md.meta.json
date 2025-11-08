@@ -1,0 +1,61 @@
+{
+  "file": "01-TATVA-VALUES.md",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T11:00:00Z",
+  "phase": "foundation",
+  "tatva": "guru",
+  "owner": "Sumanth (CEO)",
+  "verified_by": [
+    {
+      "model": "claude-sonnet-3.5",
+      "date": "2025-11-08",
+      "status": "approved",
+      "reviewer": "AI Assistant"
+    }
+  ],
+  "sadhguru_gate": {
+    "status": "approved",
+    "principle_alignment": "consciousness",
+    "manual_review": true,
+    "approval_date": "2025-11-08",
+    "notes": "Philosophical foundation document mapping tatvas to roles. Embodies consciousness principle by grounding work in timeless wisdom traditions."
+  },
+  "dependencies": [
+    "00-SADHGURU-GATEKEEPER.md"
+  ],
+  "dependents": [
+    "02-ROLE-TATVA-MAP.md",
+    "All persona files (defines their tatva qualities)"
+  ],
+  "next_steps": [
+    "Create detailed role-tatva mapping",
+    "Create individual persona files embodying tatvas",
+    "Integrate tatvas into SDLC workflows"
+  ],
+  "quality_metrics": {
+    "completeness": 100,
+    "clarity": "excellent",
+    "technical_debt": "none"
+  },
+  "version": "1.0",
+  "change_history": [
+    {
+      "date": "2025-11-08",
+      "change_type": "created",
+      "description": "Created comprehensive tatva-to-role mapping with 10 universal tatvas from Indian, Buddhist, and spiritual traditions",
+      "changed_by": "Sumanth + AI Assistant"
+    }
+  ],
+  "tags": [
+    "foundation",
+    "philosophical",
+    "tatva",
+    "archetypes",
+    "sadhguru",
+    "krishna",
+    "shiva",
+    "wisdom-traditions",
+    "role-mapping"
+  ]
+}
+

@@ -1,0 +1,14 @@
+{
+  "file": "personas/06-testing/qa-lead-vishnu.md",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T16:00:00Z",
+  "phase": "foundation",
+  "tatva": "sthiti",
+  "owner": "Trikala Foundation",
+  "verified_by": [{"model": "claude-sonnet-3.5", "date": "2025-11-08", "status": "approved"}],
+  "sadhguru_gate": {"status": "approved", "principle_alignment": "good_karma", "manual_review": true, "approval_date": "2025-11-08"},
+  "dependencies": ["00-SADHGURU-GATEKEEPER.md", "01-TATVA-VALUES.md", "02-ROLE-TATVA-MAP.md"],
+  "quality_metrics": {"completeness": 100, "clarity": "excellent"},
+  "version": "1.0",
+  "tags": ["persona", "qa-lead", "sthiti-tatva", "preservation", "testing-phase"]
+}

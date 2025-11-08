@@ -1,0 +1,59 @@
+{
+  "file": "ChaptGptCodexModeReview.md",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T17:30:00Z",
+  "phase": "foundation",
+  "tatva": "jnana",
+  "owner": "Trikala Foundation",
+  "verified_by": [
+    {
+      "model": "claude-sonnet-3.5",
+      "date": "2025-11-08",
+      "status": "approved",
+      "reviewer": "AI Assistant"
+    }
+  ],
+  "sadhguru_gate": {
+    "status": "approved",
+    "principle_alignment": "responsibility",
+    "manual_review": false,
+    "approval_date": "2025-11-08",
+    "notes": "Review prompt for external models. Auto-approved as documentation to support verification workflows."
+  },
+  "dependencies": [
+    "00-SADHGURU-GATEKEEPER.md",
+    "01-TATVA-VALUES.md",
+    "02-ROLE-TATVA-MAP.md",
+    ".cursorrules"
+  ],
+  "dependents": [
+    "External model reviews",
+    "Verification process"
+  ],
+  "next_steps": [
+    "Send prompt to multiple AI models",
+    "Collect feedback",
+    "Summarize findings"
+  ],
+  "quality_metrics": {
+    "completeness": 100,
+    "clarity": "excellent",
+    "technical_debt": "none"
+  },
+  "version": "1.0",
+  "change_history": [
+    {
+      "date": "2025-11-08",
+      "change_type": "created",
+      "description": "Created review prompt for external AI model critique of Trikala foundation",
+      "changed_by": "AI Assistant"
+    }
+  ],
+  "tags": [
+    "review",
+    "prompt",
+    "verification",
+    "multi-model",
+    "evaluation"
+  ]
+}

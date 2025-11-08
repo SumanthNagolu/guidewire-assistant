@@ -1,0 +1,63 @@
+{
+  "file": "personas/02-discovery/vision-extractor-saraswati.md",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T15:30:00Z",
+  "phase": "foundation",
+  "tatva": "jnana",
+  "owner": "Trikala Foundation",
+  "verified_by": [
+    {
+      "model": "claude-sonnet-3.5",
+      "date": "2025-11-08",
+      "status": "approved",
+      "reviewer": "AI Assistant"
+    }
+  ],
+  "sadhguru_gate": {
+    "status": "approved",
+    "principle_alignment": "consciousness",
+    "manual_review": true,
+    "approval_date": "2025-11-08",
+    "notes": "Vision extractor persona for 2000-question discovery. Embodies Jnana Tatva - deep knowledge seeking. Critical for zero-ambiguity requirements."
+  },
+  "dependencies": [
+    "00-SADHGURU-GATEKEEPER.md",
+    "01-TATVA-VALUES.md",
+    "02-ROLE-TATVA-MAP.md",
+    "personas/01-strategic/ceo-sumanth.md"
+  ],
+  "dependents": [
+    "personas/02-discovery/product-owner-krishna.md",
+    "artifacts/vision/*",
+    "artifacts/requirements/*"
+  ],
+  "next_steps": [
+    "Begin 2000-question discovery with CEO",
+    "Create vision document",
+    "Create BRD and FRS"
+  ],
+  "quality_metrics": {
+    "completeness": 100,
+    "clarity": "excellent",
+    "technical_debt": "none"
+  },
+  "version": "1.0",
+  "change_history": [
+    {
+      "date": "2025-11-08",
+      "change_type": "created",
+      "description": "Created Saraswati persona - Vision Extractor for discovery phase with 2000-question protocol, Socratic method, and zero-ambiguity completion criteria",
+      "changed_by": "AI Assistant"
+    }
+  ],
+  "tags": [
+    "persona",
+    "discovery",
+    "jnana-tatva",
+    "business-analyst",
+    "vision-extraction",
+    "requirements",
+    "knowledge-seeker"
+  ]
+}
+

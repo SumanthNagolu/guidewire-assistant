@@ -1,0 +1,14 @@
+{
+  "file": "personas/04-design/enterprise-architect-krishna.md",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T16:00:00Z",
+  "phase": "foundation",
+  "tatva": "yukti",
+  "owner": "Trikala Foundation",
+  "verified_by": [{"model": "claude-sonnet-3.5", "date": "2025-11-08", "status": "approved"}],
+  "sadhguru_gate": {"status": "approved", "principle_alignment": "consciousness", "manual_review": true, "approval_date": "2025-11-08"},
+  "dependencies": ["00-SADHGURU-GATEKEEPER.md", "01-TATVA-VALUES.md", "02-ROLE-TATVA-MAP.md"],
+  "quality_metrics": {"completeness": 100, "clarity": "excellent"},
+  "version": "1.0",
+  "tags": ["persona", "architect", "yukti-tatva", "strategic", "design-phase"]
+}

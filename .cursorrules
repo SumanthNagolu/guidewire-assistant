@@ -1,73 +1,148 @@
-# Cursor Rules for Guidewire Training Platform
+# IntimeSolutions - Guidewire Training Platform
 
-## Code Standards
-- Use functional components with hooks (no class components)
-- TypeScript strict mode always
+## Current Focus: PUBLIC WEBSITE (Week 1-2)
+
+**Goal:** Live website in 2 weeks  
+**Deadline:** Ship by end of Week 2  
+**Tech Stack:** Next.js 15 + TypeScript + Tailwind + shadcn/ui
+
+---
+
+## Quality Standards (Auto-Enforced)
+
+### Pre-Commit
+- TypeScript strict mode (no errors)
+- ESLint passes (no errors)
+- No console.logs in production
+- No TODO comments in prod code
+
+### Pre-Deploy
+- All pages load without errors
+- Forms submit successfully
+- Mobile responsive (test on phone)
+- Performance score > 90 (Lighthouse)
+- No broken links
+
+**Auto-deploy if all checks pass. No manual approval needed.**
+
+---
+
+## Non-Negotiables (From Sumanth)
+
+**Never:**
+- Use Pages Router (App Router only)
+- Store API keys in client code
+- Skip TypeScript strict mode
+- Ship without testing forms
+- Deploy broken pages
+
+**Always:**
+- Functional components with hooks
 - Early returns for error handling
-- Functions under 20 lines when possible
-- Comprehensive error boundaries
+- Mobile-first design
+- Accessibility (WCAG AA minimum)
+- Sequential learning enforcement (when building academy)
 
-## Project Patterns
-- File naming: kebab-case for files, PascalCase for components
-- API responses: { success: boolean, data?: any, error?: string }
-- Always implement loading states
-- Use Supabase Row Level Security
-- Stream AI responses for perceived performance
+---
 
 ## Tech Stack
-- Next.js 15 with App Router (NOT Pages Router)
-- TypeScript strict mode
-- Tailwind CSS + shadcn/ui
-- Supabase for backend
-- Vercel AI SDK for streaming
-- GPT-4o-mini as primary AI model
 
-## Cursor Specific
-- Read files before editing (@file references)
-- Ask before running terminal commands
-- Stop after 3 failed attempts
-- Test database queries before implementing
+**Framework:** Next.js 15 (App Router)  
+**Language:** TypeScript (strict)  
+**Styling:** Tailwind CSS + shadcn/ui  
+**Database:** Supabase (PostgreSQL + Auth + RLS)  
+**Payments:** Stripe  
+**Email:** Resend or SendGrid  
+**Hosting:** Vercel  
+**Domain:** intimesolutions.com
 
-## Never Do
-- Store API keys in client code
-- Skip error handling
-- Use 'any' type without justification
-- Make database queries without RLS
-- Build microservices (modular monolith only)
-- Use Pages Router (App Router only)
+---
 
-## Always Do
-- Validate inputs with Zod
-- Implement loading and error states
-- Use early returns for errors
-- Keep functions focused and small
-- Follow the API response pattern
-- Stream AI responses
-- Track token usage for cost monitoring
-- Check prerequisites server-side
+## Current Phase Tasks
 
-## AI Integration Rules
-- Context limit: 12 messages (6 pairs)
-- Response limit: 500 tokens for mentor, 200 for quick
-- Use Socratic method (never give direct answers)
-- Store all conversations with token tracking
-- Rate limit: 50 queries per user per day
+### Week 1: Core Pages
+- [ ] Homepage with hero + CTA
+- [ ] About Us page
+- [ ] Training Programs page
+- [ ] Pricing page
+- [ ] Contact page with form
+- [ ] FAQ page
+- [ ] Blog structure
 
-## Database Rules
-- All tables MUST have RLS policies
-- Index on (user_id, topic_id) for completions
-- Use materialized views for aggregated stats
-- JSONB for flexible data (prerequisites, content)
+### Week 2: Polish & Deploy
+- [ ] SEO optimization (meta tags, sitemap)
+- [ ] Email integration (contact form)
+- [ ] Analytics (Google Analytics)
+- [ ] Mobile testing
+- [ ] Performance optimization
+- [ ] Deploy to production
+
+---
 
 ## File Organization
-- /app - Next.js routes
-- /modules - Business logic
-- /lib - Utilities
-- /components/ui - shadcn components
-- /components/features - Feature components
-- /providers - React context providers
 
-## Vision Alignment
-Every feature must help students get JOBS, not just certificates.
-Sequential learning is non-negotiable.
-AI must maintain trainer's quality standards.
+```
+/app
+  /(marketing)     # Public website pages
+    /about
+    /programs
+    /pricing
+    /contact
+    /faq
+    /blog
+  
+/components
+  /ui              # shadcn components
+  /marketing       # Marketing site components
+  
+/lib
+  /utils           # Utilities
+  /config          # Configuration
+```
+
+---
+
+## Development Workflow
+
+1. Create component/page
+2. Test locally (npm run dev)
+3. Commit with clear message
+4. Push to git (auto-deploys to Vercel staging)
+5. Test on staging
+6. Merge to main (deploys to production)
+
+**No manual approvals. Just ship.**
+
+---
+
+## Success Metrics
+
+**This Week:**
+- Homepage live
+- 3+ pages complete
+- Contact form working
+
+**Next Week:**
+- All 7 pages complete
+- SEO done
+- Production deployed
+- First inquiry received
+
+---
+
+## When You Need Help
+
+**Design questions?** → Think simple, clean, professional  
+**Code questions?** → Keep it simple, make it work  
+**Architecture questions?** → Use proven patterns  
+**Stuck?** → Ship MVP first, iterate later
+
+---
+
+**Remember:** Ship working software. Everything else is optional.
+
+---
+
+**Version:** 3.0 (Clean)  
+**Updated:** 2025-11-08  
+**Focus:** Website launch

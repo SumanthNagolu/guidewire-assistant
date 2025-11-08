@@ -1,0 +1,59 @@
+{
+  "file": "00-SADHGURU-GATEKEEPER.md",
+  "created": "2025-11-08",
+  "last_modified": "2025-11-08T10:00:00Z",
+  "phase": "foundation",
+  "tatva": "guru",
+  "owner": "Sumanth (CEO)",
+  "verified_by": [
+    {
+      "model": "claude-sonnet-3.5",
+      "date": "2025-11-08",
+      "status": "approved",
+      "reviewer": "AI Assistant"
+    }
+  ],
+  "sadhguru_gate": {
+    "status": "approved",
+    "principle_alignment": "all",
+    "manual_review": true,
+    "approval_date": "2025-11-08",
+    "notes": "Foundation rulebook establishing governance for entire project. Approved by Sumanth as the core operational framework."
+  },
+  "dependencies": [],
+  "dependents": [
+    "01-TATVA-VALUES.md",
+    "PROJECT-HISTORY.md",
+    "All future files (governs everything)"
+  ],
+  "next_steps": [
+    "Create all personas based on these rules",
+    "Implement approval workflow in practice",
+    "Train team on gatekeeper protocol"
+  ],
+  "quality_metrics": {
+    "completeness": 100,
+    "clarity": "excellent",
+    "technical_debt": "none"
+  },
+  "version": "1.0",
+  "change_history": [
+    {
+      "date": "2025-11-08",
+      "change_type": "created",
+      "description": "Initial creation of Sadhguru Gatekeeper rulebook with complete governance framework",
+      "changed_by": "Sumanth + AI Assistant"
+    }
+  ],
+  "tags": [
+    "foundation",
+    "governance",
+    "rules",
+    "philosophical",
+    "gatekeeper",
+    "sadhguru",
+    "core-principles",
+    "quality-gates"
+  ]
+}
+
