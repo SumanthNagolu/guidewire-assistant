@@ -1,7 +1,37 @@
 import { updateSession } from '@/lib/supabase/middleware';
-import { type NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  const hostname = request.headers.get('host') || '';
+  const pathname = request.nextUrl.pathname;
+
+  // Check if this is the academy subdomain
+  const isAcademySubdomain = hostname.startsWith('academy.');
+  
+  // Training app routes (auth and dashboard)
+  const isTrainingRoute = 
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/topics') ||
+    pathname.startsWith('/assessments') ||
+    pathname.startsWith('/progress') ||
+    pathname.startsWith('/ai-mentor') ||
+    pathname.startsWith('/setup') ||
+    pathname.startsWith('/profile') ||
+    pathname.startsWith('/admin');
+
+  // If on main domain and accessing training routes, redirect to academy subdomain
+  if (!isAcademySubdomain && isTrainingRoute && hostname.includes('intimesolutions.com')) {
+    const url = request.nextUrl.clone();
+    url.host = `academy.${hostname}`;
+    return NextResponse.redirect(url);
+  }
+
+  // If on academy subdomain and accessing marketing routes, allow it
+  // (users can navigate back to main site)
+  
+  // Continue with Supabase auth
   return await updateSession(request);
 }
 

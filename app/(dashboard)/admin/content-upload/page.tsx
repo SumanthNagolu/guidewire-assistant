@@ -35,7 +35,7 @@ export default async function ContentUploadPage() {
   // Get all topics for the dropdown
   const { data: topics } = await supabase
     .from('topics')
-    .select('id, code, title, product_id')
+    .select('id, title, product_id')
     .eq('is_published', true)
     .order('position');
 
@@ -106,7 +106,7 @@ export default async function ContentUploadPage() {
       </div>
 
       {/* Upload Form */}
-      <ContentUploadForm products={products || []} topics={topics || []} />
+      <ContentUploadForm products={products || []} topics={Array.isArray(topics) ? topics : []} />
 
       {/* Instructions */}
       <Card className="border-blue-200 bg-blue-50">

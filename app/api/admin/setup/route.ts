@@ -8,10 +8,7 @@ const jsonError = (error: string, status = 400) =>
 
 // Zod schema for admin setup request
 const adminSetupSchema = z.object({
-  action: z.enum(['storage-bucket', 'interview-templates'], {
-    required_error: 'Action is required',
-    invalid_type_error: 'Action must be storage-bucket or interview-templates',
-  }),
+  action: z.enum(['storage-bucket', 'interview-templates']),
   bootstrapKey: z.string().optional(),
 });
 

@@ -25,7 +25,7 @@ interface Product {
 
 interface Topic {
   id: string;
-  code: string;
+  code?: string;
   title: string;
   product_id: string;
 }

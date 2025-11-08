@@ -59,10 +59,13 @@ export default function AcademyPage() {
               InTime Academy delivers world‑class training that combines technical mastery with professional excellence. We prepare people for Day 1, Day 100, and Year 10—mindset, communication, and craft.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="bg-white text-innovation-orange hover:bg-wisdom-gray-50 font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center">
-                Explore Programs
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+            <Link href="/login" className="bg-white text-innovation-orange hover:bg-wisdom-gray-50 font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center">
+              Access Training Portal
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            <Link href="/contact" className="btn-outline inline-flex items-center ml-4">
+              Contact Admissions
+            </Link>
               <Link href="/solutions/training" className="btn-outline">
                 View Training Solutions
               </Link>
@@ -179,8 +182,8 @@ export default function AcademyPage() {
           <p className="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
             Explore our training programs and take the first step toward mastery.
           </p>
-          <Link href="/contact" className="bg-white text-innovation-orange hover:bg-wisdom-gray-50 font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center">
-            Contact Us Today
+          <Link href="/login" className="bg-white text-innovation-orange hover:bg-wisdom-gray-50 font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center">
+            Start Learning Today
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </div>

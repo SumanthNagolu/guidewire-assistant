@@ -222,15 +222,15 @@ export default function TopicEditForm({ topic, prerequisiteOptions }: TopicEditF
       <div className="space-y-2 rounded-lg border bg-gray-50 p-4 text-sm text-gray-600">
         <p className="font-medium text-gray-900">Current Content Assets</p>
         <div className="flex flex-wrap gap-2">
-          {content.slides && (
+          {content.slides ? (
             <Badge variant="secondary">Slides: {String(content.slides)}</Badge>
-          )}
-          {Array.isArray(content.demos) && content.demos.length > 0 && (
+          ) : null}
+          {Array.isArray(content.demos) && content.demos.length > 0 ? (
             <Badge variant="secondary">Demos: {content.demos.length}</Badge>
-          )}
-          {content.assignment && (
+          ) : null}
+          {content.assignment ? (
             <Badge variant="secondary">Assignment: {String(content.assignment)}</Badge>
-          )}
+          ) : null}
           {!content.slides && !content.assignment &&
             (!Array.isArray(content.demos) || content.demos.length === 0) && (
               <span className="text-sm text-muted-foreground">

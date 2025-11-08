@@ -48,13 +48,10 @@ export default function TopicContent({
 
   // Normalize content assets (legacy support)
   const slidesFile =
-    (topic.content?.slides as string | null) ??
     (topic.content?.slides_url as string | null) ??
     null;
 
-  const demosFromContent = Array.isArray(topic.content?.demos)
-    ? (topic.content?.demos as string[]).filter(Boolean)
-    : [];
+  const demosFromContent: string[] = [];
   const legacyVideoUrl =
     typeof topic.content?.video_url === 'string' && topic.content.video_url.length > 0
       ? topic.content.video_url
@@ -63,10 +60,7 @@ export default function TopicContent({
     ? Array.from(new Set([...demosFromContent, legacyVideoUrl]))
     : demosFromContent;
 
-  const assignmentFile =
-    (topic.content?.assignment as string | null) ??
-    (topic.content?.assignment_url as string | null) ??
-    null;
+  const assignmentFile: string | null = null;
 
   const hasSlides = Boolean(slidesFile);
   const hasNotes = Boolean(topic.content.notes);
@@ -208,7 +202,7 @@ export default function TopicContent({
       {/* Content Viewer - Automatically handles slides, demos, and assignments */}
       <ContentViewer
         productCode={topic.products.code}
-        topicCode={topic.code}
+        topicCode={topic.id}
         content={{
           slides: slidesFile,
           demos: demosList.length ? demosList : null,
