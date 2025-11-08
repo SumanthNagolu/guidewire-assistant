@@ -48,18 +48,128 @@ export default function Navbar() {
                 <span>Industries</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4">
+              <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4 max-h-[80vh] overflow-y-auto">
                 <Link href="/industries/information-technology" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                   Information Technology
                 </Link>
                 <Link href="/industries/healthcare" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                   Healthcare
                 </Link>
-                <Link href="/industries/financial-services" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
-                  Financial Services
+                <Link href="/industries/engineering" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Engineering
                 </Link>
-                <Link href="/industries" className="block px-6 py-2 text-sm font-medium text-trust-blue hover:bg-gray-50">
-                  View All Industries →
+                <Link href="/industries/manufacturing" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Manufacturing & Production
+                </Link>
+                <Link href="/industries/financial-accounting" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Financial & Accounting
+                </Link>
+                <Link href="/industries/ai-ml-data" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  AI/ML & Data Talent
+                </Link>
+                <Link href="/industries/legal" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Legal
+                </Link>
+                <Link href="/industries/warehouse-distribution" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Warehouse & Distribution
+                </Link>
+                <Link href="/industries/logistics" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Logistics
+                </Link>
+                <Link href="/industries/hospitality" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Hospitality
+                </Link>
+                <Link href="/industries/human-resources" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Human Resources
+                </Link>
+                <Link href="/industries/telecom-technology" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Telecom / Technology / ISP
+                </Link>
+                <Link href="/industries/automobile" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Automobile
+                </Link>
+                <Link href="/industries/retail" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Retail
+                </Link>
+                <Link href="/industries/government-public-sector" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Government & Public Sector
+                </Link>
+              </div>
+            </div>
+
+            {/* Competencies Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+                <span>Competencies</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4 max-h-[80vh] overflow-y-auto">
+                <Link href="/competencies/devops" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  DevOps
+                </Link>
+                <Link href="/competencies/cloud-computing" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Cloud Computing
+                </Link>
+                <Link href="/competencies/ai-machine-learning" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  AI & Machine Learning
+                </Link>
+                <Link href="/competencies/data-engineering-analytics" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Data Engineering & Analytics
+                </Link>
+                <Link href="/competencies/cybersecurity" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Cybersecurity
+                </Link>
+                <Link href="/competencies/quality-assurance" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Quality Assurance
+                </Link>
+                <Link href="/competencies/web-technologies" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Web Technologies
+                </Link>
+                <Link href="/competencies/enterprise-mobility" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Enterprise Mobility
+                </Link>
+                <Link href="/competencies/native-app-development" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Native App Development
+                </Link>
+                <Link href="/competencies/databases" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Databases
+                </Link>
+                <Link href="/competencies/analytics" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Analytics
+                </Link>
+                <Link href="/competencies/data-warehousing-bi" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Data Warehousing / BI
+                </Link>
+              </div>
+            </div>
+
+            {/* Services Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+                <span>Services</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4">
+                <Link href="/services/custom-software-development" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Custom Software Development
+                </Link>
+                <Link href="/services/system-integration" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  System Integration
+                </Link>
+                <Link href="/services/quality-assurance" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Quality Assurance
+                </Link>
+                <Link href="/services/staff-augmentation" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Staff Augmentation
+                </Link>
+                <Link href="/services/rpo" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  RPO
+                </Link>
+                <Link href="/services/hr-outsourcing" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  HR Outsourcing
+                </Link>
+                <Link href="/services/consulting" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  IT Consulting
                 </Link>
               </div>
             </div>
@@ -67,25 +177,6 @@ export default function Navbar() {
             <Link href="/academy" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
               Academy
             </Link>
-
-            {/* Resources Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
-                <span>Resources</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4">
-                <Link href="/resources/blog" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
-                  Blog
-                </Link>
-                <Link href="/resources/salary-guides" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
-                  Salary Guides
-                </Link>
-                <Link href="/resources/success-stories" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
-                  Success Stories
-                </Link>
-              </div>
-            </div>
 
             <Link href="/company/about" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
               Company
