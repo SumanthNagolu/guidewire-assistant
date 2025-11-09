@@ -205,20 +205,41 @@ export default function ScreenerDashboard() {
       }
 
       // Update daily metrics
-      await supabase.rpc('increment_daily_metric', {
-        p_user_id: user.id,
-        p_metric_date: new Date().toISOString().split('T')[0],
-        p_metric_name: 'calls_made',
-        p_increment: 1
-      });
+      const today = new Date().toISOString().split('T')[0];
+      const { data: existingMetric } = await supabase
+        .from('daily_metrics' as any)
+        .select('calls_made, calls_qualified, cross_sell_leads_tagged')
+        .eq('user_id', user.id)
+        .eq('metric_date', today)
+        .single() as any;
+
+      const updates: any = {
+        calls_made: (existingMetric?.calls_made || 0) + 1,
+        updated_at: new Date().toISOString()
+      };
 
       if (callOutcome.outcome === 'qualified') {
-        await supabase.rpc('increment_daily_metric', {
-          p_user_id: user.id,
-          p_metric_date: new Date().toISOString().split('T')[0],
-          p_metric_name: 'calls_qualified',
-          p_increment: 1
-        });
+        updates.calls_qualified = (existingMetric?.calls_qualified || 0) + 1;
+      }
+
+      if (callOutcome.crossSellTags.length > 0) {
+        updates.cross_sell_leads_tagged = (existingMetric?.cross_sell_leads_tagged || 0) + callOutcome.crossSellTags.length;
+      }
+
+      if (existingMetric) {
+        await supabase
+          .from('daily_metrics' as any)
+          .update(updates)
+          .eq('user_id', user.id)
+          .eq('metric_date', today) as any;
+      } else {
+        await supabase
+          .from('daily_metrics' as any)
+          .insert({
+            user_id: user.id,
+            metric_date: today,
+            ...updates
+          }) as any;
       }
 
       // Reset and reload

@@ -149,12 +149,32 @@ export default function AccountManagerDashboard() {
         .in('id', selectedIds) as any;
 
       // Update metrics
-      await supabase.rpc('increment_daily_metric', {
-        p_user_id: user.id,
-        p_metric_date: new Date().toISOString().split('T')[0],
-        p_metric_name: 'submissions_made',
-        p_increment: selectedIds.length
-      });
+      const today = new Date().toISOString().split('T')[0];
+      const { data: existingMetric } = await supabase
+        .from('daily_metrics' as any)
+        .select('submissions_made')
+        .eq('user_id', user.id)
+        .eq('metric_date', today)
+        .single() as any;
+
+      if (existingMetric) {
+        await supabase
+          .from('daily_metrics' as any)
+          .update({ 
+            submissions_made: (existingMetric.submissions_made || 0) + selectedIds.length,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', user.id)
+          .eq('metric_date', today) as any;
+      } else {
+        await supabase
+          .from('daily_metrics' as any)
+          .insert({
+            user_id: user.id,
+            metric_date: today,
+            submissions_made: selectedIds.length
+          }) as any;
+      }
 
       // Clear selection and reload
       setSelected(new Set());
