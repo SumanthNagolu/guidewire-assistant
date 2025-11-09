@@ -123,9 +123,24 @@ export default function Navbar() {
               Company
             </Link>
 
-            <Link href="/careers" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
-              Careers
-            </Link>
+            {/* Careers Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+                <span>Careers</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4 z-50">
+                <Link href="/careers/join-our-team" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Join Our Team
+                </Link>
+                <Link href="/careers/open-positions" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Open Positions
+                </Link>
+                <Link href="/careers/available-talent" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
+                  Available Talent
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* CTA Button */}
@@ -164,9 +179,22 @@ export default function Navbar() {
             <Link href="/academy" className="block text-wisdom-gray hover:text-trust-blue font-medium">
               Academy
             </Link>
-            <Link href="/careers" className="block text-wisdom-gray hover:text-trust-blue font-medium">
-              Careers
-            </Link>
+            
+            <div>
+              <div className="text-trust-blue font-semibold mb-2 text-sm uppercase tracking-wider">Careers</div>
+              <div className="pl-4 space-y-2">
+                <Link href="/careers/join-our-team" className="block text-wisdom-gray hover:text-trust-blue font-medium text-sm">
+                  Join Our Team
+                </Link>
+                <Link href="/careers/open-positions" className="block text-wisdom-gray hover:text-trust-blue font-medium text-sm">
+                  Open Positions
+                </Link>
+                <Link href="/careers/available-talent" className="block text-wisdom-gray hover:text-trust-blue font-medium text-sm">
+                  Available Talent
+                </Link>
+              </div>
+            </div>
+            
             <Link href="/company/about" className="block text-wisdom-gray hover:text-trust-blue font-medium">
               About Us
             </Link>
