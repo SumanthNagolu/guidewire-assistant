@@ -37,18 +37,19 @@ export default async function EmployeeDashboardPage() {
     redirect('/dashboard'); // Redirect to student dashboard
   }
 
-  // Admin users should go to admin portal
-  if (profile.role === 'admin') {
-    redirect('/admin');
-  }
-
-  // Check for pod-specific role (sourcer, screener, account_manager)
+  // Check for pod-specific role FIRST (sourcer, screener, account_manager)
+  // This allows admins to test pod roles
   const { data: podMember } = await supabase
     .from('pod_members')
     .select('role, pod_id')
     .eq('user_id', user.id)
     .eq('is_active', true)
     .single();
+
+  // If no pod role and user is admin, redirect to admin portal
+  if (!podMember && profile.role === 'admin') {
+    redirect('/admin');
+  }
 
   // Route based on pod role first (more specific), then profile role
   return (
