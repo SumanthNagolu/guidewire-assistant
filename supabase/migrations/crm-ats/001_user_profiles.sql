@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 );
 
 -- Indexes
-CREATE INDEX idx_user_profiles_role ON user_profiles(role);
-CREATE INDEX idx_user_profiles_manager ON user_profiles(manager_id);
-CREATE INDEX idx_user_profiles_email ON user_profiles(email);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_role ON user_profiles(role);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_manager ON user_profiles(manager_id);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(email);
 
 -- Auto-update updated_at
 CREATE OR REPLACE FUNCTION update_updated_at()
@@ -31,6 +31,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS user_profiles_updated_at ON user_profiles;
 CREATE TRIGGER user_profiles_updated_at
   BEFORE UPDATE ON user_profiles
   FOR EACH ROW
@@ -38,6 +39,12 @@ CREATE TRIGGER user_profiles_updated_at
 
 -- RLS Policies
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Users can view own profile" ON user_profiles;
+DROP POLICY IF EXISTS "Admins can view all profiles" ON user_profiles;
+DROP POLICY IF EXISTS "Users can update own profile" ON user_profiles;
+DROP POLICY IF EXISTS "Admins can update any profile" ON user_profiles;
 
 -- Users can read their own profile
 CREATE POLICY "Users can view own profile"
@@ -86,6 +93,7 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Trigger to create profile on user signup
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW

@@ -1,7 +1,7 @@
 -- Clients Table
 -- Companies we work with for staffing
 
-CREATE TABLE clients (
+CREATE TABLE IF NOT EXISTS clients (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   
   -- Company Details
@@ -48,13 +48,14 @@ CREATE TABLE clients (
 );
 
 -- Indexes
-CREATE INDEX idx_clients_status ON clients(status);
-CREATE INDEX idx_clients_account_manager ON clients(account_manager_id);
-CREATE INDEX idx_clients_sales_rep ON clients(sales_rep_id);
-CREATE INDEX idx_clients_name ON clients(name);
-CREATE INDEX idx_clients_tier ON clients(tier);
+CREATE INDEX IF NOT EXISTS idx_clients_status ON clients(status);
+CREATE INDEX IF NOT EXISTS idx_clients_account_manager ON clients(account_manager_id);
+CREATE INDEX IF NOT EXISTS idx_clients_sales_rep ON clients(sales_rep_id);
+CREATE INDEX IF NOT EXISTS idx_clients_name ON clients(name);
+CREATE INDEX IF NOT EXISTS idx_clients_tier ON clients(tier);
 
 -- Auto-update updated_at
+DROP TRIGGER IF EXISTS clients_updated_at ON clients;
 CREATE TRIGGER clients_updated_at
   BEFORE UPDATE ON clients
   FOR EACH ROW
@@ -62,6 +63,11 @@ CREATE TRIGGER clients_updated_at
 
 -- RLS Policies
 ALTER TABLE clients ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies
+DROP POLICY IF EXISTS "Users can view assigned clients" ON clients;
+DROP POLICY IF EXISTS "Sales can insert clients" ON clients;
+DROP POLICY IF EXISTS "Users can update assigned clients" ON clients;
 
 -- Sales/Account Managers can view their clients
 CREATE POLICY "Users can view assigned clients"
@@ -100,7 +106,7 @@ CREATE POLICY "Users can update assigned clients"
   );
 
 -- Contacts Table
-CREATE TABLE contacts (
+CREATE TABLE IF NOT EXISTS contacts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
   
@@ -132,11 +138,12 @@ CREATE TABLE contacts (
 );
 
 -- Indexes
-CREATE INDEX idx_contacts_client ON contacts(client_id);
-CREATE INDEX idx_contacts_email ON contacts(email);
-CREATE INDEX idx_contacts_is_primary ON contacts(is_primary) WHERE is_primary = true;
+CREATE INDEX IF NOT EXISTS idx_contacts_client ON contacts(client_id);
+CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
+CREATE INDEX IF NOT EXISTS idx_contacts_is_primary ON contacts(is_primary) WHERE is_primary = true;
 
 -- Auto-update updated_at
+DROP TRIGGER IF EXISTS contacts_updated_at ON contacts;
 CREATE TRIGGER contacts_updated_at
   BEFORE UPDATE ON contacts
   FOR EACH ROW
@@ -144,6 +151,10 @@ CREATE TRIGGER contacts_updated_at
 
 -- RLS Policies
 ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies
+DROP POLICY IF EXISTS "Users can view contacts of assigned clients" ON contacts;
+DROP POLICY IF EXISTS "Users can manage contacts of assigned clients" ON contacts;
 
 -- Inherit permissions from parent client
 CREATE POLICY "Users can view contacts of assigned clients"

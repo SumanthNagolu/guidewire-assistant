@@ -1,7 +1,7 @@
 -- Candidates Table
 -- Core ATS entity for tracking potential hires
 
-CREATE TABLE candidates (
+CREATE TABLE IF NOT EXISTS candidates (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   
   -- Personal Details
@@ -51,15 +51,15 @@ CREATE TABLE candidates (
 );
 
 -- Indexes
-CREATE INDEX idx_candidates_email ON candidates(email);
-CREATE INDEX idx_candidates_status ON candidates(status);
-CREATE INDEX idx_candidates_owner ON candidates(owner_id);
-CREATE INDEX idx_candidates_skills ON candidates USING GIN(skills);
-CREATE INDEX idx_candidates_created ON candidates(created_at DESC);
-CREATE INDEX idx_candidates_deleted ON candidates(deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_candidates_email ON candidates(email);
+CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates(status);
+CREATE INDEX IF NOT EXISTS idx_candidates_owner ON candidates(owner_id);
+CREATE INDEX IF NOT EXISTS idx_candidates_skills ON candidates USING GIN(skills);
+CREATE INDEX IF NOT EXISTS idx_candidates_created ON candidates(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_candidates_deleted ON candidates(deleted_at) WHERE deleted_at IS NULL;
 
 -- Full-text search index
-CREATE INDEX idx_candidates_search ON candidates USING GIN(
+CREATE INDEX IF NOT EXISTS idx_candidates_search ON candidates USING GIN(
   to_tsvector('english', 
     COALESCE(first_name, '') || ' ' || 
     COALESCE(last_name, '') || ' ' || 
@@ -69,6 +69,7 @@ CREATE INDEX idx_candidates_search ON candidates USING GIN(
 );
 
 -- Auto-update updated_at
+DROP TRIGGER IF EXISTS candidates_updated_at ON candidates;
 CREATE TRIGGER candidates_updated_at
   BEFORE UPDATE ON candidates
   FOR EACH ROW
@@ -76,6 +77,12 @@ CREATE TRIGGER candidates_updated_at
 
 -- RLS Policies
 ALTER TABLE candidates ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies
+DROP POLICY IF EXISTS "Recruiters can view own candidates" ON candidates;
+DROP POLICY IF EXISTS "Recruiters can insert candidates" ON candidates;
+DROP POLICY IF EXISTS "Recruiters can update own candidates" ON candidates;
+DROP POLICY IF EXISTS "Recruiters can soft delete own candidates" ON candidates;
 
 -- Recruiters can view their own candidates
 CREATE POLICY "Recruiters can view own candidates"
