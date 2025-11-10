@@ -33,6 +33,9 @@ export default function Navbar() {
                     src="/logo-transparent.png" 
                     alt="InTime Logo" 
                     className="h-12 w-auto"
+                    style={{ 
+                      filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)'
+                    }}
                   />
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading leading-none">
