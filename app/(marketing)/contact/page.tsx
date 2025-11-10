@@ -30,10 +30,10 @@ export default function ContactPage() {
               <h3 className="text-xl font-heading font-semibold text-wisdom-gray-700 mb-2">
                 For Immediate Needs
               </h3>
-              <a href="tel:1-800-468-4631" className="text-2xl font-mono font-bold text-trust-blue hover:text-trust-blue-600 block mb-2">
-                1-800-INTIME1
+              <a href="tel:+13076502850" className="text-2xl font-mono font-bold text-trust-blue hover:text-trust-blue-600 block mb-2">
+                +1 307-650-2850
               </a>
-              <p className="text-sm text-wisdom-gray">(468-4631)</p>
+              <p className="text-sm text-wisdom-gray">🇺🇸 USA</p>
               <p className="text-sm text-success-green mt-2">Available 24/7 for urgent requirements</p>
             </div>
 
@@ -45,8 +45,8 @@ export default function ContactPage() {
               <h3 className="text-xl font-heading font-semibold text-wisdom-gray-700 mb-2">
                 For Business Inquiries
               </h3>
-              <a href="mailto:enterprise@intime-esolutions.com" className="text-trust-blue hover:text-trust-blue-600 font-semibold block mb-2">
-                enterprise@intime-esolutions.com
+              <a href="mailto:enterprise@intimesolutions.com" className="text-trust-blue hover:text-trust-blue-600 font-semibold block mb-2">
+                enterprise@intimesolutions.com
               </a>
               <p className="text-sm text-success-green mt-2">Response within 2 hours during business hours</p>
             </div>
@@ -59,8 +59,8 @@ export default function ContactPage() {
               <h3 className="text-xl font-heading font-semibold text-wisdom-gray-700 mb-2">
                 For Career Support
               </h3>
-              <a href="mailto:careers@intime-esolutions.com" className="text-success-green hover:text-success-green-600 font-semibold block mb-2">
-                careers@intime-esolutions.com
+              <a href="mailto:careers@intimesolutions.com" className="text-success-green hover:text-success-green-600 font-semibold block mb-2">
+                careers@intimesolutions.com
               </a>
               <p className="text-sm text-success-green mt-2">Free consultation available</p>
             </div>
@@ -73,8 +73,8 @@ export default function ContactPage() {
               <h3 className="text-xl font-heading font-semibold text-wisdom-gray-700 mb-2">
                 For Training Programs
               </h3>
-              <a href="mailto:academy@intime-esolutions.com" className="text-innovation-orange hover:text-innovation-orange-600 font-semibold block mb-2">
-                academy@intime-esolutions.com
+              <a href="mailto:academy@intimesolutions.com" className="text-innovation-orange hover:text-innovation-orange-600 font-semibold block mb-2">
+                academy@intimesolutions.com
               </a>
               <p className="text-sm text-success-green mt-2">Speak with education counselor</p>
             </div>

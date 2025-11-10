@@ -165,11 +165,8 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* CTA Button & User Menu */}
+          {/* User Menu */}
           <div className="hidden lg:flex items-center gap-4">
-            <Link href="/contact" className="btn-primary text-sm">
-              Get Started
-            </Link>
             <UserMenu />
           </div>
 

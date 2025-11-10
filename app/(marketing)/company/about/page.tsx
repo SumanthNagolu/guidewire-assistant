@@ -252,7 +252,7 @@ export default function AboutPage() {
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-trust-blue hover:text-trust-blue-600 font-medium">
                       LinkedIn →
                     </a>
-                    <a href="mailto:sumanth@intime-esolutions.com" className="text-success-green hover:text-success-green-600 font-medium">
+                    <a href="mailto:sumanth@intimesolutions.com" className="text-success-green hover:text-success-green-600 font-medium">
                       Email →
                     </a>
                   </div>

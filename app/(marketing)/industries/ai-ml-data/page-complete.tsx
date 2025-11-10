@@ -70,9 +70,9 @@ export default function AiMlDataPage() {
             </h2>
             <div className="grid md:grid-cols-3 gap-8 mb-12">
               {[
-                { title: 'Production-Ready Skills', desc: 'Not just research—our talent ships models to prod at scale.' },
-                { title: 'Full Stack AI', desc: 'Data pipeline → model training → deployment → monitoring.' },
-                { title: 'Latest Tech Stack', desc: 'GPT-4, Claude, Llama, RAG, LangChain, vector DBs—we hire for today's AI.' },
+                { title: 'Production-Ready Skills', desc: 'Not just research - our talent ships models to prod at scale.' },
+                { title: 'Full Stack AI', desc: 'Data pipeline to model training to deployment to monitoring.' },
+                { title: 'Latest Tech Stack', desc: 'GPT-4, Claude, Llama, RAG, LangChain, vector DBs - we hire for today AI.' },
               ].map((item, index) => (
                 <div key={index} className="text-center">
                   <div className="h-16 w-16 bg-success-green-50 rounded-full flex items-center justify-center mx-auto mb-4">

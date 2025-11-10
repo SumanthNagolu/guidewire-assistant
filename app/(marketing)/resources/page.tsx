@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Calendar, Clock, User, ArrowRight, Search, Filter } from 'lucide-react';
 
@@ -211,7 +213,9 @@ export default function ResourcesPage() {
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-6xl">📰</span></div>';
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-6xl">📰</span></div>';
+                      }
                     }}
                   />
                 </div>
@@ -278,7 +282,9 @@ export default function ResourcesPage() {
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-5xl">📄</span></div>';
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-5xl">📄</span></div>';
+                      }
                     }}
                   />
                 </div>

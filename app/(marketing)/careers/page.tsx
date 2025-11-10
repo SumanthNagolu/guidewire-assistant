@@ -267,16 +267,6 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Add marquee animation */}
-      <style jsx>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 35s linear infinite;
-        }
-      `}</style>
     </>
   );
 }
