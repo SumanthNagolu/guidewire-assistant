@@ -32,7 +32,7 @@ export default function Navbar() {
                   <img 
                     src="/logo-transparent.png" 
                     alt="InTime Logo" 
-                    className="h-12 w-auto brightness-0 invert"
+                    className="h-12 w-auto"
                   />
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading leading-none">
