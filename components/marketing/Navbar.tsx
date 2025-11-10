@@ -30,13 +30,15 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <img 
-              src="/logo3.png" 
+              src="/logo2.png" 
               alt="InTime Logo" 
               className="h-12 w-auto"
             />
-            <div className="text-2xl font-heading font-bold">
-              <span className="text-trust-blue">InTime</span>{" "}
-              <span className="font-light" style={{ color: '#0E7490' }}>{getSecondWord()}</span>
+            <div className="flex items-center h-12">
+              <div className="text-3xl font-heading font-bold leading-none">
+                <span className="text-trust-blue">InTime</span>{" "}
+                <span className="text-innovation-orange font-light">{getSecondWord()}</span>
+              </div>
             </div>
           </Link>
           
@@ -47,7 +49,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-8">
             {/* Solutions Dropdown */}
             <div className="relative group">
-              <Link href="/solutions" className="flex items-center space-x-1 font-medium transition-colors" style={{ color: '#0E7490' }}>
+              <Link href="/solutions" className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
                 <span>Staffing</span>
                 <ChevronDown className="w-4 h-4" />
               </Link>
@@ -106,7 +108,7 @@ export default function Navbar() {
 
             {/* Industries Dropdown */}
             <div className="relative group">
-              <Link href="/industries" className="flex items-center space-x-1 font-medium transition-colors" style={{ color: '#0E7490' }}>
+              <Link href="/industries" className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
                 <span>Industries</span>
                 <ChevronDown className="w-4 h-4" />
               </Link>
@@ -161,7 +163,7 @@ export default function Navbar() {
 
             {/* Careers Dropdown */}
             <div className="relative group">
-              <Link href="/careers" className="flex items-center space-x-1 font-medium transition-colors" style={{ color: '#0E7490' }}>
+              <Link href="/careers" className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
                 <span>Careers</span>
                 <ChevronDown className="w-4 h-4" />
               </Link>
@@ -178,11 +180,11 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="/resources" className="font-medium transition-colors hover:opacity-70" style={{ color: '#0E7490' }}>
+            <Link href="/resources" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
               Resources
             </Link>
 
-            <Link href="/academy" className="font-medium transition-colors hover:opacity-70" style={{ color: '#0E7490' }}>
+            <Link href="/academy" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
               Academy
             </Link>
           </div>
@@ -195,8 +197,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-md hover:bg-gray-100"
-            style={{ color: '#0E7490' }}
+            className="lg:hidden p-2 rounded-md text-wisdom-gray hover:bg-gray-100"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
