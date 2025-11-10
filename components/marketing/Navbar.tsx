@@ -30,9 +30,9 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <img 
-              src="/logo-icon.svg" 
+              src="/logo.png" 
               alt="InTime Logo" 
-              className="w-12 h-12"
+              className="h-12 w-auto"
             />
             <div className="text-2xl font-heading font-bold">
               <span className="text-trust-blue">InTime</span>{" "}
@@ -44,26 +44,32 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-8">
             {/* Solutions Dropdown */}
             <div className="relative group">
-              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+              <Link href="/solutions" className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
                 <span>Solutions</span>
                 <ChevronDown className="w-4 h-4" />
-              </button>
+              </Link>
               <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4">
+                <Link href="/solutions" className="block px-6 py-3 text-sm font-semibold text-trust-blue hover:bg-gray-50 border-b border-gray-100">
+                  → View All Solutions
+                </Link>
                 <Link href="/solutions/it-staffing" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                   IT Staffing
                 </Link>
                 
                 {/* Nested Consulting Menu */}
                 <div className="relative group">
-                  <div className="flex items-center justify-between px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue cursor-pointer">
+                  <Link href="/consulting" className="flex items-center justify-between px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                     <span className="font-medium">Consulting</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                  </div>
+                  </Link>
                   
                   {/* Flyout Menu */}
                   <div className="absolute left-full top-0 ml-1 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4 z-50">
+                    <Link href="/consulting" className="block px-6 py-3 text-sm font-semibold text-trust-blue hover:bg-gray-50 border-b border-gray-100">
+                      → View All Consulting
+                    </Link>
                     <Link href="/consulting/competencies" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                       Our Competencies
                     </Link>
@@ -84,11 +90,14 @@ export default function Navbar() {
 
             {/* Industries Dropdown */}
             <div className="relative group">
-              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+              <Link href="/industries" className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
                 <span>Industries</span>
                 <ChevronDown className="w-4 h-4" />
-              </button>
+              </Link>
               <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4 max-h-[80vh] overflow-y-auto">
+                <Link href="/industries" className="block px-6 py-3 text-sm font-semibold text-trust-blue hover:bg-gray-50 border-b border-gray-100 sticky top-0 bg-white">
+                  → View All Industries
+                </Link>
                 <Link href="/industries/information-technology" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                   Information Technology
                 </Link>
@@ -139,11 +148,14 @@ export default function Navbar() {
 
             {/* Careers Dropdown */}
             <div className="relative group">
-              <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+              <Link href="/careers" className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
                 <span>Careers</span>
                 <ChevronDown className="w-4 h-4" />
-              </button>
+              </Link>
               <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-4 z-50">
+                <Link href="/careers" className="block px-6 py-3 text-sm font-semibold text-trust-blue hover:bg-gray-50 border-b border-gray-100">
+                  → View All Career Paths
+                </Link>
                 <Link href="/careers/join-our-team" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                   Join Our Team
                 </Link>
