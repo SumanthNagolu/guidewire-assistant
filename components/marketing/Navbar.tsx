@@ -28,12 +28,11 @@ export default function Navbar() {
       <div className="section-container">
         <div className="flex items-center h-20">
           {/* Logo */}
-                <Link href="/" className="flex items-center gap-3">
+                <Link href="/" className="flex items-center gap-2">
                   <img 
                     src="/logo-transparent.png" 
                     alt="InTime Logo" 
-                    className="h-12 w-auto"
-                    style={{ mixBlendMode: 'multiply', filter: 'brightness(0) invert(1)' }}
+                    className="h-12 w-auto brightness-0 invert"
                   />
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading leading-none">
