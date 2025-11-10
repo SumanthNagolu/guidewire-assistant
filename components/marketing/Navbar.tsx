@@ -30,14 +30,14 @@ export default function Navbar() {
           {/* Logo */}
                   <Link href="/" className="flex items-center gap-3">
                     <img 
-                      src="/logo4.png" 
+                      src="/logo5.png" 
                       alt="InTime Logo" 
                       className="h-12 w-auto"
                     />
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading font-bold leading-none">
-                <span className="text-white">InTime</span>{" "}
-                <span className="text-innovation-orange font-light">{getSecondWord()}</span>
+                <span className="text-white font-bold">InTime</span>{" "}
+                <span className="text-white font-bold">{getSecondWord()}</span>
               </div>
             </div>
           </Link>
@@ -49,7 +49,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-8">
             {/* Solutions Dropdown */}
             <div className="relative group">
-              <Link href="/solutions" className="flex items-center space-x-1 text-white hover:text-innovation-orange font-medium transition-colors">
+              <Link href="/solutions" className="flex items-center space-x-1 text-white hover:text-innovation-orange font-bold transition-colors">
                 <span>Solutions</span>
                 <ChevronDown className="w-4 h-4" />
               </Link>
@@ -108,7 +108,7 @@ export default function Navbar() {
 
             {/* Industries Dropdown */}
             <div className="relative group">
-              <Link href="/industries" className="flex items-center space-x-1 text-white hover:text-innovation-orange font-medium transition-colors">
+              <Link href="/industries" className="flex items-center space-x-1 text-white hover:text-innovation-orange font-bold transition-colors">
                 <span>Industries</span>
                 <ChevronDown className="w-4 h-4" />
               </Link>
@@ -163,7 +163,7 @@ export default function Navbar() {
 
             {/* Careers Dropdown */}
             <div className="relative group">
-              <Link href="/careers" className="flex items-center space-x-1 text-white hover:text-innovation-orange font-medium transition-colors">
+              <Link href="/careers" className="flex items-center space-x-1 text-white hover:text-innovation-orange font-bold transition-colors">
                 <span>Careers</span>
                 <ChevronDown className="w-4 h-4" />
               </Link>
@@ -180,11 +180,11 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="/resources" className="text-white hover:text-innovation-orange font-medium transition-colors">
+            <Link href="/resources" className="text-white hover:text-innovation-orange font-bold transition-colors">
               Resources
             </Link>
 
-            <Link href="/academy" className="text-white hover:text-innovation-orange font-medium transition-colors">
+            <Link href="/academy" className="text-white hover:text-innovation-orange font-bold transition-colors">
               Academy
             </Link>
 
@@ -206,38 +206,38 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-trust-blue-700 border-t border-white/10">
           <div className="section-container py-6 space-y-4">
-            <Link href="/solutions/it-staffing" className="block text-white hover:text-innovation-orange font-medium">
+            <Link href="/solutions/it-staffing" className="block text-white hover:text-innovation-orange font-bold">
               IT Staffing
             </Link>
-            <Link href="/solutions/consulting" className="block text-white hover:text-innovation-orange font-medium">
+            <Link href="/solutions/consulting" className="block text-white hover:text-innovation-orange font-bold">
               Consulting
             </Link>
-            <Link href="/solutions/cross-border" className="block text-white hover:text-innovation-orange font-medium">
+            <Link href="/solutions/cross-border" className="block text-white hover:text-innovation-orange font-bold">
               Cross-Border Solutions
             </Link>
-            <Link href="/solutions/training" className="block text-white hover:text-innovation-orange font-medium">
+            <Link href="/solutions/training" className="block text-white hover:text-innovation-orange font-bold">
               Training & Development
             </Link>
             
             <div>
-              <div className="text-innovation-orange font-semibold mb-2 text-sm uppercase tracking-wider">Careers</div>
+              <div className="text-white font-bold mb-2 text-sm uppercase tracking-wider">Careers</div>
               <div className="pl-4 space-y-2">
-                <Link href="/careers/join-our-team" className="block text-white hover:text-innovation-orange font-medium text-sm">
+                <Link href="/careers/join-our-team" className="block text-white hover:text-innovation-orange font-bold text-sm">
                   Join Our Team
                 </Link>
-                <Link href="/careers/open-positions" className="block text-white hover:text-innovation-orange font-medium text-sm">
+                <Link href="/careers/open-positions" className="block text-white hover:text-innovation-orange font-bold text-sm">
                   Open Positions
                 </Link>
-                <Link href="/careers/available-talent" className="block text-white hover:text-innovation-orange font-medium text-sm">
+                <Link href="/careers/available-talent" className="block text-white hover:text-innovation-orange font-bold text-sm">
                   Available Talent
                 </Link>
               </div>
             </div>
             
-            <Link href="/resources" className="block text-white hover:text-innovation-orange font-medium">
+            <Link href="/resources" className="block text-white hover:text-innovation-orange font-bold">
               Resources
             </Link>
-            <Link href="/academy" className="block text-white hover:text-innovation-orange font-medium">
+            <Link href="/academy" className="block text-white hover:text-innovation-orange font-bold">
               Academy
             </Link>
             <Link href="/contact" className="block btn-primary text-center text-sm mt-4">
