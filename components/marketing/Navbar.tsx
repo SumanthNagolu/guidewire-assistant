@@ -35,9 +35,9 @@ export default function Navbar() {
                       className="h-12 w-auto"
                     />
             <div className="flex items-center h-12">
-              <div className="text-3xl font-heading font-bold leading-none">
+              <div className="text-3xl font-heading leading-none">
                 <span className="text-white font-bold">InTime</span>{" "}
-                <span className="text-white font-bold">{getSecondWord()}</span>
+                <span className="text-innovation-orange font-light">{getSecondWord()}</span>
               </div>
             </div>
           </Link>
