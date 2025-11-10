@@ -6,6 +6,36 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import UserMenu from "./UserMenu";
 import { usePathname } from "next/navigation";
 
+const LogoSymbol = () => (
+  <svg
+    className="h-12 w-12"
+    viewBox="0 0 512 512"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <g transform="translate(100, 100)">
+      <path
+        d="M156 50 L256 150 L356 50 M156 262 L256 162 L356 262"
+        stroke="white"
+        strokeWidth={32}
+        strokeLinecap="round"
+      />
+      <circle cx={156} cy={50} r={24} fill="white" />
+      <circle cx={356} cy={50} r={24} fill="white" />
+      <circle cx={156} cy={262} r={24} fill="white" />
+      <circle cx={356} cy={262} r={24} fill="white" />
+      <circle cx={256} cy={156} r={16} fill="#FF6B35" />
+      <path
+        d="M240 156h32 M256 140v32"
+        stroke="#FF6B35"
+        strokeWidth={4}
+        strokeLinecap="round"
+      />
+    </g>
+  </svg>
+);
+
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -28,21 +58,8 @@ export default function Navbar() {
       <div className="section-container">
         <div className="flex items-center h-20">
           {/* Logo */}
-                <Link href="/" className="flex items-center gap-2">
-                  <div
-                    aria-hidden="true"
-                    className="h-12 w-12 bg-white"
-                    style={{
-                      WebkitMaskImage: "url('/logo-transparent.png')",
-                      maskImage: "url('/logo-transparent.png')",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskRepeat: "no-repeat",
-                      WebkitMaskPosition: "center",
-                      maskPosition: "center",
-                      WebkitMaskSize: "contain",
-                      maskSize: "contain",
-                    }}
-                  />
+                <Link href="/" className="flex items-center gap-3">
+                  <LogoSymbol />
                   <span className="sr-only">InTime</span>
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading leading-none">
