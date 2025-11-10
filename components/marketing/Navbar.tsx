@@ -29,14 +29,21 @@ export default function Navbar() {
         <div className="flex items-center h-20">
           {/* Logo */}
                 <Link href="/" className="flex items-center gap-2">
-                  <img 
-                    src="/logo-transparent.png" 
-                    alt="InTime Logo" 
-                    className="h-12 w-auto"
-                    style={{ 
-                      filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)'
+                  <div
+                    aria-hidden="true"
+                    className="h-12 w-12 bg-white"
+                    style={{
+                      WebkitMaskImage: "url('/logo-transparent.png')",
+                      maskImage: "url('/logo-transparent.png')",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskPosition: "center",
+                      maskPosition: "center",
+                      WebkitMaskSize: "contain",
+                      maskSize: "contain",
                     }}
                   />
+                  <span className="sr-only">InTime</span>
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading leading-none">
                 <span className="text-white font-bold">InTime</span>{" "}
