@@ -30,7 +30,7 @@ export default function Navbar() {
           {/* Logo */}
                   <Link href="/" className="flex items-center gap-3">
                     <img 
-                      src="/logo5.png" 
+                      src="/logo6.png" 
                       alt="InTime Logo" 
                       className="h-12 w-auto"
                     />

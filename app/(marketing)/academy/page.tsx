@@ -79,7 +79,7 @@ export default function AcademyPage() {
         <div className="section-container">
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-sm text-wisdom-gray-700 leading-relaxed">
-              <strong>Legal Notice:</strong> InTime Academy (training) and InTime Staffing (placement) are separate entities. Training does not guarantee placement. We focus on transformation; clients hire based on merit and fit.
+              <strong>Notice:</strong> InTime Academy (training) and InTime Staffing (placement) are separate entities. Training does not guarantee placement. We focus on transformation; clients hire based on merit and fit.
             </p>
           </div>
         </div>
