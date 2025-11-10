@@ -61,23 +61,30 @@ export default function ManufacturingPage() {
         </div>
       </section>
 
-      {/* The InTime Way */}
+      {/* Manufacturing Excellence */}
       <section className="py-16 bg-white">
         <div className="section-container">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-h2 font-heading mb-6 text-trust-blue">
-                The InTime Way
+                Built for Manufacturing Scale & Speed
               </h2>
               <p className="text-lg text-wisdom-gray-600 mb-6 leading-relaxed">
-                Every search is anchored in The InTime Way—excellence as the baseline, preparation that prevents panic, and relationships that endure.
+                From greenfield ramp-ups to continuous improvement programs, we deliver manufacturing talent that hits the ground running.
               </p>
               <p className="text-lg text-wisdom-gray-600 mb-6 leading-relaxed">
-                From greenfield ramp‑ups to continuous improvement programs, we align skills and certifications with your SOPs, shifts, and KPIs. Expect fast, compliant onboarding and candidates screened for reliability, craftsmanship, and lean thinking—so productivity rises without sacrificing safety or quality.
+                We align skills and certifications with your SOPs, shifts, and KPIs. Expect fast, compliant onboarding and candidates screened for reliability, craftsmanship, and lean thinking—so productivity rises without sacrificing safety or quality.
               </p>
-              <p className="text-lg text-wisdom-gray-700 font-semibold">
-                Our commitment is integrity, speed, and measurable impact.
-              </p>
+              <div className="grid grid-cols-2 gap-6 mt-8">
+                <div>
+                  <div className="text-3xl font-bold text-trust-blue mb-2">48hrs</div>
+                  <div className="text-sm text-wisdom-gray-600">Average time to first candidate</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-success-green mb-2">95%</div>
+                  <div className="text-sm text-wisdom-gray-600">Placement retention rate</div>
+                </div>
+              </div>
             </div>
             <div className="bg-gradient-to-br from-success-green-50 to-success-green-500/10 p-8 rounded-2xl">
               <h3 className="text-h4 font-heading mb-6 text-trust-blue">Services We Provide</h3>
