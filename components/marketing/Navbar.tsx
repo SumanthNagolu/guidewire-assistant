@@ -14,8 +14,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-heading font-bold text-trust-blue">
-              InTime <span className="font-light">eSolutions</span>
+            <div className="text-2xl font-heading font-bold">
+              <span className="text-trust-blue">InTime</span>{" "}
+              <span className="text-innovation-orange font-light">eSolutions</span>
             </div>
           </Link>
 
@@ -37,7 +38,6 @@ export default function Navbar() {
                 <Link href="/solutions/training" className="block px-6 py-2 text-sm text-wisdom-gray hover:bg-gray-50 hover:text-trust-blue">
                   Training & Development
                 </Link>
-                <div className="border-t border-gray-200 my-2"></div>
                 
                 {/* Nested Consulting Menu */}
                 <div className="relative group">
@@ -116,18 +116,6 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="/academy" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
-              Academy
-            </Link>
-
-            <Link href="/resources" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
-              Resources
-            </Link>
-
-            <Link href="/company/about" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
-              Company
-            </Link>
-
             {/* Careers Dropdown */}
             <div className="relative group">
               <button className="flex items-center space-x-1 text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
@@ -146,6 +134,14 @@ export default function Navbar() {
                 </Link>
               </div>
             </div>
+
+            <Link href="/resources" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+              Resources
+            </Link>
+
+            <Link href="/academy" className="text-wisdom-gray hover:text-trust-blue font-medium transition-colors">
+              Academy
+            </Link>
           </div>
 
           {/* CTA Button & User Menu */}
@@ -182,12 +178,6 @@ export default function Navbar() {
             <Link href="/solutions/training" className="block text-wisdom-gray hover:text-trust-blue font-medium">
               Training & Development
             </Link>
-            <Link href="/academy" className="block text-wisdom-gray hover:text-trust-blue font-medium">
-              Academy
-            </Link>
-            <Link href="/resources" className="block text-wisdom-gray hover:text-trust-blue font-medium">
-              Resources
-            </Link>
             
             <div>
               <div className="text-trust-blue font-semibold mb-2 text-sm uppercase tracking-wider">Careers</div>
@@ -204,8 +194,11 @@ export default function Navbar() {
               </div>
             </div>
             
-            <Link href="/company/about" className="block text-wisdom-gray hover:text-trust-blue font-medium">
-              About Us
+            <Link href="/resources" className="block text-wisdom-gray hover:text-trust-blue font-medium">
+              Resources
+            </Link>
+            <Link href="/academy" className="block text-wisdom-gray hover:text-trust-blue font-medium">
+              Academy
             </Link>
             <Link href="/contact" className="block btn-primary text-center text-sm mt-4">
               Get Started
