@@ -52,19 +52,6 @@ export default function CareersPage() {
 
   return (
     <>
-      {/* Trending Jobs Banner */}
-      <div className="bg-gradient-to-r from-innovation-orange-500 to-trust-blue-600 text-white py-3 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap flex items-center gap-12">
-          {[...trending, ...trending].map((item, index) => (
-            <div key={index} className="inline-flex items-center gap-3">
-              <span className="text-2xl">{item.icon}</span>
-              <span className="font-semibold">{item.text}</span>
-              <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold">{item.badge}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-trust-blue-600 via-trust-blue to-trust-blue-700 text-white py-24">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
@@ -91,6 +78,19 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+
+      {/* Trending Jobs Banner */}
+      <div className="bg-gradient-to-r from-innovation-orange-500 to-trust-blue-600 text-white py-3 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap flex items-center gap-12">
+          {[...trending, ...trending].map((item, index) => (
+            <div key={index} className="inline-flex items-center gap-3">
+              <span className="text-2xl">{item.icon}</span>
+              <span className="font-semibold">{item.text}</span>
+              <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold">{item.badge}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Career Paths */}
       <section id="explore" className="py-20 bg-white">

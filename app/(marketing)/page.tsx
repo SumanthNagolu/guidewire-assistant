@@ -50,9 +50,13 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="section-container">
           <div className="text-center mb-16">
+            <div className="inline-block bg-trust-blue-50 px-6 py-2 rounded-full mb-6">
+              <span className="text-sm font-semibold text-trust-blue uppercase tracking-wider">The InTime Way</span>
+            </div>
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-wisdom-gray-700 mb-4">
               It's Not What You Do. It's <span className="text-trust-blue">HOW</span> You Do It.
             </h2>
+            <p className="text-lg text-wisdom-gray-600 italic">— Sadhguru</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-12">

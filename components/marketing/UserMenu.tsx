@@ -59,7 +59,7 @@ export default function UserMenu() {
     return (
       <Link
         href="/employee/login"
-        className="flex items-center gap-2 text-wisdom-gray hover:text-trust-blue font-medium transition-colors"
+        className="flex items-center gap-2 text-white hover:text-innovation-orange font-bold transition-colors"
       >
         <User className="w-5 h-5" />
         <span className="hidden md:inline">Sign In</span>
