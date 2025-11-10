@@ -1,11 +1,8 @@
-import Link from 'next/link';
-import { ArrowRight, Zap, Users, Globe, GraduationCap, Brain, TrendingUp } from 'lucide-react';
+"use client";
 
-export const metadata = {
-  title: 'Our Solutions | InTime eSolutions - IT Staffing, Consulting, Training & More',
-  description: 'Comprehensive workforce solutions: IT staffing, enterprise consulting, cross-border talent mobility, and Guidewire training. Transform your team with InTime.',
-  keywords: 'IT staffing, consulting services, cross-border hiring, training solutions, workforce solutions, talent acquisition',
-};
+import Link from 'next/link';
+import { ArrowRight, Zap, Users, Globe, GraduationCap, Brain, TrendingUp, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function SolutionsPage() {
   const solutions = [
@@ -53,31 +50,68 @@ export default function SolutionsPage() {
     { icon: '🌍', text: 'H1B to Canada Express Track (3-Month Visa)', badge: 'TRENDING' },
   ];
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-trust-blue-600 via-trust-blue to-trust-blue-700 text-white py-24">
+      {/* Hero Section - Full Bleed */}
+      <section className="relative bg-gradient-to-br from-trust-blue-600 via-trust-blue to-trust-blue-700 text-white py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-        <div className="section-container relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full mb-6">
+        <div className="section-wide relative z-10">
+          <div className="max-w-6xl mx-auto text-center">
+            <motion.div 
+              className="inline-block bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full mb-8"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
               <span className="text-sm font-semibold">💼 COMPLETE WORKFORCE SOLUTIONS</span>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">
-              One Partner. Infinite Possibilities.
-            </h1>
-            <p className="text-xl md:text-2xl mb-10 text-gray-100 max-w-4xl mx-auto">
+            </motion.div>
+            
+            <motion.h1 
+              className="text-6xl md:text-7xl lg:text-display font-heading font-black mb-8 leading-none"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              One Partner.<br />Infinite Possibilities.
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl md:text-2xl mb-12 text-gray-100 max-w-4xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               From emergency contractor placements to global talent mobility, enterprise consulting to training programs—InTime delivers the full spectrum of workforce solutions. No scope limitations. We scale with you.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4">
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4 hover:scale-105 transition-transform">
                 <span>Discuss Your Needs</span>
                 <ArrowRight className="h-5 w-5" />
               </Link>
-              <Link href="/company/about" className="btn-outline inline-flex items-center gap-2 text-lg px-8 py-4">
+              <Link href="/company/about" className="btn-outline inline-flex items-center gap-2 text-lg px-8 py-4 hover:scale-105 transition-transform">
                 See Our Story
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -96,143 +130,215 @@ export default function SolutionsPage() {
       </div>
 
       {/* Solutions Grid */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="section-container">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 mb-4">
-              Solutions Built for Real Business Challenges
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-heading font-bold text-wisdom-gray-700 mb-6 leading-tight">
+              Four Solutions.<br />Endless Possibilities.
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you need one developer tomorrow or a global transformation strategy—we deliver.
+            <p className="text-xl text-wisdom-gray-600 max-w-3xl mx-auto">
+              Everything you need to build, scale, and transform your workforce—all from one trusted partner.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <motion.div 
+            className="space-y-12"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {solutions.map((solution, index) => (
-              <Link
+              <motion.div 
                 key={index}
-                href={`/solutions/${solution.slug}`}
-                className="group bg-white rounded-3xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-trust-blue relative overflow-hidden"
+                variants={fadeInUp}
+                className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${solution.color} p-12 text-white card-lift`}
               >
-                {/* Gradient Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${solution.color} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
-                
-                <div className="relative z-10">
-                  <div className="h-16 w-16 bg-trust-blue-50 rounded-2xl flex items-center justify-center mb-6 text-trust-blue group-hover:bg-trust-blue group-hover:text-white transition-all">
-                    {solution.icon}
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12">
+                  <div className="flex-shrink-0">
+                    <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                      {solution.icon}
+                    </div>
                   </div>
                   
-                  <h3 className="text-3xl font-heading font-bold text-gray-900 mb-3 group-hover:text-trust-blue transition-colors">
-                    {solution.title}
-                  </h3>
+                  <div className="flex-1 text-center lg:text-left">
+                    <h3 className="text-4xl font-heading font-bold mb-4">
+                      {solution.title}
+                    </h3>
+                    <p className="text-lg mb-6 text-white/90 leading-relaxed">
+                      {solution.description}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-3 mb-6">
+                      {solution.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                          <span className="text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                   
-                  <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                    {solution.description}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    {solution.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                        <div className="h-1.5 w-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                        <span>{feature}</span>
+                  <div className="flex-shrink-0 text-center">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6">
+                      <div className="text-5xl font-heading font-black mb-2">
+                        {solution.stats.value}
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Stats */}
-                  <div className="bg-gray-50 rounded-xl p-4 mb-6">
-                    <div className="text-3xl font-bold text-trust-blue">{solution.stats.value}</div>
-                    <div className="text-sm text-gray-600">{solution.stats.label}</div>
-                  </div>
-
-                  <div className="flex items-center text-trust-blue font-semibold text-sm group-hover:gap-2 transition-all">
-                    Learn More
-                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      <div className="text-sm text-white/80">
+                        {solution.stats.label}
+                      </div>
+                    </div>
+                    <Link 
+                      href={`/solutions/${solution.slug}`}
+                      className="inline-flex items-center gap-2 bg-white text-trust-blue hover:bg-gray-100 font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105"
+                    >
+                      Learn More
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
-              </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Why Choose InTime */}
-      <section className="py-20 bg-gradient-to-br from-trust-blue-50 to-success-green-50">
+      <section className="py-24 bg-wisdom-gray-50">
         <div className="section-container">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-heading font-bold text-center text-gray-900 mb-12">
-              Why Companies Choose InTime for All Their Workforce Needs
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-heading font-bold text-wisdom-gray-700 mb-6">
+              Why InTime?
             </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="h-20 w-20 bg-trust-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Zap className="h-10 w-10 text-trust-blue" />
-                </div>
-                <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">Lightning Fast</h3>
-                <p className="text-gray-600">
-                  24-48 hour placements. Same-week consulting kickoffs. 3-month visa processing. Speed is our default.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="h-20 w-20 bg-success-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <TrendingUp className="h-10 w-10 text-success-green" />
-                </div>
-                <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">Proven Results</h3>
-                <p className="text-gray-600">
-                  95% placement success. 98% cross-border visa approval. 40-60% cost savings vs Big 4.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="h-20 w-20 bg-innovation-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Users className="h-10 w-10 text-innovation-orange" />
-                </div>
-                <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">One Partner, All Solutions</h3>
-                <p className="text-gray-600">
-                  Stop juggling 5 vendors. One relationship. One invoice. Complete workforce transformation.
-                </p>
-              </div>
-            </div>
-          </div>
+            <p className="text-xl text-wisdom-gray-600 max-w-3xl mx-auto">
+              We're not just a vendor—we're a strategic partner invested in your success.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid md:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
+              <div className="text-5xl mb-6">⚡</div>
+              <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
+                Speed That Matters
+              </h3>
+              <p className="text-wisdom-gray-600 leading-relaxed">
+                24-48 hour placements. Same-day responses. We move at your speed—without cutting corners.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
+              <div className="text-5xl mb-6">🎯</div>
+              <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
+                Precision Matching
+              </h3>
+              <p className="text-wisdom-gray-600 leading-relaxed">
+                95% first-submission success. Our AI-powered matching finds the perfect fit, not just any fit.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
+              <div className="text-5xl mb-6">🌍</div>
+              <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
+                Global Reach
+              </h3>
+              <p className="text-wisdom-gray-600 leading-relaxed">
+                50+ countries. 3 continents. One seamless experience. Break borders, not dreams.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
+              <div className="text-5xl mb-6">💼</div>
+              <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
+                Full-Spectrum Solutions
+              </h3>
+              <p className="text-wisdom-gray-600 leading-relaxed">
+                Staffing, consulting, training, cross-border—everything you need from one trusted partner.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
+              <div className="text-5xl mb-6">🤝</div>
+              <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
+                Partnership Mindset
+              </h3>
+              <p className="text-wisdom-gray-600 leading-relaxed">
+                We're invested in your long-term success. 90-day warranties and lifetime support included.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
+              <div className="text-5xl mb-6">📈</div>
+              <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
+                Proven Results
+              </h3>
+              <p className="text-wisdom-gray-600 leading-relaxed">
+                2,000+ placements. 200+ clients. 92% success rate. Numbers that speak for themselves.
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
+      <section className="py-32 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
         <div className="section-container text-center">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">
-            Ready to Transform Your Workforce?
-          </h2>
-          <p className="text-xl mb-10 text-white/90 max-w-3xl mx-auto">
-            Whether you need one contractor, enterprise consulting, global mobility, or training—let's talk. Free 30-minute consultation. No sales pitch. Just solutions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4">
-              <span>Schedule Free Consultation</span>
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-            <Link href="/careers/open-positions" className="btn-outline inline-flex items-center gap-2 text-lg px-8 py-4">
-              Explore Opportunities
-            </Link>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-heading font-bold mb-6 leading-tight">
+              Ready to Transform<br />Your Workforce?
+            </h2>
+            <p className="text-xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed">
+              Let's discuss your unique challenges and build a custom solution that delivers results.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4 hover:scale-105 transition-transform">
+                <span>Schedule a Consultation</span>
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link href="/careers/open-positions" className="btn-outline inline-flex items-center gap-2 text-lg px-8 py-4 hover:scale-105 transition-transform">
+                Browse Open Roles
+              </Link>
+            </div>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div>
-              <div className="text-4xl font-bold mb-2">🇺🇸 USA</div>
-              <a href="tel:+13076502850" className="text-white/90 hover:text-white text-lg">+1 307-650-2850</a>
+            <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              <div>
+                <div className="text-4xl font-bold mb-2">🇺🇸 USA</div>
+                <a href="tel:+13076502850" className="text-white/90 hover:text-white text-lg">+1 307-650-2850</a>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2">🇨🇦 Canada</div>
+                <a href="tel:+12892369000" className="text-white/90 hover:text-white text-lg">+1 289-236-9000</a>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2">🇮🇳 India</div>
+                <a href="tel:+917981666144" className="text-white/90 hover:text-white text-lg">+91 798-166-6144</a>
+              </div>
             </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">🇨🇦 Canada</div>
-              <a href="tel:+12892369000" className="text-white/90 hover:text-white text-lg">+1 289-236-9000</a>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">🇮🇳 India</div>
-              <a href="tel:+917981666144" className="text-white/90 hover:text-white text-lg">+91 798-166-6144</a>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
-
     </>
   );
 }
-

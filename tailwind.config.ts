@@ -90,17 +90,24 @@ const config: Config = {
   			'heading': ['Montserrat', 'Helvetica Neue', 'sans-serif'],
   			'mono': ['JetBrains Mono', 'Courier New', 'monospace'],
   		},
-  		fontSize: {
-  			'h1': ['48px', { lineHeight: '56px', fontWeight: '700' }],
-  			'h2': ['36px', { lineHeight: '44px', fontWeight: '600' }],
-  			'h3': ['28px', { lineHeight: '36px', fontWeight: '600' }],
-  			'h4': ['24px', { lineHeight: '32px', fontWeight: '500' }],
-  			'h5': ['20px', { lineHeight: '28px', fontWeight: '500' }],
-  		},
-  		spacing: {
-  			'section': '64px',
-  			'component': '32px',
-  		},
+		fontSize: {
+			'h1': ['48px', { lineHeight: '56px', fontWeight: '700' }],
+			'h2': ['36px', { lineHeight: '44px', fontWeight: '600' }],
+			'h3': ['28px', { lineHeight: '36px', fontWeight: '600' }],
+			'h4': ['24px', { lineHeight: '32px', fontWeight: '500' }],
+			'h5': ['20px', { lineHeight: '28px', fontWeight: '500' }],
+			// Deloitte-inspired giant display sizes
+			'display-sm': ['64px', { lineHeight: '1.1', fontWeight: '800', letterSpacing: '-0.02em' }],
+			'display': ['80px', { lineHeight: '1.1', fontWeight: '800', letterSpacing: '-0.02em' }],
+			'display-lg': ['96px', { lineHeight: '1', fontWeight: '900', letterSpacing: '-0.02em' }],
+			'display-xl': ['120px', { lineHeight: '1', fontWeight: '900', letterSpacing: '-0.03em' }],
+		},
+		spacing: {
+			'section': '64px',
+			'component': '32px',
+			'section-lg': '96px',
+			'section-xl': '128px',
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
