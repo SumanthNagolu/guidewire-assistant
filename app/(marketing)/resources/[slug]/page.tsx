@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { Calendar, Clock, User, ArrowLeft, ArrowRight, Share2, Linkedin, Twitter, Facebook } from 'lucide-react';
+import { use } from 'react';
 
 // Mock blog data - in production, this would come from CMS or database
 const blogPosts = [
@@ -219,8 +222,8 @@ const blogPosts = [
   }
 ];
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
   
   const post = blogPosts.find(p => p.slug === slug);
   
@@ -286,11 +289,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
-                if (e.currentTarget.parentElement) {
-                  e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-8xl">📰</span></div>';
-                }
               }}
             />
+            <div className="flex items-center justify-center h-full">
+              <span className="text-8xl">📰</span>
+            </div>
           </div>
         </div>
       </div>
