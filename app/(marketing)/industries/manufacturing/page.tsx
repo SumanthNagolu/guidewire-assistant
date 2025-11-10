@@ -2,33 +2,33 @@ import { ArrowRight, CheckCircle2, Factory } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Manufacturing & Production Staffing | InTime eSolutions',
-  description: 'Manufacturing and production staffing across discrete, process, and industrial operations. Build line stability and reduce downtime.',
-  keywords: 'manufacturing staffing, production jobs, quality control staffing, maintenance technician recruitment, assembly jobs',
+  title: 'Manufacturing Staffing & Recruitment | InTime eSolutions',
+  description: 'Manufacturing talent for production, quality, engineering, and operations. From CNC operators to plant managers—Lean Six Sigma certified teams.',
+  keywords: 'manufacturing staffing, production jobs, CNC machinist, quality engineer, plant manager, manufacturing recruitment, lean six sigma',
 };
 
 export default function ManufacturingPage() {
   const roles = [
-    'Production Specialist',
-    'Assembler/Installer',
-    'Welder',
-    'General Laborer',
-    'Quality Control Technician',
-    'Production and Warehouse Laborer',
-    'Maintenance Technician - Industrial',
-    'Automotive Technician',
-    'HVAC Technician',
-    'Maintenance Technician - Facilities',
-    'Quality Control Manager',
-  ];
-
-  const services = [
-    'Recruiting and screening candidates',
-    'Comprehensive background checks',
-    'Behavioral and skills assessments',
-    'Structured interviews and offer support',
-    'Onboarding assistance',
-    'Ongoing performance support and guidance',
+    'Production Manager',
+    'Plant Manager',
+    'Manufacturing Engineer',
+    'Quality Engineer',
+    'CNC Machinist',
+    'CNC Programmer',
+    'Maintenance Technician',
+    'Industrial Electrician',
+    'Process Engineer',
+    'Lean Six Sigma Specialist',
+    'Production Supervisor',
+    'Quality Control Inspector',
+    'Assembly Line Worker',
+    'Welder / Fabricator',
+    'Tool & Die Maker',
+    'Supply Chain Coordinator',
+    'Operations Manager',
+    'EHS Manager (Environmental Health & Safety)',
+    'Automation Engineer',
+    'Continuous Improvement Manager',
   ];
 
   return (
@@ -40,62 +40,56 @@ export default function ManufacturingPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
               <Factory className="h-4 w-4" />
-              <span className="text-sm font-medium">Manufacturing & Production Staffing</span>
+              <span className="text-sm font-medium">Manufacturing Staffing & Recruitment</span>
             </div>
             <h1 className="text-h1 font-heading mb-6">
-              Manufacturing Staffing That Improves Line Stability
+              Manufacturing Talent That Keeps Lines Running
             </h1>
             <p className="text-xl mb-8 text-sky-blue-500 leading-relaxed">
-              We specialize in manufacturing and production staffing across discrete, process, and industrial operations. Our recruiters understand takt time, throughput, quality gates, and EHS requirements, building shortlists that improve line stability and reduce downtime.
+              From CNC machinists to plant managers—InTime delivers Lean Six Sigma certified teams who understand OEE, 5S, and production deadlines. 86% of manufacturers report skill shortages. We fill that gap fast.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/contact" className="btn-secondary">
                 Find Manufacturing Talent
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link href="/solutions/it-staffing" className="btn-outline">
-                View All Staffing Solutions
+              <Link href="/company/about" className="btn-outline">
+                Our Manufacturing Expertise
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Manufacturing Excellence */}
+      {/* Built for Manufacturing Scale & Speed */}
       <section className="py-16 bg-white">
         <div className="section-container">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-h2 font-heading mb-6 text-trust-blue">
-                Built for Manufacturing Scale & Speed
-              </h2>
-              <p className="text-lg text-wisdom-gray-600 mb-6 leading-relaxed">
-                From greenfield ramp-ups to continuous improvement programs, we deliver manufacturing talent that hits the ground running.
-              </p>
-              <p className="text-lg text-wisdom-gray-600 mb-6 leading-relaxed">
-                We align skills and certifications with your SOPs, shifts, and KPIs. Expect fast, compliant onboarding and candidates screened for reliability, craftsmanship, and lean thinking—so productivity rises without sacrificing safety or quality.
-              </p>
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div>
-                  <div className="text-3xl font-bold text-trust-blue mb-2">48hrs</div>
-                  <div className="text-sm text-wisdom-gray-600">Average time to first candidate</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-success-green mb-2">95%</div>
-                  <div className="text-sm text-wisdom-gray-600">Placement retention rate</div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-success-green-50 to-success-green-500/10 p-8 rounded-2xl">
-              <h3 className="text-h4 font-heading mb-6 text-trust-blue">Services We Provide</h3>
-              <div className="space-y-4">
-                {services.map((service, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="h-6 w-6 text-success-green flex-shrink-0 mt-0.5" />
-                    <span className="text-wisdom-gray-700">{service}</span>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-h2 font-heading mb-8 text-trust-blue text-center">
+              Built for Manufacturing Scale & Speed
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              {[
+                { title: '48-Hour Staffing', desc: 'Production line down? We deploy skilled workers within 48 hours.' },
+                { title: 'Lean Six Sigma Certified', desc: 'All talent trained: 5S, Kaizen, OEE, SMED—we speak manufacturing.' },
+                { title: 'Multi-Shift Coverage', desc: '1st, 2nd, 3rd shift—weekends, holidays—we staff 24/7/365.' },
+              ].map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className="h-16 w-16 bg-success-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="h-8 w-8 text-success-green" />
                   </div>
-                ))}
-              </div>
+                  <h3 className="font-heading font-semibold text-wisdom-gray-700 mb-2">{item.title}</h3>
+                  <p className="text-wisdom-gray">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-8">
+              <p className="text-lg text-wisdom-gray leading-relaxed mb-4">
+                <strong className="text-trust-blue">The Manufacturing Skills Gap:</strong> 86% of manufacturers can't find qualified workers. Production lines sit idle. Quality defects spike. Overtime costs explode.
+              </p>
+              <p className="text-lg text-wisdom-gray leading-relaxed">
+                InTime delivers skilled manufacturing talent fast—CNC operators, maintenance techs, quality engineers, plant managers. All Lean Six Sigma certified. All ready to hit the floor running. Whether you need 1 machinist or 100 production workers, we staff in 48 hours.
+              </p>
             </div>
           </div>
         </div>
@@ -104,45 +98,141 @@ export default function ManufacturingPage() {
       {/* Roles We Staff */}
       <section className="py-16 bg-wisdom-gray-50">
         <div className="section-container">
-          <div className="text-center mb-12">
-            <h2 className="text-h2 font-heading mb-4 text-trust-blue">
-              Manufacturing Roles We Staff
-            </h2>
-            <p className="text-lg text-wisdom-gray-600 max-w-3xl mx-auto">
-              From production specialists to quality control managers, we deliver skilled talent for every manufacturing role.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <h2 className="text-h2 font-heading mb-4 text-trust-blue text-center">
+            Manufacturing Roles We Staff
+          </h2>
+          <p className="text-center text-wisdom-gray-600 mb-12 max-w-3xl mx-auto">
+            From production floors to plant management—CNC, welding, quality, maintenance, engineering, and leadership.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {roles.map((role, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-xl border-2 border-transparent hover:border-success-green transition-all duration-300 hover:shadow-lg"
+                className="bg-white rounded-lg px-4 py-3 text-center text-sm text-wisdom-gray-700 hover:shadow-md transition-shadow"
               >
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-success-green-50 rounded-lg flex items-center justify-center">
-                    <CheckCircle2 className="h-5 w-5 text-success-green" />
-                  </div>
-                  <h3 className="font-semibold text-trust-blue-700">{role}</h3>
-                </div>
+                {role}
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Why Manufacturers Choose InTime */}
+      <section className="py-16 bg-white">
+        <div className="section-container">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-h2 font-heading mb-12 text-trust-blue text-center">
+              Why Manufacturers Choose InTime
+            </h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="flex gap-4">
+                <div className="flex-shrink-0">
+                  <div className="h-12 w-12 bg-success-green-50 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="h-6 w-6 text-success-green" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-heading font-semibold text-wisdom-gray-700 mb-2">
+                    Emergency Production Staffing
+                  </h3>
+                  <p className="text-wisdom-gray">
+                    Line down? Rush order? We deploy CNC operators, welders, and assemblers in 48 hours.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0">
+                  <div className="h-12 w-12 bg-success-green-50 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="h-6 w-6 text-success-green" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-heading font-semibold text-wisdom-gray-700 mb-2">
+                    Lean Six Sigma Teams
+                  </h3>
+                  <p className="text-wisdom-gray">
+                    All talent trained: 5S, Kaizen, OEE, SMED, root cause analysis—we speak manufacturing.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0">
+                  <div className="h-12 w-12 bg-success-green-50 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="h-6 w-6 text-success-green" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-heading font-semibold text-wisdom-gray-700 mb-2">
+                    Multi-Shift Flexibility
+                  </h3>
+                  <p className="text-wisdom-gray">
+                    1st, 2nd, 3rd shift—weekends, holidays—we staff around the clock.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-shrink-0">
+                  <div className="h-12 w-12 bg-success-green-50 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="h-6 w-6 text-success-green" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-heading font-semibold text-wisdom-gray-700 mb-2">
+                    Safety-Certified Workforce
+                  </h3>
+                  <p className="text-wisdom-gray">
+                    OSHA 10/30, forklift certified, lockout/tagout trained—safety is non-negotiable.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Success Metrics */}
+      <section className="py-16 bg-gradient-to-br from-trust-blue-50 to-success-green-50">
+        <div className="section-container">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-h2 font-heading mb-12 text-trust-blue">
+              Manufacturing Staffing By The Numbers
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div>
+                <div className="text-5xl font-bold text-trust-blue mb-2">48hrs</div>
+                <div className="text-wisdom-gray-600">Average time to first candidate on floor</div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold text-success-green mb-2">95%</div>
+                <div className="text-wisdom-gray-600">Placement retention rate (12 months)</div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold text-innovation-orange mb-2">$2.3T</div>
+                <div className="text-wisdom-gray-600">US manufacturing market we serve</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-success-green to-success-green-600 text-white">
+      <section className="py-20 bg-gradient-to-r from-trust-blue to-success-green text-white">
         <div className="section-container text-center">
           <h2 className="text-h2 font-heading mb-6">
-            Ready to Build Your Manufacturing Team?
+            Keep Your Lines Running. Staff Fast.
           </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-            Talk to us about your plant goals and we'll align the right team to deliver them.
+          <p className="text-xl mb-8 max-w-2xl mx-auto text-white/90">
+            Whether you need 1 CNC machinist or 100 production workers—we staff in 48 hours, trained, certified, and ready to produce.
           </p>
-          <Link href="/contact" className="btn-primary inline-flex items-center">
-            Start Your Search
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact" className="btn-secondary">
+              Request Manufacturing Talent
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            <Link href="/careers/open-positions" className="btn-outline">
+              View Manufacturing Jobs
+            </Link>
+          </div>
         </div>
       </section>
     </>
