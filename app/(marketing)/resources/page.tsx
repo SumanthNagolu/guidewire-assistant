@@ -1,8 +1,9 @@
 'use client';
-
+import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Clock, User, ArrowRight, Search, Filter } from 'lucide-react';
-
+import { motion } from 'framer-motion';
 // Mock blog data - in production, this would come from CMS or database
 const blogPosts = [
   {
@@ -126,7 +127,6 @@ const blogPosts = [
     featured: false
   }
 ];
-
 const categories = [
   'All Posts',
   'Industry Insights',
@@ -136,11 +136,10 @@ const categories = [
   'Immigration',
   'Consulting'
 ];
-
 export default function ResourcesPage() {
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const featuredPosts = blogPosts.filter(post => post.featured);
   const regularPosts = blogPosts.filter(post => !post.featured);
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -154,7 +153,6 @@ export default function ResourcesPage() {
               Expert insights on tech recruitment, career growth, immigration, and industry trends.
               Learn from our decade of experience placing thousands of professionals.
             </p>
-            
             {/* Search Bar */}
             <div className="bg-white rounded-lg p-2 flex items-center gap-2 shadow-xl">
               <Search className="w-5 h-5 text-gray-400 ml-2" />
@@ -170,7 +168,6 @@ export default function ResourcesPage() {
           </div>
         </div>
       </section>
-
       {/* Category Filter */}
       <section className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="section-container py-4">
@@ -191,35 +188,51 @@ export default function ResourcesPage() {
           </div>
         </div>
       </section>
-
       {/* Featured Posts */}
       {featuredPosts.length > 0 && (
         <section className="section-container py-16">
-          <h2 className="text-3xl font-heading font-bold text-gray-900 mb-8">
+          <motion.h2
+            className="text-3xl font-heading font-bold text-gray-900 mb-8"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Featured Articles
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          </motion.h2>
+          <motion.div
+            className="grid md:grid-cols-2 gap-8"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: '-100px' }}
+          >
             {featuredPosts.map((post) => (
               <Link
                 key={post.id}
                 href={`/resources/${post.slug}`}
-                className="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-2xl hover:border-trust-blue-300 transition-all"
+                className="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-2xl hover:border-trust-blue-300 transition-all card-dynamic"
               >
                 {/* Article Image */}
                 <div className="h-64 bg-gradient-to-br from-trust-blue-100 to-innovation-orange-100 relative overflow-hidden">
-                  <img 
-                    src={post.image} 
-                    alt={post.title}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-6xl">📰</span></div>';
-                      }
-                    }}
-                  />
+                  {imageErrors[post.id] ? (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="text-6xl">📰</span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority
+                      onError={() => {
+                        setImageErrors((prev) => ({ ...prev, [post.id]: true }));
+                      }}
+                    />
+                  )}
                 </div>
-                
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="px-3 py-1 bg-trust-blue-100 text-trust-blue-700 rounded-full text-xs font-semibold">
@@ -229,15 +242,12 @@ export default function ResourcesPage() {
                       ⭐ FEATURED
                     </span>
                   </div>
-                  
                   <h3 className="text-2xl font-heading font-bold text-gray-900 mb-3 group-hover:text-trust-blue-600 transition-colors">
                     {post.title}
                   </h3>
-                  
                   <p className="text-gray-600 mb-4 line-clamp-2">
                     {post.excerpt}
                   </p>
-                  
                   <div className="flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-1">
@@ -257,51 +267,63 @@ export default function ResourcesPage() {
                 </div>
               </Link>
             ))}
-          </div>
+          </motion.div>
         </section>
       )}
-
       {/* All Posts */}
       <section className="bg-gray-50 py-16">
         <div className="section-container">
-          <h2 className="text-3xl font-heading font-bold text-gray-900 mb-8">
+          <motion.h2
+            className="text-3xl font-heading font-bold text-gray-900 mb-8"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Latest Articles
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          </motion.h2>
+          <motion.div
+            className="grid md:grid-cols-3 gap-8"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: '-100px' }}
+          >
             {regularPosts.map((post) => (
               <Link
                 key={post.id}
                 href={`/resources/${post.slug}`}
-                className="group bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg hover:border-trust-blue-300 transition-all"
+                className="group bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg hover:border-trust-blue-300 transition-all card-lift"
               >
                 {/* Article Image */}
                 <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
-                  <img 
-                    src={post.image} 
-                    alt={post.title}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><span class="text-5xl">📄</span></div>';
-                      }
-                    }}
-                  />
+                  {imageErrors[post.id] ? (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="text-5xl">📄</span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      onError={() => {
+                        setImageErrors((prev) => ({ ...prev, [post.id]: true }));
+                      }}
+                    />
+                  )}
                 </div>
-                
                 <div className="p-6">
                   <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold">
                     {post.category}
                   </span>
-                  
                   <h3 className="text-xl font-heading font-bold text-gray-900 mb-3 mt-4 group-hover:text-trust-blue-600 transition-colors">
                     {post.title}
                   </h3>
-                  
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                     {post.excerpt}
                   </p>
-                  
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <div className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
@@ -315,13 +337,18 @@ export default function ResourcesPage() {
                 </div>
               </Link>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="section-container py-20">
-        <div className="bg-gradient-to-br from-trust-blue-600 to-innovation-orange-500 rounded-3xl p-12 text-center text-white">
+        <motion.div
+          className="bg-gradient-to-br from-trust-blue-600 to-innovation-orange-500 rounded-3xl p-12 text-center text-white"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h2 className="text-3xl font-heading font-bold mb-4">
             Want Personalized Insights?
           </h2>
@@ -331,14 +358,13 @@ export default function ResourcesPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-trust-blue-600 rounded-lg font-semibold hover:shadow-xl transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-trust-blue-600 rounded-lg font-semibold hover:shadow-xl transition-all whitespace-nowrap"
           >
             Book Your Free Consultation
             <ArrowRight className="w-5 h-5" />
           </Link>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
 }
-

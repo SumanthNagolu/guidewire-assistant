@@ -3,20 +3,16 @@ import { redirect, notFound } from 'next/navigation';
 import { ChevronLeft, Edit, MapPin, Briefcase, Calendar, DollarSign, FileText, Building2, Target, Users } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-
 export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient() as any; // Type cast for CRM tables
   const { id } = await params;
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get job with client details
   const { data: job, error } = await supabase
     .from('jobs')
@@ -28,23 +24,19 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     .eq('id', id)
     .is('deleted_at', null)
     .single();
-
   if (error || !job) {
     notFound();
   }
-
   // Get user profile to check permissions
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   // Check if user has access
   if (profile?.role === 'recruiter' && job.owner_id !== user.id) {
     redirect('/employee/jobs');
   }
-
   const getStatusBadge = (status: string) => {
     const badges = {
       draft: 'bg-wisdom-gray-100 text-wisdom-gray-700 border-wisdom-gray-200',
@@ -55,7 +47,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     };
     return badges[status as keyof typeof badges] || badges.draft;
   };
-
   const getPriorityBadge = (priority: string) => {
     const badges = {
       hot: 'bg-red-100 text-red-700 border-red-200',
@@ -72,7 +63,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
       label: labels[priority as keyof typeof labels],
     };
   };
-
   const formatEmploymentType = (type: string) => {
     const labels = {
       contract: 'Contract',
@@ -82,7 +72,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     };
     return labels[type as keyof typeof labels] || type;
   };
-
   const formatRemotePolicy = (policy: string) => {
     const labels = {
       remote: '🏠 Remote',
@@ -91,9 +80,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     };
     return labels[policy as keyof typeof labels] || policy;
   };
-
   const priorityStyle = getPriorityBadge(job.priority);
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -136,7 +123,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -162,7 +148,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
             </div>
-
             {/* Openings */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-heading font-semibold text-trust-blue-900 mb-4 flex items-center gap-2">
@@ -188,7 +173,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 )}
               </div>
             </div>
-
             {/* Compensation */}
             {(job.rate_min || job.rate_max) && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -211,7 +195,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 )}
               </div>
             )}
-
             {/* Timeline */}
             {job.target_fill_date && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -236,7 +219,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 )}
               </div>
             )}
-
             {/* Client */}
             {job.client && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -263,7 +245,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               </div>
             )}
           </div>
-
           {/* Right Column - Description & Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Description */}
@@ -277,7 +258,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
             )}
-
             {/* Required Skills */}
             {job.required_skills && job.required_skills.length > 0 && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -296,7 +276,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
             )}
-
             {/* Nice-to-Have Skills */}
             {job.nice_to_have_skills && job.nice_to_have_skills.length > 0 && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -315,7 +294,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
             )}
-
             {/* Internal Notes */}
             {job.notes && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -328,7 +306,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
             )}
-
             {/* Metadata */}
             <div className="bg-gray-100 rounded-lg p-4 text-xs text-wisdom-gray-600">
               <div className="flex items-center justify-between">
@@ -342,4 +319,3 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     </div>
   );
 }
-

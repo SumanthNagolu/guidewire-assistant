@@ -1,0 +1,241 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "InTime Logo InTime Contact" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "InTime Logo" [ref=e6]
+        - generic [ref=e8]: InTime Contact
+      - generic [ref=e9]:
+        - link "Solutions" [ref=e11] [cursor=pointer]:
+          - /url: /solutions
+          - generic [ref=e12]: Solutions
+          - img [ref=e13]
+        - link "Industries" [ref=e16] [cursor=pointer]:
+          - /url: /industries
+          - generic [ref=e17]: Industries
+          - img [ref=e18]
+        - link "Careers" [ref=e21] [cursor=pointer]:
+          - /url: /careers
+          - generic [ref=e22]: Careers
+          - img [ref=e23]
+        - link "Resources" [ref=e25] [cursor=pointer]:
+          - /url: /resources
+        - link "Academy" [ref=e26] [cursor=pointer]:
+          - /url: /academy
+        - link "Sign In" [ref=e27] [cursor=pointer]:
+          - /url: /employee/login
+          - img [ref=e28]
+          - generic [ref=e31]: Sign In
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e36]:
+        - heading "Let's Start Your Transformation" [level=1] [ref=e37]
+        - paragraph [ref=e38]: Whether you need talent, training, or career guidance, we're here to help. Reach out and experience the InTime difference.
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - img [ref=e44]
+          - heading "For Immediate Needs" [level=3] [ref=e46]
+          - link "+1 307-650-2850" [ref=e47] [cursor=pointer]:
+            - /url: tel:+13076502850
+          - paragraph [ref=e48]: 🇺🇸 USA
+          - paragraph [ref=e49]: Available 24/7 for urgent requirements
+        - generic [ref=e50]:
+          - img [ref=e52]
+          - heading "For Business Inquiries" [level=3] [ref=e55]
+          - link "enterprise@intimesolutions.com" [ref=e56] [cursor=pointer]:
+            - /url: mailto:enterprise@intimesolutions.com
+          - paragraph [ref=e57]: Response within 2 hours during business hours
+        - generic [ref=e58]:
+          - img [ref=e60]
+          - heading "For Career Support" [level=3] [ref=e63]
+          - link "careers@intimesolutions.com" [ref=e64] [cursor=pointer]:
+            - /url: mailto:careers@intimesolutions.com
+          - paragraph [ref=e65]: Free consultation available
+        - generic [ref=e66]:
+          - img [ref=e68]
+          - heading "For Training Programs" [level=3] [ref=e71]
+          - link "academy@intimesolutions.com" [ref=e72] [cursor=pointer]:
+            - /url: mailto:academy@intimesolutions.com
+          - paragraph [ref=e73]: Speak with education counselor
+      - generic [ref=e76]:
+        - generic [ref=e78]:
+          - heading "Send us a Message" [level=3] [ref=e79]
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: Full Name *
+                - textbox "John Doe" [ref=e84]: Test User
+              - generic [ref=e85]:
+                - generic [ref=e86]: Email *
+                - textbox "john@company.com" [active] [ref=e87]: test@example.com
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - generic [ref=e90]: Phone
+                - textbox "+1 (555) 123-4567" [ref=e91]
+              - generic [ref=e92]:
+                - generic [ref=e93]: Company
+                - textbox "Your Company" [ref=e94]
+            - generic [ref=e95]:
+              - generic [ref=e96]: How can we help? *
+              - textbox "Tell us about your needs..." [ref=e97]
+            - button "Send Message" [ref=e98] [cursor=pointer]
+        - generic [ref=e99]:
+          - heading "Office Locations" [level=2] [ref=e100]
+          - generic [ref=e101]:
+            - generic [ref=e102]:
+              - img [ref=e103]
+              - generic [ref=e106]:
+                - heading "🇺🇸 USA Office" [level=3] [ref=e107]
+                - paragraph [ref=e108]:
+                  - text: 30 N Gould St Ste R
+                  - text: Sheridan, WY 82801
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - img [ref=e111]
+                - link "+1 307-650-2850" [ref=e113] [cursor=pointer]:
+                  - /url: tel:+13076502850
+              - generic [ref=e114]:
+                - img [ref=e115]
+                - link "info@intimeesolutions.com" [ref=e118] [cursor=pointer]:
+                  - /url: mailto:info@intimeesolutions.com
+              - generic [ref=e119]:
+                - img [ref=e120]
+                - generic [ref=e123]: Mon-Fri 9am-6pm EST
+          - generic [ref=e124]:
+            - generic [ref=e125]:
+              - img [ref=e126]
+              - generic [ref=e129]:
+                - heading "🇨🇦 Canada Office" [level=3] [ref=e130]
+                - paragraph [ref=e131]:
+                  - text: 330 Gillespie Drive
+                  - text: Brantford, ON N3T 0X1
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - img [ref=e134]
+                - link "+1 289-236-9000" [ref=e136] [cursor=pointer]:
+                  - /url: tel:+12892369000
+              - generic [ref=e137]:
+                - img [ref=e138]
+                - link "canada@intimeesolutions.com" [ref=e141] [cursor=pointer]:
+                  - /url: mailto:canada@intimeesolutions.com
+              - generic [ref=e142]:
+                - img [ref=e143]
+                - generic [ref=e146]: Mon-Fri 9am-6pm EST
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - img [ref=e149]
+              - generic [ref=e152]:
+                - heading "🇮🇳 India Office" [level=3] [ref=e153]
+                - paragraph [ref=e154]:
+                  - text: 606 DSL Abacus IT Park
+                  - text: Uppal, Hyderabad
+                  - text: Telangana 500039
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - img [ref=e157]
+                - link "+91 798-166-6144" [ref=e159] [cursor=pointer]:
+                  - /url: tel:+917981666144
+              - generic [ref=e160]:
+                - img [ref=e161]
+                - link "india@intimeesolutions.com" [ref=e164] [cursor=pointer]:
+                  - /url: mailto:india@intimeesolutions.com
+              - generic [ref=e165]:
+                - img [ref=e166]
+                - generic [ref=e169]: 24/7 Operations
+  - contentinfo [ref=e170]:
+    - generic [ref=e172]:
+      - generic [ref=e173]:
+        - heading "Solutions" [level=3] [ref=e174]
+        - list [ref=e175]:
+          - listitem [ref=e176]:
+            - link "IT Staffing" [ref=e177] [cursor=pointer]:
+              - /url: /solutions/it-staffing
+          - listitem [ref=e178]:
+            - link "Consulting" [ref=e179] [cursor=pointer]:
+              - /url: /consulting/services
+          - listitem [ref=e180]:
+            - link "Cross-Border Solutions" [ref=e181] [cursor=pointer]:
+              - /url: /solutions/cross-border
+          - listitem [ref=e182]:
+            - link "Training & Development" [ref=e183] [cursor=pointer]:
+              - /url: /solutions/training
+          - listitem [ref=e184]:
+            - link "Request Consultation →" [ref=e185] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=e186]:
+        - heading "Resources" [level=3] [ref=e187]
+        - list [ref=e188]:
+          - listitem [ref=e189]:
+            - link "Blog" [ref=e190] [cursor=pointer]:
+              - /url: /resources
+          - listitem [ref=e191]:
+            - link "Salary Guides" [ref=e192] [cursor=pointer]:
+              - /url: /resources
+          - listitem [ref=e193]:
+            - link "Success Stories" [ref=e194] [cursor=pointer]:
+              - /url: /resources
+          - listitem [ref=e195]:
+            - link "Webinars & Events" [ref=e196] [cursor=pointer]:
+              - /url: /resources
+          - listitem [ref=e197]:
+            - link "Newsletter Signup" [ref=e198] [cursor=pointer]:
+              - /url: /resources
+      - generic [ref=e199]:
+        - heading "Company" [level=3] [ref=e200]
+        - list [ref=e201]:
+          - listitem [ref=e202]:
+            - link "About InTime" [ref=e203] [cursor=pointer]:
+              - /url: /company/about#about
+          - listitem [ref=e204]:
+            - link "Mission & Values" [ref=e205] [cursor=pointer]:
+              - /url: /company/about#mission
+          - listitem [ref=e206]:
+            - link "Leadership Team" [ref=e207] [cursor=pointer]:
+              - /url: /company/about#leadership
+          - listitem [ref=e208]:
+            - link "Careers" [ref=e209] [cursor=pointer]:
+              - /url: /careers
+          - listitem [ref=e210]:
+            - link "Contact Us" [ref=e211] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=e212]:
+        - heading "Connect" [level=3] [ref=e213]
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - paragraph [ref=e216]: 🇺🇸 USA
+            - paragraph [ref=e217]: +1 307-650-2850
+          - generic [ref=e218]:
+            - paragraph [ref=e219]: 🇨🇦 Canada
+            - paragraph [ref=e220]: +1 289-236-9000
+          - generic [ref=e221]:
+            - paragraph [ref=e222]: 🇮🇳 India
+            - paragraph [ref=e223]: +91 798-166-6144
+          - paragraph [ref=e224]:
+            - link "info@intimeesolutions.com" [ref=e225] [cursor=pointer]:
+              - /url: mailto:info@intimeesolutions.com
+        - generic [ref=e226]:
+          - link [ref=e227] [cursor=pointer]:
+            - /url: https://linkedin.com
+            - img [ref=e228]
+          - link [ref=e232] [cursor=pointer]:
+            - /url: https://twitter.com
+            - img [ref=e233]
+          - link [ref=e235] [cursor=pointer]:
+            - /url: https://facebook.com
+            - img [ref=e236]
+          - link [ref=e238] [cursor=pointer]:
+            - /url: mailto:info@intimeesolutions.com
+            - img [ref=e239]
+    - generic [ref=e244]:
+      - paragraph [ref=e245]: © 2025 InTime eSolutions. All rights reserved.
+      - paragraph [ref=e246]: Transform Careers. Power Business. Do It InTime.
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e252] [cursor=pointer]:
+    - img [ref=e253]
+  - alert [ref=e256]
+```

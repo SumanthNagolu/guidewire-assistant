@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { GraduationCap, Users, TrendingUp, Award, Clock, DollarSign, CheckCircle2, Star } from "lucide-react";
-
 export const metadata = {
   title: "Training Programs - InTime eSolutions",
   description: "Transform Your Career in 8 Weeks - Industry-aligned bootcamps that combine technical mastery with professional excellence.",
 };
-
 export default function TrainingPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -19,7 +17,6 @@ export default function TrainingPage() {
             <p className="text-xl md:text-2xl mb-8 text-gray-100">
               Industry-aligned bootcamps that combine technical mastery with professional excellence. Graduate job-ready, not just certified.
             </p>
-            
             <div className="flex flex-wrap items-center justify-center gap-8 mb-8 text-lg">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-6 h-6" />
@@ -38,7 +35,6 @@ export default function TrainingPage() {
                 <span>95% Satisfaction</span>
               </div>
             </div>
-            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="#programs" className="btn-accent bg-white text-success-green hover:bg-gray-100">
                 View Programs
@@ -50,7 +46,6 @@ export default function TrainingPage() {
           </div>
         </div>
       </section>
-
       {/* Featured Program: Guidewire */}
       <section id="programs" className="py-20 bg-white">
         <div className="section-container">
@@ -63,7 +58,6 @@ export default function TrainingPage() {
                 HIGH DEMAND
               </span>
             </div>
-            
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <h2 className="text-4xl md:text-5xl font-heading font-bold text-wisdom-gray-700 mb-4">
@@ -72,7 +66,6 @@ export default function TrainingPage() {
                 <p className="text-xl text-wisdom-gray mb-6">
                   Master the #1 insurance software platform and launch your career in InsuranceTech
                 </p>
-                
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="flex items-center gap-3">
                     <Clock className="w-6 h-6 text-trust-blue" />
@@ -103,7 +96,6 @@ export default function TrainingPage() {
                     </div>
                   </div>
                 </div>
-
                 <div className="bg-white rounded-xl p-6 mb-6">
                   <h3 className="text-2xl font-heading font-semibold text-wisdom-gray-700 mb-4">
                     What You'll Learn (Week by Week)
@@ -131,7 +123,6 @@ export default function TrainingPage() {
                     </div>
                   </div>
                 </div>
-
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link href="/contact?program=guidewire" className="btn-primary">
                     Enroll Now
@@ -144,14 +135,12 @@ export default function TrainingPage() {
                   </button>
                 </div>
               </div>
-
               <div className="bg-white rounded-xl p-6">
                 <div className="bg-innovation-orange text-white text-center py-3 rounded-lg mb-6">
                   <div className="text-sm font-semibold">Next Cohort Starts</div>
                   <div className="text-2xl font-heading font-bold">December 1, 2024</div>
                   <div className="text-sm mt-1">Only 5 Seats Left!</div>
                 </div>
-
                 <h4 className="font-heading font-semibold text-wisdom-gray-700 mb-4">Outcomes:</h4>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-start gap-2">
@@ -171,7 +160,6 @@ export default function TrainingPage() {
                     <span className="text-sm">Lifetime career support</span>
                   </li>
                 </ul>
-
                 <div className="border-t pt-6">
                   <div className="text-center mb-2">
                     <div className="text-3xl font-heading font-bold text-trust-blue">$1,695</div>
@@ -183,7 +171,6 @@ export default function TrainingPage() {
           </div>
         </div>
       </section>
-
       {/* Other Programs */}
       <section className="py-20 bg-wisdom-gray-50">
         <div className="section-container">
@@ -195,7 +182,6 @@ export default function TrainingPage() {
               Choose your path to career transformation
             </p>
           </div>
-          
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Full Stack Development */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow">
@@ -224,7 +210,6 @@ export default function TrainingPage() {
                 Learn More
               </Link>
             </div>
-
             {/* Cloud Architecture */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow">
               <div className="flex items-center justify-between mb-4">
@@ -252,7 +237,6 @@ export default function TrainingPage() {
                 Learn More
               </Link>
             </div>
-
             {/* Data Science */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow">
               <div className="flex items-center justify-between mb-4">
@@ -280,7 +264,6 @@ export default function TrainingPage() {
                 Learn More
               </Link>
             </div>
-
             {/* Salesforce */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow">
               <div className="flex items-center justify-between mb-4">
@@ -308,7 +291,6 @@ export default function TrainingPage() {
                 Learn More
               </Link>
             </div>
-
             {/* DevOps */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow">
               <div className="flex items-center justify-between mb-4">
@@ -336,7 +318,6 @@ export default function TrainingPage() {
                 Learn More
               </Link>
             </div>
-
             {/* Cybersecurity */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow">
               <div className="flex items-center justify-between mb-4">
@@ -367,7 +348,6 @@ export default function TrainingPage() {
           </div>
         </div>
       </section>
-
       {/* Why InTime Academy */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -376,7 +356,6 @@ export default function TrainingPage() {
               Why InTime Academy?
             </h2>
           </div>
-          
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -421,7 +400,6 @@ export default function TrainingPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-success-green to-trust-blue text-white">
         <div className="section-container">
@@ -446,4 +424,3 @@ export default function TrainingPage() {
     </div>
   );
 }
-

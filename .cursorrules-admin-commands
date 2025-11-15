@@ -1,0 +1,265 @@
+# Admin Portal Implementation Commands
+# Add these rules to your .cursorrules file
+
+## Parent Command: /implement-admin-portal
+
+When user executes `/implement-admin-portal`:
+1. Show overview from `documentation/admin/00-IMPLEMENTATION-GUIDE.md`
+2. List all 15 epics with status
+3. Ask which epic to start
+4. Execute corresponding child command
+
+## Child Commands (Epic Implementation)
+
+### /admin-01-authentication
+Epic 1: Authentication & Access Control
+- Read: `documentation/admin/01-EPIC-Authentication.md`
+- Stories: AUTH-001 through AUTH-012 (12 total)
+- Implement: Login page, auth guards, session management
+- Test: Authentication flow, redirects, security
+
+### /admin-02-dashboard
+Epic 2: CEO Dashboard
+- Read: `documentation/admin/02-EPIC-Dashboard.md`
+- Stories: DASH-001 through DASH-022 (15 total)
+- Implement: Executive dashboard, KPI cards, pod performance table
+- Test: Metric calculations, data fetching, real-time updates
+
+### /admin-03-user-management
+Epic 3: User Management
+- Read: `documentation/admin/03-EPIC-UserManagement.md`
+- Stories: USER-001 through USER-018 (18 total)
+- Implement: User directory, role management, bulk operations
+- Test: User CRUD, search, filtering, bulk actions
+
+### /admin-04-permissions
+Epic 4: Permissions & Audit
+- Read: `documentation/admin/04-EPIC-Permissions.md`
+- Stories: PERM-001 through PERM-014 (14 total)
+- Implement: Permission matrix, audit logging, role definitions
+- Test: Audit trail, permission checks, real-time logging
+
+### /admin-05-training
+Epic 5: Training Content
+- Read: `documentation/admin/05-EPIC-TrainingContent.md`
+- Stories: TRAIN-001 through TRAIN-016 (16 total)
+- Implement: Topic management, prerequisites, bulk upload
+- Test: Topic CRUD, organization, sequencing
+
+### /admin-06-blog
+Epic 6: Blog Management
+- Read: `documentation/admin/06-EPIC-BlogManagement.md`
+- Stories: BLOG-001 through BLOG-022 (22 total)
+- Implement: Blog CMS, rich editor, SEO, publishing
+- Test: Content creation, SEO optimization, publishing workflow
+
+### /admin-07-resources
+Epic 7: Resource Management
+- Read: `documentation/admin/07-EPIC-ResourceManagement.md`
+- Stories: RES-001 through RES-018 (18 total)
+- Implement: Resource library, gating, download tracking
+- Test: File management, lead capture, analytics
+
+### /admin-08-jobs
+Epic 8: Job Management
+- Read: `documentation/admin/08-EPIC-JobManagement.md`
+- Stories: JOB-001 through JOB-020 (20 total)
+- Implement: Job postings, approval workflow, applications
+- Test: Job CRUD, approval flow, application tracking
+
+### /admin-09-talent
+Epic 9: Talent Management
+- Read: `documentation/admin/09-EPIC-TalentManagement.md`
+- Stories: TAL-001 through TAL-017 (17 total)
+- Implement: Candidate database, search, matching
+- Test: Candidate CRUD, advanced search, job matching
+
+### /admin-10-banners
+Epic 10: Banner Management
+- Read: `documentation/admin/10-EPIC-BannerManagement.md`
+- Stories: BAN-001 through BAN-015 (15 total)
+- Implement: Banner campaigns, scheduling, A/B testing
+- Test: Campaign management, tracking, display rules
+
+### /admin-11-media
+Epic 11: Media Library
+- Read: `documentation/admin/11-EPIC-MediaLibrary.md`
+- Stories: MED-001 through MED-019 (19 total)
+- Implement: Media library, upload, organization, selector
+- Test: File upload, organization, reusability
+
+### /admin-12-courses
+Epic 12: Course Management
+- Read: `documentation/admin/12-EPIC-CourseManagement.md`
+- Stories: COURSE-001 through COURSE-016 (16 total)
+- Implement: Course builder, learning paths, sequencing
+- Test: Course creation, topic organization, publishing
+
+### /admin-13-analytics
+Epic 13: Analytics Dashboard
+- Read: `documentation/admin/13-EPIC-Analytics.md`
+- Stories: ANAL-001 through ANAL-014 (14 total)
+- Implement: Analytics dashboard, charts, reports
+- Test: Data accuracy, chart rendering, export
+
+### /admin-14-setup
+Epic 14: Platform Setup
+- Read: `documentation/admin/14-EPIC-PlatformSetup.md`
+- Stories: SETUP-001 through SETUP-010 (10 total)
+- Implement: Storage config, email setup, system verification
+- Test: Configuration, health checks, integration testing
+
+### /admin-15-upload
+Epic 15: Content Upload
+- Read: `documentation/admin/15-EPIC-ContentUpload.md`
+- Stories: UPL-001 through UPL-012 (12 total)
+- Implement: Bulk upload, validation, progress tracking
+- Test: Upload workflow, validation, error handling
+
+## Command Behavior
+
+When any `/admin-XX-{epic}` command is executed:
+
+1. Load epic documentation
+2. Show epic overview and user stories
+3. Check prerequisites are met
+4. Ask: "Implement all stories sequentially? (y/n) or specify story IDs"
+5. For each story:
+   - Display story card (ID, title, acceptance criteria)
+   - Generate implementation code
+   - Create/modify necessary files
+   - Add TypeScript types
+   - Add tests
+   - Verify compilation
+   - Mark story complete
+6. After all stories:
+   - Run epic tests
+   - Verify completion criteria
+   - Update progress tracker
+   - Suggest next epic
+
+## Story Implementation Pattern
+
+For any story ID (e.g., AUTH-001, BLOG-015):
+
+```typescript
+// 1. Show Story Card
+Story ID: AUTH-001
+Title: Admin Login Page UI
+User Story: As an admin, I want a login page...
+
+Acceptance Criteria:
+- [ ] Login page renders at /admin/login
+- [ ] Email and password fields present
+- ...
+
+// 2. Confirm Implementation
+"Implement AUTH-001? (y/n/skip)"
+
+// 3. Generate Code
+Creating: app/admin/login/page.tsx
+Creating: components/admin/auth/AdminLoginForm.tsx
+Modifying: middleware.ts
+
+// 4. Verify
+✅ TypeScript compiles
+✅ Tests pass
+✅ Linter clean
+
+// 5. Mark Complete
+✅ AUTH-001 completed (1/12 stories in Epic 1)
+```
+
+## Quality Gates
+
+Before completing any epic:
+- All stories must be ✅
+- All tests must pass
+- No TypeScript errors
+- No ESLint errors
+- No console errors in browser
+- Mobile responsive verified
+- Accessibility verified
+
+## Integration Points
+
+When implementing epic that depends on another:
+
+```bash
+# Example: Epic 6 (Blog) depends on Epic 11 (Media)
+
+/admin-06-blog
+
+> Checking prerequisites...
+> ❌ Epic 11 (Media Library) not complete
+> Required for: Featured image selector
+> 
+> Please complete Epic 11 first:
+> /admin-11-media
+```
+
+## Error Recovery
+
+If implementation fails:
+1. Check error message
+2. Review story acceptance criteria
+3. Verify prerequisites
+4. Check database schema
+5. Review existing code
+6. Try story again
+
+If epic fails:
+1. Review completed stories
+2. Roll back if needed
+3. Fix blocking issue
+4. Resume from last completed story
+
+## Progress Visualization
+
+After each story:
+```
+Epic 1: Authentication
+[████████░░░░] 8/12 stories (67%)
+
+Overall Progress:
+[██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 25/238 stories (10.5%)
+```
+
+## Notes
+
+- Execute commands in Cursor chat
+- Commands are case-sensitive
+- Follow recommended execution order
+- Test after each epic before moving to next
+- Commit working code frequently
+- Don't skip prerequisite epics
+
+## Example Session
+
+```
+User: /admin-01-authentication
+
+AI: 
+📚 Epic 1: Authentication & Access Control
+
+12 User Stories:
+- AUTH-001: Admin Login Page UI ⏳
+- AUTH-002: Admin Auth Guard Middleware ⏳
+- AUTH-003: Admin Layout Auth Check ⏳
+- ... (9 more)
+
+Implement all stories sequentially? (y/n)
+
+User: y
+
+AI:
+Starting with AUTH-001...
+✅ Created app/admin/login/page.tsx
+✅ Created components/admin/auth/AdminLoginForm.tsx
+✅ Tests passing
+✅ AUTH-001 complete (1/12)
+
+Continuing to AUTH-002...
+...
+```
+

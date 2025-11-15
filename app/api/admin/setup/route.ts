@@ -2,72 +2,58 @@ import { createClient } from '@/lib/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { checkRateLimit, RateLimits, getClientIp, createRateLimitResponse } from '@/lib/rate-limit';
-
+import { logger } from '@/lib/utils/logger';
 const jsonError = (error: string, status = 400) =>
   Response.json({ success: false, error }, { status });
-
 // Zod schema for admin setup request
 const adminSetupSchema = z.object({
   action: z.enum(['storage-bucket', 'interview-templates']),
   bootstrapKey: z.string().optional(),
 });
-
 export async function POST(req: Request) {
   try {
     const supabase = await createClient();
-
     // Check auth
     const {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser();
-
     if (authError || !user) {
-      console.error('[Admin Setup] Auth error:', authError);
+      logger.error('[Admin Setup] Auth error:', authError);
       return jsonError('Unauthorized', 401);
     }
-
     // Parse and validate request body
     const body = await req.json().catch(() => null);
-    
     if (!body) {
       return jsonError('Invalid JSON payload', 400);
     }
-
     const validation = adminSetupSchema.safeParse(body);
-    
     if (!validation.success) {
       const firstError = validation.error.issues[0];
-      console.warn('[Admin Setup] Validation error:', firstError);
+      logger.warn('[Admin Setup] Validation error:', firstError);
       return jsonError(firstError.message, 400);
     }
-
     const { action, bootstrapKey } = validation.data;
-
     // Check if user is admin (with proper error handling)
     const { data: profile, error: profileError } = await supabase
       .from('user_profiles')
       .select('role')
       .eq('id', user.id)
       .single();
-
     if (profileError) {
-      console.error('[Admin Setup] Profile fetch error:', profileError);
+      logger.error('[Admin Setup] Profile fetch error:', profileError);
       return jsonError('Failed to verify user permissions', 500);
     }
-
     // Allow admin users OR check for bootstrap key for initial setup
     const isAdmin = profile?.role === 'admin';
     const isBootstrapAttempt = !!bootstrapKey;
-    
     // Rate limit bootstrap attempts to prevent brute-force attacks
     if (isBootstrapAttempt && !isAdmin) {
       const clientIp = getClientIp(req);
       const rateLimitKey = `bootstrap-setup:${clientIp}`;
       const rateLimit = checkRateLimit(rateLimitKey, RateLimits.BOOTSTRAP_SETUP);
-      
       if (!rateLimit.allowed) {
-        console.warn(
+        logger.warn(
           '[Admin Setup] Rate limit exceeded for bootstrap attempt from:',
           clientIp,
           'user:',
@@ -79,68 +65,56 @@ export async function POST(req: Request) {
           rateLimit.retryAfter!
         );
       }
-      
-      console.log(
+      logger.info(
         '[Admin Setup] Bootstrap attempt',
         rateLimit.remaining,
         'remaining attempts from:',
         clientIp
       );
     }
-    
     const isBootstrap = isBootstrapAttempt && bootstrapKey === process.env.SETUP_BOOTSTRAP_KEY;
-
     if (!isAdmin && !isBootstrap) {
       if (isBootstrapAttempt) {
-        console.warn('[Admin Setup] Invalid bootstrap key from:', user.email);
+        logger.warn('[Admin Setup] Invalid bootstrap key from:', user.email);
       } else {
-        console.warn('[Admin Setup] Access denied for:', user.email, 'role:', profile?.role);
+        logger.warn('[Admin Setup] Access denied for:', user.email, 'role:', profile?.role);
       }
       return jsonError(
         'Admin access required. Contact your administrator or use the bootstrap key for initial setup.',
         403
       );
     }
-
     if (isBootstrap) {
-      console.log('[Admin Setup] ⚠️  Bootstrap setup triggered by:', user.email);
-      console.log('[Admin Setup] ⚠️  Remember to remove SETUP_BOOTSTRAP_KEY after creating admin user');
+      logger.info('[Admin Setup] ⚠️  Bootstrap setup triggered by:', user.email);
+      logger.info('[Admin Setup] ⚠️  Remember to remove SETUP_BOOTSTRAP_KEY after creating admin user');
     } else {
-      console.log('[Admin Setup] Admin action by:', user.email);
+      logger.info('[Admin Setup] Admin action by:', user.email);
     }
-
     // Use service role client for admin operations
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
     if (!supabaseUrl || !supabaseServiceKey) {
       return jsonError('Server configuration error', 500);
     }
-
     const adminClient = createAdminClient(supabaseUrl, supabaseServiceKey);
-
     switch (action) {
       case 'storage-bucket':
         return await setupStorageBucket(adminClient);
-
       case 'interview-templates':
         return await setupInterviewTemplates(adminClient);
-
       default:
         return jsonError('Unknown action', 400);
     }
   } catch (error) {
-    console.error('[Admin Setup] Error:', error);
+    logger.error('[Admin Setup] Error:', error);
     return jsonError('Internal server error', 500);
   }
 }
-
 async function setupStorageBucket(adminClient: any) {
   try {
     // Check if bucket already exists
     const { data: buckets } = await adminClient.storage.listBuckets();
     const exists = buckets?.some((b: any) => b.id === 'guidewire-assistant-training-content');
-
     if (exists) {
       return Response.json({
         success: true,
@@ -148,7 +122,6 @@ async function setupStorageBucket(adminClient: any) {
         alreadyExists: true,
       });
     }
-
     // Create bucket
     const { data, error } = await adminClient.storage.createBucket('guidewire-assistant-training-content', {
       public: false,
@@ -165,33 +138,28 @@ async function setupStorageBucket(adminClient: any) {
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       ],
     });
-
     if (error) {
-      console.error('[Storage Bucket] Error:', error);
+      logger.error('[Storage Bucket] Error:', error);
       return jsonError(`Failed to create storage bucket: ${error.message}`, 500);
     }
-
     // Note: RLS policies need to be set manually in Supabase Dashboard
     // or via SQL because the JS client doesn't support policy creation
-
     return Response.json({
       success: true,
       message: 'Storage bucket created successfully! Note: Set up RLS policies in Supabase Dashboard.',
       data,
     });
   } catch (error) {
-    console.error('[Storage Bucket] Unexpected error:', error);
+    logger.error('[Storage Bucket] Unexpected error:', error);
     return jsonError('Failed to create storage bucket', 500);
   }
 }
-
 async function setupInterviewTemplates(adminClient: any) {
   try {
     // Check if templates already exist
     const { count } = await adminClient
       .from('interview_templates')
       .select('*', { count: 'exact', head: true });
-
     if ((count || 0) > 0) {
       return Response.json({
         success: true,
@@ -199,19 +167,15 @@ async function setupInterviewTemplates(adminClient: any) {
         alreadyExists: true,
       });
     }
-
     // Get product IDs
     const { data: products, error: productsError } = await adminClient
       .from('products')
       .select('id, code')
       .in('code', ['CC', 'PC', 'BC', 'FW']);
-
     if (productsError || !products) {
       return jsonError('Failed to fetch products', 500);
     }
-
     const productMap = new Map(products.map((p: any) => [p.code, p.id]));
-
     // Define templates
     const templates = [
       {
@@ -313,23 +277,19 @@ async function setupInterviewTemplates(adminClient: any) {
         is_active: true,
       },
     ];
-
     // Insert templates
     const { data, error } = await adminClient.from('interview_templates').insert(templates).select();
-
     if (error) {
-      console.error('[Interview Templates] Insert error:', error);
+      logger.error('[Interview Templates] Insert error:', error);
       return jsonError(`Failed to insert interview templates: ${error.message}`, 500);
     }
-
     return Response.json({
       success: true,
       message: `Successfully created ${data.length} interview templates`,
       data: { count: data.length },
     });
   } catch (error) {
-    console.error('[Interview Templates] Unexpected error:', error);
+    logger.error('[Interview Templates] Unexpected error:', error);
     return jsonError('Failed to create interview templates', 500);
   }
 }
-

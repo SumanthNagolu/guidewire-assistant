@@ -77,8 +77,7 @@ export default function ClientForm({ userId, client }: ClientFormProps) {
         setTimeout(() => router.push('/employee/clients'), 1500);
       }
     } catch (err: any) {
-      console.error('Error saving client:', err);
-      setError(err.message || 'Failed to save client. Please try again.');
+            setError(err.message || 'Failed to save client. Please try again.');
       setLoading(false);
     }
   };

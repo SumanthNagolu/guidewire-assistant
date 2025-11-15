@@ -35,11 +35,8 @@ export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
 
   // Development mode: log to console instead of sending
   if (!resendClient) {
-    console.log('📧 Email (Development Mode - Not Sent):');
-    console.log('  To:', payload.to);
-    console.log('  Subject:', payload.subject);
-    console.log('  HTML:', payload.html.substring(0, 200) + '...');
-    
+    console.log('[Dev Mode] Email would be sent to:', to);
+
     return {
       success: true,
     };
@@ -60,8 +57,7 @@ export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown email error';
-    console.error('Failed to send email:', message);
-    
+        
     return {
       success: false,
       error: message,

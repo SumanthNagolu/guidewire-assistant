@@ -6,29 +6,23 @@ import { Button } from '@/components/ui/button';
 import { Users, BookOpen, MessageSquare, Settings, Upload } from 'lucide-react';
 import { getActivationMetrics, getCompletionTrend } from '@/modules/analytics/activation';
 import { getRecentFeedbackEntries } from '@/modules/feedback/actions';
-
 export default async function AdminPage() {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/login');
   }
-
   // Check if user is admin
   const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single<{ role: string }>();
-
   if (profileError || !profile || profile.role !== 'admin') {
-    redirect('/dashboard');
+    redirect('/academy');
   }
-
   // Get stats
   const [
     { count: totalUsers },
@@ -45,7 +39,6 @@ export default async function AdminPage() {
     getCompletionTrend(7),
     getRecentFeedbackEntries(5),
   ]);
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -55,7 +48,6 @@ export default async function AdminPage() {
           Manage your Guidewire training platform
         </p>
       </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Activation Snapshot</CardTitle>
@@ -102,7 +94,6 @@ export default async function AdminPage() {
           </div>
         </CardContent>
       </Card>
-
       <Card>
         <CardHeader>
           <CardTitle>Progress Trend (Last 7 Days)</CardTitle>
@@ -122,7 +113,6 @@ export default async function AdminPage() {
           )}
         </CardContent>
       </Card>
-
       <Card>
         <CardHeader>
           <CardTitle>Latest Beta Feedback</CardTitle>
@@ -166,7 +156,6 @@ export default async function AdminPage() {
           ))}
         </CardContent>
       </Card>
-
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
@@ -178,7 +167,6 @@ export default async function AdminPage() {
             <div className="text-2xl font-bold">{totalUsers || 0}</div>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Topics</CardTitle>
@@ -188,7 +176,6 @@ export default async function AdminPage() {
             <div className="text-2xl font-bold">{totalTopics || 0}</div>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">AI Conversations</CardTitle>
@@ -199,7 +186,6 @@ export default async function AdminPage() {
           </CardContent>
         </Card>
       </div>
-
       {/* Quick Actions */}
       <div>
         <h2 className="text-2xl font-semibold mb-4">Management</h2>
@@ -220,7 +206,6 @@ export default async function AdminPage() {
               </Link>
             </CardContent>
           </Card>
-
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -237,7 +222,6 @@ export default async function AdminPage() {
               </Link>
             </CardContent>
           </Card>
-
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -254,7 +238,6 @@ export default async function AdminPage() {
               </Button>
             </CardContent>
           </Card>
-
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -271,7 +254,6 @@ export default async function AdminPage() {
               </Button>
             </CardContent>
           </Card>
-
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -293,4 +275,3 @@ export default async function AdminPage() {
     </div>
   );
 }
-

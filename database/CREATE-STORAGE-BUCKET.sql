@@ -1,63 +1,37 @@
--- Create Storage Bucket for Course Content
--- Run this in Supabase SQL Editor
-
--- Create the bucket if it doesn't exist
+-- Create storage bucket for productivity screenshots
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
-  'course-content',
-  'course-content',
-  false, -- Private bucket (requires signed URLs)
-  524288000, -- 500 MB max file size
-  ARRAY[
-    'application/pdf',
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation', -- .pptx
-    'application/vnd.ms-powerpoint', -- .ppt
-    'video/mp4',
-    'video/quicktime', -- .mov
-    'video/x-msvideo', -- .avi
-    'video/webm',
-    'application/msword', -- .doc
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' -- .docx
-  ]
+  'productivity-screenshots',
+  'productivity-screenshots',
+  true, -- Make public for easy access
+  5242880, -- 5MB limit
+  ARRAY['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
 )
 ON CONFLICT (id) DO NOTHING;
 
--- Enable RLS on storage.objects
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
-
--- Policy: Authenticated users can read from course-content bucket
-CREATE POLICY "Authenticated users can read course content"
-ON storage.objects FOR SELECT
-TO authenticated
-USING (bucket_id = 'course-content');
-
--- Policy: Service role can upload files (for admin/bulk upload)
-CREATE POLICY "Service role can upload course content"
+-- Set up RLS policies for the bucket
+CREATE POLICY "Users can upload their own screenshots"
 ON storage.objects FOR INSERT
-TO service_role
-WITH CHECK (bucket_id = 'course-content');
+WITH CHECK (
+  bucket_id = 'productivity-screenshots' AND
+  (auth.uid())::text = (storage.foldername(name))[1]
+);
 
--- Policy: Service role can update files
-CREATE POLICY "Service role can update course content"
-ON storage.objects FOR UPDATE
-TO service_role
-USING (bucket_id = 'course-content');
+CREATE POLICY "Users can view their own screenshots"
+ON storage.objects FOR SELECT
+USING (
+  bucket_id = 'productivity-screenshots' AND
+  (auth.uid())::text = (storage.foldername(name))[1]
+);
 
--- Policy: Service role can delete files
-CREATE POLICY "Service role can delete course content"
+CREATE POLICY "Users can delete their own screenshots"
 ON storage.objects FOR DELETE
-TO service_role
-USING (bucket_id = 'course-content');
+USING (
+  bucket_id = 'productivity-screenshots' AND
+  (auth.uid())::text = (storage.foldername(name))[1]
+);
 
--- Verify bucket creation
-SELECT * FROM storage.buckets WHERE id = 'course-content';
-
--- Verify policies
-SELECT 
-  policyname,
-  cmd,
-  roles
-FROM pg_policies
-WHERE schemaname = 'storage' AND tablename = 'objects'
-ORDER BY policyname;
-
+-- Public access for viewing (since bucket is public)
+CREATE POLICY "Public can view screenshots"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'productivity-screenshots');

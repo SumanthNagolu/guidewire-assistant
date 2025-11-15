@@ -36,36 +36,36 @@ export default function DashboardNav({ user, profile }: DashboardNavProps) {
     <nav className="border-b bg-white">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center space-x-8">
-          <Link href="/dashboard" className="text-xl font-bold text-blue-600">
+          <Link href="/academy" className="text-xl font-bold text-blue-600">
             Guidewire Training
           </Link>
           <div className="hidden md:flex space-x-4">
             <Link
-              href="/dashboard"
+              href="/academy"
               className="text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               Dashboard
             </Link>
             <Link
-              href="/topics"
+              href="/academy/topics"
               className="text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               Topics
             </Link>
             <Link
-              href="/progress"
+              href="/academy/progress"
               className="text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               Progress
             </Link>
             <Link
-              href="/ai-mentor"
+              href="/academy/ai-mentor"
               className="text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               AI Mentor
             </Link>
             <Link
-              href="/assessments"
+              href="/academy/assessments"
               className="text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               Assessments
@@ -119,7 +119,7 @@ export default function DashboardNav({ user, profile }: DashboardNavProps) {
               <Link href="/profile">Profile Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/academy">Academy</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem

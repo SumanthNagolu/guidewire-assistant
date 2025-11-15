@@ -109,8 +109,7 @@ export default function TopicContent({
           await markTopicStarted(userId, topic.id);
         } catch (error) {
           // Silently handle - non-critical if this fails
-          console.error('Failed to mark topic as started:', error);
-        }
+                  }
       })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

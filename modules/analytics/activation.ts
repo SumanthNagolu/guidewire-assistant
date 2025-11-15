@@ -129,12 +129,7 @@ export async function getActivationMetrics(): Promise<ActivationMetrics> {
     ]);
 
   if (profilesError || completionsError || remindersError || !profiles) {
-    console.error('Activation metrics query failed', {
-      profilesError,
-      completionsError,
-      remindersError,
-    });
-    return DEFAULT_METRICS;
+        return DEFAULT_METRICS;
   }
 
   const completionMap = buildCompletionMap(completionRows ?? []);
@@ -209,8 +204,7 @@ export async function getCompletionTrend(
     .returns<CompletionData[]>();
 
   if (error || !data) {
-    console.error('Completion trend query failed', error);
-    return [];
+        return [];
   }
 
   const bucket = new Map<string, number>();

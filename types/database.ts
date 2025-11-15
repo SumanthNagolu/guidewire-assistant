@@ -701,8 +701,1187 @@ export type Database = {
           },
         ]
       }
+      productivity_sessions: {
+        Row: {
+          id: string
+          user_id: string
+          start_time: string
+          end_time: string | null
+          mouse_movements: number | null
+          keystrokes: number | null
+          active_time: number | null
+          idle_time: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          start_time: string
+          end_time?: string | null
+          mouse_movements?: number | null
+          keystrokes?: number | null
+          active_time?: number | null
+          idle_time?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          start_time?: string
+          end_time?: string | null
+          mouse_movements?: number | null
+          keystrokes?: number | null
+          active_time?: number | null
+          idle_time?: number | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      productivity_applications: {
+        Row: {
+          id: string
+          user_id: string
+          app_name: string
+          window_title: string
+          start_time: string
+          end_time: string | null
+          duration: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          app_name: string
+          window_title: string
+          start_time: string
+          end_time?: string | null
+          duration?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          app_name?: string
+          window_title?: string
+          start_time?: string
+          end_time?: string | null
+          duration?: number | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      productivity_screenshots: {
+        Row: {
+          id: string
+          user_id: string
+          screenshot_url: string
+          captured_at: string
+          file_size: number | null
+          created_at: string | null
+          ai_processed: boolean | null
+          processing_status: string | null
+          blur_sensitive: boolean | null
+          quality_score: number | null
+          metadata: Json | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          screenshot_url: string
+          captured_at: string
+          file_size?: number | null
+          created_at?: string | null
+          ai_processed?: boolean | null
+          processing_status?: string | null
+          blur_sensitive?: boolean | null
+          quality_score?: number | null
+          metadata?: Json | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          screenshot_url?: string
+          captured_at?: string
+          file_size?: number | null
+          created_at?: string | null
+          ai_processed?: boolean | null
+          processing_status?: string | null
+          blur_sensitive?: boolean | null
+          quality_score?: number | null
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
+      productivity_ai_analysis: {
+        Row: {
+          id: string
+          screenshot_id: string | null
+          user_id: string
+          application_detected: string
+          window_title: string | null
+          activity_description: string
+          work_category: string
+          productivity_score: number | null
+          focus_score: number | null
+          project_context: string | null
+          client_context: string | null
+          detected_entities: string[] | null
+          ai_model: string | null
+          ai_confidence: number | null
+          processing_time_ms: number | null
+          analyzed_at: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          screenshot_id?: string | null
+          user_id: string
+          application_detected: string
+          window_title?: string | null
+          activity_description: string
+          work_category: string
+          productivity_score?: number | null
+          focus_score?: number | null
+          project_context?: string | null
+          client_context?: string | null
+          detected_entities?: string[] | null
+          ai_model?: string | null
+          ai_confidence?: number | null
+          processing_time_ms?: number | null
+          analyzed_at?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          screenshot_id?: string | null
+          user_id?: string
+          application_detected?: string
+          window_title?: string | null
+          activity_description?: string
+          work_category?: string
+          productivity_score?: number | null
+          focus_score?: number | null
+          project_context?: string | null
+          client_context?: string | null
+          detected_entities?: string[] | null
+          ai_model?: string | null
+          ai_confidence?: number | null
+          processing_time_ms?: number | null
+          analyzed_at?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      productivity_work_summaries: {
+        Row: {
+          id: string
+          user_id: string
+          summary_date: string
+          time_window: string
+          total_productive_minutes: number | null
+          total_break_minutes: number | null
+          total_meeting_minutes: number | null
+          category_breakdown: Json | null
+          application_breakdown: Json | null
+          ai_summary: string | null
+          key_accomplishments: string[] | null
+          improvement_suggestions: string[] | null
+          generated_at: string | null
+          last_updated: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          summary_date: string
+          time_window: string
+          total_productive_minutes?: number | null
+          total_break_minutes?: number | null
+          total_meeting_minutes?: number | null
+          category_breakdown?: Json | null
+          application_breakdown?: Json | null
+          ai_summary?: string | null
+          key_accomplishments?: string[] | null
+          improvement_suggestions?: string[] | null
+          generated_at?: string | null
+          last_updated?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          summary_date?: string
+          time_window?: string
+          total_productive_minutes?: number | null
+          total_break_minutes?: number | null
+          total_meeting_minutes?: number | null
+          category_breakdown?: Json | null
+          application_breakdown?: Json | null
+          ai_summary?: string | null
+          key_accomplishments?: string[] | null
+          improvement_suggestions?: string[] | null
+          generated_at?: string | null
+          last_updated?: string | null
+        }
+        Relationships: []
+      }
+      productivity_presence: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          first_seen_at: string | null
+          last_seen_at: string | null
+          total_active_minutes: number | null
+          current_status: string | null
+          status_updated_at: string | null
+          work_pattern: Json | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          first_seen_at?: string | null
+          last_seen_at?: string | null
+          total_active_minutes?: number | null
+          current_status?: string | null
+          status_updated_at?: string | null
+          work_pattern?: Json | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          first_seen_at?: string | null
+          last_seen_at?: string | null
+          total_active_minutes?: number | null
+          current_status?: string | null
+          status_updated_at?: string | null
+          work_pattern?: Json | null
+        }
+        Relationships: []
+      }
+      productivity_teams: {
+        Row: {
+          id: string
+          name: string
+          team_code: string
+          description: string | null
+          team_lead_id: string | null
+          team_settings: Json | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          team_code: string
+          description?: string | null
+          team_lead_id?: string | null
+          team_settings?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          team_code?: string
+          description?: string | null
+          team_lead_id?: string | null
+          team_settings?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      productivity_team_members: {
+        Row: {
+          id: string
+          team_id: string
+          user_id: string
+          role_in_team: string | null
+          joined_at: string | null
+          is_active: boolean | null
+        }
+        Insert: {
+          id?: string
+          team_id: string
+          user_id: string
+          role_in_team?: string | null
+          joined_at?: string | null
+          is_active?: boolean | null
+        }
+        Update: {
+          id?: string
+          team_id?: string
+          user_id?: string
+          role_in_team?: string | null
+          joined_at?: string | null
+          is_active?: boolean | null
+        }
+        Relationships: []
+      }
+      productivity_websites: {
+        Row: {
+          id: string
+          user_id: string
+          domain: string
+          full_url: string | null
+          page_title: string | null
+          category: string | null
+          visited_at: string | null
+          duration_seconds: number | null
+          work_context: string | null
+          productivity_impact: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          domain: string
+          full_url?: string | null
+          page_title?: string | null
+          category?: string | null
+          visited_at?: string | null
+          duration_seconds?: number | null
+          work_context?: string | null
+          productivity_impact?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          domain?: string
+          full_url?: string | null
+          page_title?: string | null
+          category?: string | null
+          visited_at?: string | null
+          duration_seconds?: number | null
+          work_context?: string | null
+          productivity_impact?: string | null
+        }
+        Relationships: []
+      }
+      productivity_attendance: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          clock_in: string | null
+          clock_out: string | null
+          first_activity: string | null
+          last_activity: string | null
+          total_hours: number | null
+          active_hours: number | null
+          break_hours: number | null
+          overtime_hours: number | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          clock_in?: string | null
+          clock_out?: string | null
+          first_activity?: string | null
+          last_activity?: string | null
+          total_hours?: number | null
+          active_hours?: number | null
+          break_hours?: number | null
+          overtime_hours?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          clock_in?: string | null
+          clock_out?: string | null
+          first_activity?: string | null
+          last_activity?: string | null
+          total_hours?: number | null
+          active_hours?: number | null
+          break_hours?: number | null
+          overtime_hours?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      productivity_web_activity: {
+        Row: {
+          id: string
+          user_id: string
+          url: string | null
+          domain: string | null
+          title: string | null
+          category: string | null
+          duration: number | null
+          scroll_time: number | null
+          scroll_events: number | null
+          max_scroll_depth: number | null
+          visited_at: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          url?: string | null
+          domain?: string | null
+          title?: string | null
+          category?: string | null
+          duration?: number | null
+          scroll_time?: number | null
+          scroll_events?: number | null
+          max_scroll_depth?: number | null
+          visited_at?: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          url?: string | null
+          domain?: string | null
+          title?: string | null
+          category?: string | null
+          duration?: number | null
+          scroll_time?: number | null
+          scroll_events?: number | null
+          max_scroll_depth?: number | null
+          visited_at?: string
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      productivity_communications: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          emails_sent: number | null
+          emails_received: number | null
+          meetings_attended: number | null
+          teams_calls: number | null
+          call_duration: number | null
+          meeting_duration: number | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          emails_sent?: number | null
+          emails_received?: number | null
+          meetings_attended?: number | null
+          teams_calls?: number | null
+          call_duration?: number | null
+          meeting_duration?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          emails_sent?: number | null
+          emails_received?: number | null
+          meetings_attended?: number | null
+          teams_calls?: number | null
+          call_duration?: number | null
+          meeting_duration?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      companion_conversations: {
+        Row: {
+          id: string
+          user_id: string
+          agent_name: string
+          capability: string | null
+          title: string | null
+          metadata: Json | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          agent_name: string
+          capability?: string | null
+          title?: string | null
+          metadata?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          agent_name?: string
+          capability?: string | null
+          title?: string | null
+          metadata?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      companion_messages: {
+        Row: {
+          id: string
+          conversation_id: string
+          role: string
+          content: string
+          model_used: string | null
+          tokens_used: number | null
+          sources: Json | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          conversation_id: string
+          role: string
+          content: string
+          model_used?: string | null
+          tokens_used?: number | null
+          sources?: Json | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          conversation_id?: string
+          role?: string
+          content?: string
+          model_used?: string | null
+          tokens_used?: number | null
+          sources?: Json | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      pods: {
+        Row: {
+          id: string
+          name: string
+          type: string
+          manager_id: string | null
+          target_placements_per_sprint: number | null
+          target_interviews_per_sprint: number | null
+          target_submissions_per_sprint: number | null
+          status: string | null
+          description: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          type: string
+          manager_id?: string | null
+          target_placements_per_sprint?: number | null
+          target_interviews_per_sprint?: number | null
+          target_submissions_per_sprint?: number | null
+          status?: string | null
+          description?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          type?: string
+          manager_id?: string | null
+          target_placements_per_sprint?: number | null
+          target_interviews_per_sprint?: number | null
+          target_submissions_per_sprint?: number | null
+          status?: string | null
+          description?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pods_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      pod_members: {
+        Row: {
+          id: string
+          pod_id: string | null
+          user_id: string | null
+          role: string | null
+          is_active: boolean | null
+          joined_at: string | null
+          left_at: string | null
+        }
+        Insert: {
+          id?: string
+          pod_id?: string | null
+          user_id?: string | null
+          role?: string | null
+          is_active?: boolean | null
+          joined_at?: string | null
+          left_at?: string | null
+        }
+        Update: {
+          id?: string
+          pod_id?: string | null
+          user_id?: string | null
+          role?: string | null
+          is_active?: boolean | null
+          joined_at?: string | null
+          left_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pod_members_pod_id_fkey"
+            columns: ["pod_id"]
+            isOneToOne: false
+            referencedRelation: "pods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pod_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      jd_assignments: {
+        Row: {
+          id: string
+          job_id: string | null
+          pod_id: string | null
+          assigned_by: string | null
+          sourcer_id: string | null
+          screener_id: string | null
+          account_manager_id: string | null
+          status: string | null
+          priority: string | null
+          target_resumes: number | null
+          resumes_sourced: number | null
+          candidates_screened: number | null
+          candidates_qualified: number | null
+          candidates_submitted: number | null
+          time_to_first_resume: unknown | null
+          time_to_first_call: unknown | null
+          time_to_first_submission: unknown | null
+          total_time_spent: unknown | null
+          assigned_at: string | null
+          sourcing_started_at: string | null
+          screening_started_at: string | null
+          first_submission_at: string | null
+          completed_at: string | null
+          notes: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          job_id?: string | null
+          pod_id?: string | null
+          assigned_by?: string | null
+          sourcer_id?: string | null
+          screener_id?: string | null
+          account_manager_id?: string | null
+          status?: string | null
+          priority?: string | null
+          target_resumes?: number | null
+          resumes_sourced?: number | null
+          candidates_screened?: number | null
+          candidates_qualified?: number | null
+          candidates_submitted?: number | null
+          time_to_first_resume?: unknown | null
+          time_to_first_call?: unknown | null
+          time_to_first_submission?: unknown | null
+          total_time_spent?: unknown | null
+          assigned_at?: string | null
+          sourcing_started_at?: string | null
+          screening_started_at?: string | null
+          first_submission_at?: string | null
+          completed_at?: string | null
+          notes?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          job_id?: string | null
+          pod_id?: string | null
+          assigned_by?: string | null
+          sourcer_id?: string | null
+          screener_id?: string | null
+          account_manager_id?: string | null
+          status?: string | null
+          priority?: string | null
+          target_resumes?: number | null
+          resumes_sourced?: number | null
+          candidates_screened?: number | null
+          candidates_qualified?: number | null
+          candidates_submitted?: number | null
+          time_to_first_resume?: unknown | null
+          time_to_first_call?: unknown | null
+          time_to_first_submission?: unknown | null
+          total_time_spent?: unknown | null
+          assigned_at?: string | null
+          sourcing_started_at?: string | null
+          screening_started_at?: string | null
+          first_submission_at?: string | null
+          completed_at?: string | null
+          notes?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      daily_metrics: {
+        Row: {
+          id: string
+          user_id: string | null
+          pod_id: string | null
+          metric_date: string | null
+          jds_assigned: number | null
+          resumes_sourced: number | null
+          resumes_from_db: number | null
+          resumes_from_linkedin: number | null
+          resumes_from_dice: number | null
+          avg_time_per_jd: unknown | null
+          calls_made: number | null
+          calls_connected: number | null
+          calls_qualified: number | null
+          calls_not_interested: number | null
+          candidates_submitted_to_am: number | null
+          cross_sell_leads_tagged: number | null
+          avg_call_duration: unknown | null
+          submissions_received: number | null
+          submissions_made: number | null
+          interviews_scheduled: number | null
+          offers_received: number | null
+          placements_made: number | null
+          emails_sent: number | null
+          emails_received: number | null
+          linkedin_messages: number | null
+          meetings_attended: number | null
+          revenue_generated: number | null
+          pipeline_value: number | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          pod_id?: string | null
+          metric_date?: string | null
+          jds_assigned?: number | null
+          resumes_sourced?: number | null
+          resumes_from_db?: number | null
+          resumes_from_linkedin?: number | null
+          resumes_from_dice?: number | null
+          avg_time_per_jd?: unknown | null
+          calls_made?: number | null
+          calls_connected?: number | null
+          calls_qualified?: number | null
+          calls_not_interested?: number | null
+          candidates_submitted_to_am?: number | null
+          cross_sell_leads_tagged?: number | null
+          avg_call_duration?: unknown | null
+          submissions_received?: number | null
+          submissions_made?: number | null
+          interviews_scheduled?: number | null
+          offers_received?: number | null
+          placements_made?: number | null
+          emails_sent?: number | null
+          emails_received?: number | null
+          linkedin_messages?: number | null
+          meetings_attended?: number | null
+          revenue_generated?: number | null
+          pipeline_value?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          pod_id?: string | null
+          metric_date?: string | null
+          jds_assigned?: number | null
+          resumes_sourced?: number | null
+          resumes_from_db?: number | null
+          resumes_from_linkedin?: number | null
+          resumes_from_dice?: number | null
+          avg_time_per_jd?: unknown | null
+          calls_made?: number | null
+          calls_connected?: number | null
+          calls_qualified?: number | null
+          calls_not_interested?: number | null
+          candidates_submitted_to_am?: number | null
+          cross_sell_leads_tagged?: number | null
+          avg_call_duration?: unknown | null
+          submissions_received?: number | null
+          submissions_made?: number | null
+          interviews_scheduled?: number | null
+          offers_received?: number | null
+          placements_made?: number | null
+          emails_sent?: number | null
+          emails_received?: number | null
+          linkedin_messages?: number | null
+          meetings_attended?: number | null
+          revenue_generated?: number | null
+          pipeline_value?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      bottleneck_alerts: {
+        Row: {
+          id: string
+          alert_type: string
+          severity: string
+          entity_type: string
+          entity_id: string
+          title: string
+          description: string | null
+          recommended_action: string | null
+          assigned_to: string | null
+          assigned_to_pod: string | null
+          status: string | null
+          resolved_by: string | null
+          resolution_notes: string | null
+          created_at: string | null
+          acknowledged_at: string | null
+          resolved_at: string | null
+          dismissed_at: string | null
+          auto_dismiss_at: string | null
+        }
+        Insert: {
+          id?: string
+          alert_type: string
+          severity: string
+          entity_type: string
+          entity_id: string
+          title: string
+          description?: string | null
+          recommended_action?: string | null
+          assigned_to?: string | null
+          assigned_to_pod?: string | null
+          status?: string | null
+          resolved_by?: string | null
+          resolution_notes?: string | null
+          created_at?: string | null
+          acknowledged_at?: string | null
+          resolved_at?: string | null
+          dismissed_at?: string | null
+          auto_dismiss_at?: string | null
+        }
+        Update: {
+          id?: string
+          alert_type?: string
+          severity?: string
+          entity_type?: string
+          entity_id?: string
+          title?: string
+          description?: string | null
+          recommended_action?: string | null
+          assigned_to?: string | null
+          assigned_to_pod?: string | null
+          status?: string | null
+          resolved_by?: string | null
+          resolution_notes?: string | null
+          created_at?: string | null
+          acknowledged_at?: string | null
+          resolved_at?: string | null
+          dismissed_at?: string | null
+          auto_dismiss_at?: string | null
+        }
+        Relationships: []
+      }
+      workflow_instances: {
+        Row: {
+          id: string
+          template_id: string | null
+          name: string
+          instance_type: string | null
+          current_stage: string
+          status: string | null
+          pod_id: string | null
+          owner_id: string | null
+          context_data: Json | null
+          job_id: string | null
+          candidate_id: string | null
+          stages_completed: number | null
+          total_stages: number | null
+          completion_percentage: number | null
+          sla_deadline: string | null
+          is_overdue: boolean | null
+          started_at: string | null
+          paused_at: string | null
+          completed_at: string | null
+          total_duration: unknown | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          template_id?: string | null
+          name: string
+          instance_type?: string | null
+          current_stage: string
+          status?: string | null
+          pod_id?: string | null
+          owner_id?: string | null
+          context_data?: Json | null
+          job_id?: string | null
+          candidate_id?: string | null
+          stages_completed?: number | null
+          total_stages?: number | null
+          completion_percentage?: number | null
+          sla_deadline?: string | null
+          is_overdue?: boolean | null
+          started_at?: string | null
+          paused_at?: string | null
+          completed_at?: string | null
+          total_duration?: unknown | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          template_id?: string | null
+          name?: string
+          instance_type?: string | null
+          current_stage?: string
+          status?: string | null
+          pod_id?: string | null
+          owner_id?: string | null
+          context_data?: Json | null
+          job_id?: string | null
+          candidate_id?: string | null
+          stages_completed?: number | null
+          total_stages?: number | null
+          completion_percentage?: number | null
+          sla_deadline?: string | null
+          is_overdue?: boolean | null
+          started_at?: string | null
+          paused_at?: string | null
+          completed_at?: string | null
+          total_duration?: unknown | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          id: string
+          client_id: string | null
+          title: string
+          description: string | null
+          location: string | null
+          type: string | null
+          experience_required: string | null
+          salary_range: string | null
+          skills_required: Json | null
+          status: string | null
+          posted_date: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          client_id?: string | null
+          title: string
+          description?: string | null
+          location?: string | null
+          type?: string | null
+          experience_required?: string | null
+          salary_range?: string | null
+          skills_required?: Json | null
+          status?: string | null
+          posted_date?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          client_id?: string | null
+          title?: string
+          description?: string | null
+          location?: string | null
+          type?: string | null
+          experience_required?: string | null
+          salary_range?: string | null
+          skills_required?: Json | null
+          status?: string | null
+          posted_date?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      candidates: {
+        Row: {
+          id: string
+          first_name: string
+          last_name: string
+          email: string | null
+          phone: string | null
+          resume_url: string | null
+          linkedin_url: string | null
+          skills: Json | null
+          experience_years: number | null
+          current_company: string | null
+          current_title: string | null
+          expected_salary: string | null
+          status: string | null
+          source: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          first_name: string
+          last_name: string
+          email?: string | null
+          phone?: string | null
+          resume_url?: string | null
+          linkedin_url?: string | null
+          skills?: Json | null
+          experience_years?: number | null
+          current_company?: string | null
+          current_title?: string | null
+          expected_salary?: string | null
+          status?: string | null
+          source?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          first_name?: string
+          last_name?: string
+          email?: string | null
+          phone?: string | null
+          resume_url?: string | null
+          linkedin_url?: string | null
+          skills?: Json | null
+          experience_years?: number | null
+          current_company?: string | null
+          current_title?: string | null
+          expected_salary?: string | null
+          status?: string | null
+          source?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      clients: {
+        Row: {
+          id: string
+          company_name: string
+          contact_name: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          address: string | null
+          industry: string | null
+          website: string | null
+          status: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          company_name: string
+          contact_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          address?: string | null
+          industry?: string | null
+          website?: string | null
+          status?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          company_name?: string
+          contact_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          address?: string | null
+          industry?: string | null
+          website?: string | null
+          status?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      contacts: {
+        Row: {
+          id: string
+          client_id: string | null
+          first_name: string
+          last_name: string
+          title: string | null
+          email: string | null
+          phone: string | null
+          is_primary: boolean | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          client_id?: string | null
+          first_name: string
+          last_name: string
+          title?: string | null
+          email?: string | null
+          phone?: string | null
+          is_primary?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          client_id?: string | null
+          first_name?: string
+          last_name?: string
+          title?: string | null
+          email?: string | null
+          phone?: string | null
+          is_primary?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
+      production_line_view: {
+        Row: {
+          id: string | null
+          name: string | null
+          current_stage: string | null
+          status: string | null
+          completion_percentage: number | null
+          is_overdue: boolean | null
+          pod_name: string | null
+          owner_name: string | null
+          hours_in_progress: number | null
+          sla_deadline: string | null
+          sla_status: string | null
+        }
+        Relationships: []
+      }
       mv_user_progress: {
         Row: {
           completed_topics: number | null

@@ -8,7 +8,14 @@ import {
   FileText, 
   Users, 
   LogOut,
-  Home
+  Home,
+  Image,
+  Target,
+  Download,
+  GraduationCap,
+  BarChart3,
+  BookOpen,
+  Shield
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -19,9 +26,15 @@ export default function AdminSidebar() {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Jobs', href: '/admin/jobs', icon: Briefcase },
-    { name: 'Blog', href: '/admin/blog', icon: FileText },
     { name: 'Talent', href: '/admin/talent', icon: Users },
-    { name: 'Training Content', href: '/admin/training-content', icon: FileText },
+    { name: 'Blog Posts', href: '/admin/blog', icon: FileText },
+    { name: 'Resources', href: '/admin/resources', icon: Download },
+    { name: 'Banners', href: '/admin/banners', icon: Target },
+    { name: 'Media Library', href: '/admin/media', icon: Image },
+    { name: 'Courses', href: '/admin/courses', icon: GraduationCap },
+    { name: 'Training Topics', href: '/admin/training-content/topics', icon: BookOpen },
+    { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+    { name: 'Permissions', href: '/admin/permissions', icon: Shield },
   ];
 
   const handleSignOut = async () => {

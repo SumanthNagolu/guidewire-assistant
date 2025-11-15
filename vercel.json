@@ -1,9 +1,61 @@
 {
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
   "crons": [
     {
-      "path": "/api/reminders/cron",
-      "schedule": "0 10 * * *"
+      "path": "/api/cron/daily-learning-loop",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/hourly-bottleneck-detection",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/weekly-workflow-optimization",
+      "schedule": "0 6 * * 0"
+    },
+    {
+      "path": "/api/cron/refresh-materialized-views",
+      "schedule": "*/15 * * * *"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_APP_URL": "@trikala-app-url",
+    "NEXT_PUBLIC_SUPABASE_URL": "@trikala-supabase-url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@trikala-supabase-anon",
+    "SUPABASE_SERVICE_ROLE_KEY": "@trikala-supabase-service",
+    "OPENAI_API_KEY": "@trikala-openai-key",
+    "ANTHROPIC_API_KEY": "@trikala-anthropic-key",
+    "NEXT_PUBLIC_SENTRY_DSN": "@trikala-sentry-dsn"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
     }
   ]
 }
-

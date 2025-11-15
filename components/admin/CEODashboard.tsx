@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { logger } from "@/lib/utils/logger";
 
 interface PodMetrics {
   id: string;
@@ -43,36 +44,13 @@ export default function CEODashboard() {
   const [totalPlacements, setTotalPlacements] = useState(0);
   const [pipelineValue, setPipelineValue] = useState(0);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    loadDashboard();
-    
-    // Subscribe to real-time updates
-    const channel = supabase
-      .channel('ceo-dashboard')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'daily_metrics' },
-        () => loadDashboard()
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'bottleneck_alerts' },
-        () => loadDashboard()
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  const loadDashboard = async () => {
+  const loadDashboard = useCallback(async () => {
     try {
       // Load pod metrics with aggregated data
       const { data: podsData } = await supabase
-        .from('pods' as any)
+        .from("pods" as any)
         .select(`
           id,
           name,
@@ -90,23 +68,23 @@ export default function CEODashboard() {
         (podsData || []).map(async (pod: any) => {
           // Get placements count (last 14 days)
           const { count: placementsCount } = await supabase
-            .from('placements' as any)
-            .select('*', { count: 'exact', head: true })
-            .gte('start_date', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString())
-            .eq('status', 'active') as any;
+            .from("placements" as any)
+            .select("*", { count: "exact", head: true })
+            .gte("start_date", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString())
+            .eq("status", "active") as any;
 
           // Get interviews count (last 14 days)
           const { count: interviewsCount } = await supabase
-            .from('interviews' as any)
-            .select('*', { count: 'exact', head: true })
-            .gte('scheduled_at', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()) as any;
+            .from("interviews" as any)
+            .select("*", { count: "exact", head: true })
+            .gte("scheduled_at", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()) as any;
 
           // Get revenue (last 14 days)
           const { data: revenueData } = await supabase
-            .from('daily_metrics' as any)
-            .select('revenue_generated')
-            .eq('pod_id', pod.id)
-            .gte('metric_date', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]) as any;
+            .from("daily_metrics" as any)
+            .select("revenue_generated")
+            .eq("pod_id", pod.id)
+            .gte("metric_date", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]) as any;
 
           const revenue = revenueData?.reduce((sum: number, m: any) => sum + (parseFloat(m.revenue_generated) || 0), 0) || 0;
 
@@ -119,7 +97,7 @@ export default function CEODashboard() {
             id: pod.id,
             name: pod.name,
             type: pod.type,
-            manager_name: pod.manager ? `${pod.manager.first_name} ${pod.manager.last_name}` : 'Unassigned',
+            manager_name: pod.manager ? `${pod.manager.first_name} ${pod.manager.last_name}` : "Unassigned",
             placements_count: placementsCount || 0,
             placements_target: pod.target_placements_per_sprint,
             interviews_count: interviewsCount || 0,
@@ -140,29 +118,29 @@ export default function CEODashboard() {
 
       // Load critical alerts
       const { data: alertsData } = await supabase
-        .from('bottleneck_alerts' as any)
-        .select('id, alert_type, severity, title, description, created_at')
-        .in('status', ['open', 'acknowledged'])
-        .order('severity', { ascending: false })
-        .order('created_at', { ascending: false })
+        .from("bottleneck_alerts" as any)
+        .select("id, alert_type, severity, title, description, created_at")
+        .in("status", ["open", "acknowledged"])
+        .order("severity", { ascending: false })
+        .order("created_at", { ascending: false })
         .limit(5) as any;
 
       setAlerts(alertsData || []);
 
       // Load cross-sell metrics
       const { data: crossSellData } = await supabase
-        .from('cross_sell_leads' as any)
-        .select('lead_type, status, estimated_value') as any;
+        .from("cross_sell_leads" as any)
+        .select("lead_type, status, estimated_value") as any;
 
       if (crossSellData) {
         const totalLeads = crossSellData.length;
-        const benchLeads = crossSellData.filter((l: any) => l.lead_type === 'bench_sales').length;
-        const trainingLeads = crossSellData.filter((l: any) => l.lead_type === 'training').length;
-        const taLeads = crossSellData.filter((l: any) => l.lead_type === 'talent_acquisition').length;
-        const convertedLeads = crossSellData.filter((l: any) => l.status === 'converted').length;
+        const benchLeads = crossSellData.filter((l: any) => l.lead_type === "bench_sales").length;
+        const trainingLeads = crossSellData.filter((l: any) => l.lead_type === "training").length;
+        const taLeads = crossSellData.filter((l: any) => l.lead_type === "talent_acquisition").length;
+        const convertedLeads = crossSellData.filter((l: any) => l.status === "converted").length;
         const conversionRate = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0;
         const crossSellRevenue = crossSellData
-          .filter((l: any) => l.status === 'converted')
+          .filter((l: any) => l.status === "converted")
           .reduce((sum: number, l: any) => sum + (parseFloat(l.estimated_value) || 0), 0);
 
         setCrossSell({
@@ -177,19 +155,45 @@ export default function CEODashboard() {
 
       // Calculate pipeline value (open opportunities)
       const { data: opportunitiesData } = await supabase
-        .from('opportunities' as any)
-        .select('estimated_value')
-        .in('stage', ['lead', 'qualified', 'proposal', 'negotiation']) as any;
+        .from("opportunities" as any)
+        .select("estimated_value")
+        .in("stage", ["lead", "qualified", "proposal", "negotiation"]) as any;
 
       const pipelineVal = opportunitiesData?.reduce((sum: number, o: any) => sum + (parseFloat(o.estimated_value) || 0), 0) || 0;
       setPipelineValue(pipelineVal);
-
     } catch (error) {
-      console.error('Error loading CEO dashboard:', error);
+      logger.error("Error loading CEO dashboard:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    void loadDashboard();
+
+    // Subscribe to real-time updates
+    const channel = supabase
+      .channel("ceo-dashboard")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "daily_metrics" },
+        () => {
+          void loadDashboard();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "bottleneck_alerts" },
+        () => {
+          void loadDashboard();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [loadDashboard, supabase]);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {

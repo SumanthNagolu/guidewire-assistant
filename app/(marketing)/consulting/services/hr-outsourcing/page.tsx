@@ -1,11 +1,9 @@
 import { ArrowRight, Users } from 'lucide-react';
 import Link from 'next/link';
-
 export const metadata = {
   title: 'HR Outsourcing | InTime eSolutions',
   description: 'Reduce overhead and focus on core operations with comprehensive HR outsourcing services.',
 };
-
 export default function Page() {
   return (
     <>
@@ -26,7 +24,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
       <section className="py-16 bg-white">
         <div className="section-container max-w-4xl">
           <div className="mb-8">
@@ -34,7 +31,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
       <section className="py-16 bg-gradient-to-r from-trust-blue to-trust-blue-600 text-white">
         <div className="section-container text-center">
           <h2 className="text-h2 font-heading mb-6">Ready to Get Started?</h2>

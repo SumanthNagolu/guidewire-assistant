@@ -1,30 +1,24 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import PipelineBoard from '@/components/employee/pipeline/PipelineBoard';
-
 export default async function PipelinePage() {
   const supabase = await createClient() as any; // Type cast for CRM tables
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get user profile
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   if (!profile?.role || !['admin', 'recruiter', 'sales', 'account_manager', 'operations'].includes(profile.role)) {
     redirect('/employee/dashboard');
   }
-
   // Get applications with candidate and job details
   let query = supabase
     .from('applications')
@@ -35,18 +29,13 @@ export default async function PipelinePage() {
     `)
     .is('deleted_at', null)
     .order('updated_at', { ascending: false });
-
   // Apply filters based on role
   if (profile.role === 'recruiter') {
     query = query.eq('recruiter_id', user.id);
   }
-
   const { data: applications, error } = await query;
-
   if (error) {
-    console.error('Error fetching applications:', error);
-  }
-
+    }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -62,7 +51,6 @@ export default async function PipelinePage() {
           </div>
         </div>
       </div>
-
       {/* Pipeline Board */}
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <PipelineBoard 
@@ -74,4 +62,3 @@ export default async function PipelinePage() {
     </div>
   );
 }
-

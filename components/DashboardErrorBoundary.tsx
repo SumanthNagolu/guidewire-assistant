@@ -43,7 +43,7 @@ export function DashboardErrorBoundary({ children }: { children: ReactNode }) {
                 >
                   Refresh Page
                 </Button>
-                <Link href="/dashboard" className="flex-1">
+                <Link href="/academy" className="flex-1">
                   <Button className="w-full">
                     <Home className="mr-2 h-4 w-4" />
                     Dashboard
@@ -56,8 +56,7 @@ export function DashboardErrorBoundary({ children }: { children: ReactNode }) {
       }
       onError={(error, errorInfo) => {
         // Log to console in development
-        console.error('[Dashboard Error]', error, errorInfo);
-        
+                
         // In production, send to error tracking service
         // Example: Sentry.captureException(error, { contexts: { react: errorInfo } });
       }}

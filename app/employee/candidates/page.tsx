@@ -4,7 +4,6 @@ import CandidatesTable from '@/components/employee/candidates/CandidatesTable';
 import CandidatesFilters from '@/components/employee/candidates/CandidatesFilters';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
-
 export default async function CandidatesPage({
   searchParams,
 }: {
@@ -12,27 +11,22 @@ export default async function CandidatesPage({
 }) {
   const supabase = await createClient() as any; // Type cast for CRM tables
   const params = await searchParams;
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get user profile
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   if (!profile?.role || !['admin', 'recruiter', 'sales', 'account_manager', 'operations'].includes(profile.role)) {
     redirect('/employee/dashboard');
   }
-
   // Get search and filter params
   const search = typeof params.search === 'string' ? params.search : '';
   const status = typeof params.status === 'string' ? params.status : 'all';
@@ -40,55 +34,43 @@ export default async function CandidatesPage({
   const workAuth = typeof params.workAuth === 'string' ? params.workAuth : 'all';
   const page = typeof params.page === 'string' ? parseInt(params.page) : 1;
   const perPage = 20;
-
   // Build query
   let query = supabase
     .from('candidates')
     .select('*', { count: 'exact' })
     .is('deleted_at', null)
     .order('created_at', { ascending: false });
-
   // Apply filters based on role
   if (profile.role === 'recruiter') {
     query = query.eq('owner_id', user.id);
   }
-
   // Search filter
   if (search) {
     query = query.or(
       `first_name.ilike.%${search}%,last_name.ilike.%${search}%,email.ilike.%${search}%,current_title.ilike.%${search}%`
     );
   }
-
   // Status filter
   if (status !== 'all') {
     query = query.eq('status', status);
   }
-
   // Availability filter
   if (availability !== 'all') {
     query = query.eq('availability', availability);
   }
-
   // Work authorization filter
   if (workAuth !== 'all') {
     query = query.eq('work_authorization', workAuth);
   }
-
   // Pagination
   const from = (page - 1) * perPage;
   const to = from + perPage - 1;
   query = query.range(from, to);
-
   // Execute query
   const { data: candidates, count, error } = await query;
-
   if (error) {
-    console.error('Error fetching candidates:', error);
-  }
-
+    }
   const totalPages = count ? Math.ceil(count / perPage) : 0;
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -113,7 +95,6 @@ export default async function CandidatesPage({
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
@@ -123,13 +104,11 @@ export default async function CandidatesPage({
           initialAvailability={availability}
           initialWorkAuth={workAuth}
         />
-
         {/* Results Summary */}
         <div className="mb-4 text-sm text-wisdom-gray-600">
           Showing {candidates?.length || 0} of {count || 0} candidates
           {profile.role === 'recruiter' && ' (your candidates only)'}
         </div>
-
         {/* Candidates Table */}
         <CandidatesTable
           candidates={candidates || []}
@@ -141,4 +120,3 @@ export default async function CandidatesPage({
     </div>
   );
 }
-

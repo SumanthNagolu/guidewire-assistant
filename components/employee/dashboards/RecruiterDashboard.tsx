@@ -46,8 +46,7 @@ export default function RecruiterDashboard({ user, profile }: RecruiterDashboard
       });
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching metrics:', error);
-      setLoading(false);
+            setLoading(false);
     }
   };
 

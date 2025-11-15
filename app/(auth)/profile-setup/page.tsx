@@ -1,5 +1,4 @@
 'use client';
-
 import { updateProfile } from '@/modules/auth/actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,14 +26,12 @@ import {
   personaPlaybooks,
   type PersonaKey,
 } from '@/modules/onboarding/persona-guidance';
-
 export default function ProfileSetupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [products, setProducts] = useState<{ id: string; name: string; code: string }[]>([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedPersona, setSelectedPersona] = useState<PersonaKey | ''>('');
-
   useEffect(() => {
     async function loadProducts() {
       const supabase = createClient();
@@ -48,56 +45,37 @@ export default function ProfileSetupPage() {
     }
     loadProducts();
   }, []);
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
     const formData = new FormData(e.currentTarget);
     formData.set('preferredProductId', selectedProduct);
     formData.set('assumedPersona', selectedPersona ?? '');
-
-    console.log('Form data:', {
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      assumedPersona: formData.get('assumedPersona'),
-      preferredProductId: formData.get('preferredProductId'),
-    });
-
     try {
-      console.log('[CLIENT] Submitting profile update...');
       const result = await updateProfile(formData);
-      console.log('[CLIENT] Update profile result:', result);
-      
       if (!result.success) {
         const errorMsg = result.error || 'Failed to update profile';
-        console.error('[CLIENT] Profile update failed:', errorMsg);
         setError(errorMsg);
         toast.error(errorMsg);
         setLoading(false);
         return;
       }
-      
       // If we get here, success should have redirected
-      console.log('[CLIENT] Profile updated successfully, waiting for redirect...');
       // Success will redirect via server action
     } catch (error) {
       // NEXT_REDIRECT is thrown by Next.js redirect() - this is EXPECTED, not an error
       if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-        console.log('[CLIENT] Redirect triggered (expected) - going to dashboard');
+        // User is being redirected to dashboard
         return;
       }
-      
       // Only show actual errors
-      console.error('[CLIENT] Unexpected profile update error:', error);
       const errorMsg = error instanceof Error ? error.message : 'An unexpected error occurred';
       setError(errorMsg);
       toast.error(errorMsg);
       setLoading(false);
     }
   }
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-lg">
@@ -137,7 +115,6 @@ export default function ProfileSetupPage() {
                 />
               </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="assumedPersona">Assumed Experience Level</Label>
               <Select
@@ -176,7 +153,6 @@ export default function ProfileSetupPage() {
                 </div>
               )}
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="preferredProduct">Preferred Product</Label>
               <Select
@@ -215,4 +191,3 @@ export default function ProfileSetupPage() {
     </div>
   );
 }
-

@@ -90,8 +90,7 @@ export async function getLatestFeedbackForUser(userId: string): Promise<Feedback
     .maybeSingle();
 
   if (error) {
-    console.error('Failed to load latest feedback entry', error);
-    return null;
+        return null;
   }
 
   return (data ?? null) as FeedbackEntry | null;
@@ -109,8 +108,7 @@ export async function getRecentFeedbackEntries(limit = 5): Promise<FeedbackEntry
     .limit(limit);
 
   if (error || !data) {
-    console.error('Failed to load recent feedback entries', error);
-    return [];
+        return [];
   }
 
   type RawFeedbackRow = {

@@ -4,7 +4,6 @@ import PlacementsTable from '@/components/employee/placements/PlacementsTable';
 import PlacementsFilters from '@/components/employee/placements/PlacementsFilters';
 import Link from 'next/link';
 import { Plus, AlertCircle } from 'lucide-react';
-
 export default async function PlacementsPage({
   searchParams,
 }: {
@@ -12,34 +11,28 @@ export default async function PlacementsPage({
 }) {
   const supabase = await createClient() as any; // Type cast for CRM tables
   const params = await searchParams;
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get user profile
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   if (!profile?.role || !['admin', 'recruiter', 'account_manager', 'operations'].includes(profile.role)) {
     redirect('/employee/dashboard');
   }
-
   // Get search and filter params
   const search = typeof params.search === 'string' ? params.search : '';
   const status = typeof params.status === 'string' ? params.status : 'all';
   const endingSoon = typeof params.endingSoon === 'string' ? params.endingSoon === 'true' : false;
   const page = typeof params.page === 'string' ? parseInt(params.page) : 1;
   const perPage = 20;
-
   // Build query
   let query = supabase
     .from('placements')
@@ -51,19 +44,16 @@ export default async function PlacementsPage({
     `, { count: 'exact' })
     .is('deleted_at', null)
     .order('start_date', { ascending: false });
-
   // Search filter
   if (search) {
     query = query.or(
       `candidate.first_name.ilike.%${search}%,candidate.last_name.ilike.%${search}%`
     );
   }
-
   // Status filter
   if (status !== 'all') {
     query = query.eq('status', status);
   }
-
   // Ending soon filter (within 30 days)
   if (endingSoon) {
     const thirtyDaysFromNow = new Date();
@@ -72,28 +62,21 @@ export default async function PlacementsPage({
       .eq('status', 'active')
       .lte('end_date', thirtyDaysFromNow.toISOString());
   }
-
   // Pagination
   const from = (page - 1) * perPage;
   const to = from + perPage - 1;
   query = query.range(from, to);
-
   // Execute query
   const { data: placements, count, error } = await query;
-
   if (error) {
-    console.error('Error fetching placements:', error);
-  }
-
+    }
   // Get alert counts
   const { data: endingSoonCount } = await supabase
     .from('placements')
     .select('id', { count: 'exact', head: true })
     .eq('status', 'active')
     .lte('end_date', new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString());
-
   const totalPages = count ? Math.ceil(count / perPage) : 0;
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -118,7 +101,6 @@ export default async function PlacementsPage({
           </div>
         </div>
       </div>
-
       {/* Alerts */}
       {endingSoonCount && endingSoonCount > 0 && !endingSoon && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -138,7 +120,6 @@ export default async function PlacementsPage({
           </Link>
         </div>
       )}
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
@@ -147,12 +128,10 @@ export default async function PlacementsPage({
           initialStatus={status}
           initialEndingSoon={endingSoon}
         />
-
         {/* Results Summary */}
         <div className="mb-4 text-sm text-wisdom-gray-600">
           Showing {placements?.length || 0} of {count || 0} placements
         </div>
-
         {/* Placements Table */}
         <PlacementsTable
           placements={placements || []}
@@ -164,4 +143,3 @@ export default async function PlacementsPage({
     </div>
   );
 }
-

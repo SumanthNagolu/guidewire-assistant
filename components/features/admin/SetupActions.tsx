@@ -43,8 +43,7 @@ export default function SetupActions({ initialChecks }: SetupActionsProps) {
         setChecks((prev) => ({ ...prev, interviewTemplates: true }));
       }
     } catch (error) {
-      console.error('Setup error:', error);
-      toast.error(error instanceof Error ? error.message : 'Setup failed');
+            toast.error(error instanceof Error ? error.message : 'Setup failed');
     } finally {
       setLoading(null);
     }

@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { Globe, Plane, FileText, Home, TrendingUp, Users, CheckCircle2, ArrowRight, MapPin, Clock, Shield } from "lucide-react";
-
 export const metadata = {
   title: "Global Mobility & Cross-Border Solutions - InTime eSolutions",
   description: "Complete cross-border talent solutions. H1B to Canada, India to North America, intra-company transfers, and global mobility consulting.",
 };
-
 export default function CrossBorderPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -22,14 +20,12 @@ export default function CrossBorderPage() {
             <p className="text-xl md:text-2xl mb-8 text-gray-100 max-w-4xl">
               Your talent knows no boundaries—neither should your opportunities. Move skilled professionals across 50+ countries with complete visa, compliance, and relocation support. When borders can't slow your business down, you call InTime.
             </p>
-            
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
               <p className="text-lg">
                 <strong>Our Promise:</strong> Speed, Transparency, End-to-End Support.<br />
                 We handle immigration, job placement, relocation—so you can focus on your career or business.
               </p>
             </div>
-            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact?type=crossborder" className="btn-secondary inline-flex items-center gap-2">
                 Start Your Journey
@@ -42,7 +38,6 @@ export default function CrossBorderPage() {
           </div>
         </div>
       </section>
-
       {/* Our Cross-Border Services */}
       <section className="py-20 bg-gray-50">
         <div className="section-container">
@@ -54,7 +49,6 @@ export default function CrossBorderPage() {
               We don't just fill positions. We build bridges between countries, careers, and opportunities.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* H1B to Canada */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow border-t-4 border-success-green">
@@ -85,7 +79,6 @@ export default function CrossBorderPage() {
                 Learn More <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
             {/* Canada to USA */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow border-t-4 border-trust-blue-600">
               <div className="w-12 h-12 bg-trust-blue-100 rounded-xl flex items-center justify-center mb-6">
@@ -115,7 +108,6 @@ export default function CrossBorderPage() {
                 Explore Opportunities <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
             {/* India to USA */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow border-t-4 border-innovation-orange">
               <div className="w-12 h-12 bg-innovation-orange-100 rounded-xl flex items-center justify-center mb-6">
@@ -145,7 +137,6 @@ export default function CrossBorderPage() {
                 Apply Now <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
             {/* India to Canada */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow border-t-4 border-success-green">
               <div className="w-12 h-12 bg-success-green-100 rounded-xl flex items-center justify-center mb-6">
@@ -175,7 +166,6 @@ export default function CrossBorderPage() {
                 Start Application <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
             {/* UK/Europe to North America */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow border-t-4 border-trust-blue-600">
               <div className="w-12 h-12 bg-trust-blue-100 rounded-xl flex items-center justify-center mb-6">
@@ -205,7 +195,6 @@ export default function CrossBorderPage() {
                 Get Started <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
             {/* Intra-Company Transfers */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow border-t-4 border-innovation-orange">
               <div className="w-12 h-12 bg-innovation-orange-100 rounded-xl flex items-center justify-center mb-6">
@@ -238,7 +227,6 @@ export default function CrossBorderPage() {
           </div>
         </div>
       </section>
-
       {/* Why InTime for Cross-Border */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -250,7 +238,6 @@ export default function CrossBorderPage() {
               We're not just recruiters. We're immigration-savvy talent strategists with offices in USA, Canada, and India.
             </p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-success-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -261,7 +248,6 @@ export default function CrossBorderPage() {
                 Average 60-90 days from application to job offer. Competitors take 6+ months.
               </p>
             </div>
-
             <div className="text-center">
               <div className="w-16 h-16 bg-trust-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-trust-blue-600" />
@@ -271,7 +257,6 @@ export default function CrossBorderPage() {
                 100% immigration compliance. We work with licensed attorneys in USA, Canada, and India.
               </p>
             </div>
-
             <div className="text-center">
               <div className="w-16 h-16 bg-innovation-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-innovation-orange-600" />
@@ -284,7 +269,6 @@ export default function CrossBorderPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
         <div className="section-container text-center">
@@ -303,7 +287,6 @@ export default function CrossBorderPage() {
               View Open Positions
             </Link>
           </div>
-
           <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             <div>
               <div className="text-3xl font-bold mb-2">🇺🇸 USA</div>
@@ -323,4 +306,3 @@ export default function CrossBorderPage() {
     </div>
   );
 }
-

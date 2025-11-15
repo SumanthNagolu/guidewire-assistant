@@ -88,8 +88,7 @@ export async function getConversations(
     .limit(20);
 
   if (error) {
-    console.error('Error fetching conversations:', error);
-    return [];
+        return [];
   }
 
   return (data || []) as Conversation[];
@@ -108,8 +107,7 @@ export async function getConversationMessages(
     .order('created_at', { ascending: true });
 
   if (error) {
-    console.error('Error fetching messages:', error);
-    return [];
+        return [];
   }
 
   return (data || []) as Message[];
@@ -129,8 +127,7 @@ export async function getMentorUsageWindow(
     .eq('conversation_type', 'mentor');
 
   if (conversationError) {
-    console.error('Error fetching mentor conversations:', conversationError);
-    return createUsageSummary();
+        return createUsageSummary();
   }
 
   const conversationIds = ((conversations ?? []) as Pick<
@@ -150,8 +147,7 @@ export async function getMentorUsageWindow(
 
   if (messagesError || !messages) {
     if (messagesError) {
-      console.error('Error fetching mentor message usage:', messagesError);
-    }
+          }
     return createUsageSummary();
   }
 

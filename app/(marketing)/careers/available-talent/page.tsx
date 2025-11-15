@@ -1,13 +1,11 @@
 import { ArrowRight, MapPin, Award, Star, Code, Briefcase, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-
 export const metadata = {
   title: 'Available Talent | InTime eSolutions',
   description: 'Browse our bench of pre-vetted, certified IT professionals ready for immediate placement. Top consultants available now.',
   keywords: 'available talent, IT consultants, Guidewire developers, contract consultants, bench talent',
 };
-
 export default function AvailableTalentPage() {
   // Mock data - replace with actual data from your database
   const availableTalent = [
@@ -89,7 +87,6 @@ export default function AvailableTalentPage() {
       featured: true,
     },
   ];
-
   return (
     <>
       {/* Hero Section */}
@@ -108,7 +105,6 @@ export default function AvailableTalentPage() {
           </div>
         </div>
       </section>
-
       {/* Quick Stats */}
       <section className="py-12 bg-innovation-orange-50 border-b border-innovation-orange-100">
         <div className="section-container">
@@ -132,7 +128,6 @@ export default function AvailableTalentPage() {
           </div>
         </div>
       </section>
-
       {/* Talent Listings */}
       <section className="py-16 bg-white">
         <div className="section-container">
@@ -161,7 +156,6 @@ export default function AvailableTalentPage() {
               </select>
             </div>
           </div>
-
           <div className="grid md:grid-cols-2 gap-6">
             {availableTalent.map((talent) => (
               <div
@@ -201,7 +195,6 @@ export default function AvailableTalentPage() {
                     </div>
                   </div>
                 </div>
-
                 {/* Availability & Rate */}
                 <div className="flex items-center justify-between mb-4 p-3 bg-white rounded-lg border border-wisdom-gray-200">
                   <div>
@@ -216,12 +209,10 @@ export default function AvailableTalentPage() {
                     <div className="font-semibold text-trust-blue">{talent.rate}</div>
                   </div>
                 </div>
-
                 {/* Summary */}
                 <p className="text-sm text-wisdom-gray-700 mb-4 leading-relaxed">
                   {talent.summary}
                 </p>
-
                 {/* Skills */}
                 <div className="mb-4">
                   <div className="text-xs text-wisdom-gray-600 mb-2 flex items-center gap-1">
@@ -239,7 +230,6 @@ export default function AvailableTalentPage() {
                     ))}
                   </div>
                 </div>
-
                 {/* Certifications */}
                 <div className="mb-4">
                   <div className="text-xs text-wisdom-gray-600 mb-2 flex items-center gap-1">
@@ -257,7 +247,6 @@ export default function AvailableTalentPage() {
                     ))}
                   </div>
                 </div>
-
                 {/* CTA */}
                 <div className="flex gap-2 pt-4 border-t border-wisdom-gray-200">
                   <Link
@@ -278,7 +267,6 @@ export default function AvailableTalentPage() {
           </div>
         </div>
       </section>
-
       {/* How It Works */}
       <section className="py-16 bg-wisdom-gray-50">
         <div className="section-container">
@@ -303,7 +291,6 @@ export default function AvailableTalentPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16 bg-innovation-orange text-white">
         <div className="section-container text-center">
@@ -322,4 +309,3 @@ export default function AvailableTalentPage() {
     </>
   );
 }
-

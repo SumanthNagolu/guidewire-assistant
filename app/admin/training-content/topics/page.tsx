@@ -7,32 +7,25 @@ import Link from 'next/link';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { TopicUploadForm } from '@/components/features/admin/TopicUploadForm';
 import TopicEditButton from '@/components/features/admin/TopicEditButton';
-
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
-
 export default async function AdminTopicsPage() {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/login');
   }
-
   // Check if user is admin
   const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single<{ role: string }>();
-
   if (profileError || !profile || profile.role !== 'admin') {
-    redirect('/dashboard');
+    redirect('/academy');
   }
-
   // Get all topics
   const { data: topics } = await supabase
     .from('topics')
@@ -41,18 +34,12 @@ export default async function AdminTopicsPage() {
       products(name, code)
     `)
     .order('position', { ascending: true });
-
-  console.log('[Admin Topics] Total topics loaded:', topics?.length || 0);
   if (topics && topics.length > 0) {
-    console.log('[Admin Topics] First topic ID:', topics[0].id);
-    console.log('[Admin Topics] First topic title:', topics[0].title);
-  }
-
+    }
   type TopicWithProduct = {
     products: { name: string; code: string } | null;
     [key: string]: any;
   };
-
   // Group by product
   const topicsByProduct = topics?.reduce((acc: any, topic: TopicWithProduct) => {
     const productCode = topic.products?.code;
@@ -63,7 +50,6 @@ export default async function AdminTopicsPage() {
     acc[productCode].push(topic);
     return acc;
   }, {});
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -80,7 +66,6 @@ export default async function AdminTopicsPage() {
             Manage topics across all Guidewire products
           </p>
         </div>
-
         <div className="flex gap-2">
           <Button disabled>
             <Plus className="mr-2 h-4 w-4" />
@@ -88,7 +73,6 @@ export default async function AdminTopicsPage() {
           </Button>
         </div>
       </div>
-
       {/* Bulk Upload */}
       <Card>
         <CardHeader>
@@ -99,7 +83,6 @@ export default async function AdminTopicsPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <TopicUploadForm />
-
           <div className="space-y-3 rounded-lg border bg-gray-50 p-4 text-sm text-gray-600">
             <p className="font-medium">JSON Schema</p>
             <pre className="block overflow-x-auto whitespace-pre rounded bg-white p-3 text-xs">
@@ -127,7 +110,6 @@ export default async function AdminTopicsPage() {
           </div>
         </CardContent>
       </Card>
-
       {/* Topics by Product */}
       <div className="space-y-6">
         {Object.entries(topicsByProduct || {}).map(([productCode, productTopics]: [string, any]) => (
@@ -178,4 +160,3 @@ export default async function AdminTopicsPage() {
     </div>
   );
 }
-

@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { logger } from "@/lib/utils/logger";
 
 interface CallQueueItem {
   id: string;
@@ -58,13 +59,9 @@ export default function ScreenerDashboard() {
     notes: '',
     crossSellTags: []
   });
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    loadDashboard();
-  }, []);
-
-  const loadDashboard = async () => {
+  const loadDashboard = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -151,11 +148,15 @@ export default function ScreenerDashboard() {
       })) || []);
 
     } catch (error) {
-      console.error('Error loading screener dashboard:', error);
+      logger.error('Error loading screener dashboard:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    void loadDashboard();
+  }, [loadDashboard]);
 
   const handleCallNow = (item: CallQueueItem) => {
     setActiveCall(item);
@@ -250,10 +251,10 @@ export default function ScreenerDashboard() {
         notes: '',
         crossSellTags: []
       });
-      loadDashboard();
+      await loadDashboard();
 
     } catch (error) {
-      console.error('Error completing call:', error);
+      logger.error('Error completing call:', error);
     }
   };
 

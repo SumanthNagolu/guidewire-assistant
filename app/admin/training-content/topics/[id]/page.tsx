@@ -6,11 +6,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Info } from 'lucide-react';
 import ContentViewer from '@/components/features/content/ContentViewer';
-
 // Force dynamic rendering for admin pages
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-
 type TopicRecord = {
   id: string;
   code: string;
@@ -24,34 +22,27 @@ type TopicRecord = {
   product_id: string;
   products: { code: string; name: string };
 };
-
 export default async function AdminTopicDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/login');
   }
-
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single<{ role: string }>();
-
   if (profile?.role !== 'admin') {
-    redirect('/dashboard');
+    redirect('/academy');
   }
-
   const { id } = await params;
-
   const { data: topic, error } = await supabase
     .from('topics')
     .select(
@@ -71,16 +62,13 @@ export default async function AdminTopicDetailPage({
     )
     .eq('id', id)
     .single<TopicRecord>();
-
   if (error || !topic) {
     redirect('/admin/topics');
   }
-
   const { data: siblingTopics } = await supabase
     .from('topics')
     .select('id, title, position, code')
     .eq('product_id', topic.product_id);
-
   const prerequisiteOptions = (siblingTopics || [])
     .filter((item: any) => item.id !== topic.id)
     .map((item: any) => ({
@@ -89,12 +77,10 @@ export default async function AdminTopicDetailPage({
       position: item.position as number,
       code: item.code as string,
     }));
-
   const slidesFile =
     (topic.content?.slides as string | null) ??
     (topic.content?.slides_url as string | null) ??
     null;
-
   const demos = Array.isArray(topic.content?.demos)
     ? (topic.content?.demos as string[])
     : [];
@@ -105,12 +91,10 @@ export default async function AdminTopicDetailPage({
   const demosList = legacyVideo
     ? Array.from(new Set([...demos, legacyVideo]))
     : demos;
-
   const assignmentFile =
     (topic.content?.assignment as string | null) ??
     (topic.content?.assignment_url as string | null) ??
     null;
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -130,7 +114,6 @@ export default async function AdminTopicDetailPage({
           <Link href="/admin/content-upload">Go to Content Upload</Link>
         </Button>
       </div>
-
       <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
         <Card>
           <CardHeader>
@@ -141,7 +124,6 @@ export default async function AdminTopicDetailPage({
             <TopicEditForm topic={topic} prerequisiteOptions={prerequisiteOptions} />
           </CardContent>
         </Card>
-
         <div className="space-y-6">
           <Card>
             <CardHeader>

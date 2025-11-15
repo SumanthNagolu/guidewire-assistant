@@ -3,31 +3,25 @@ import { redirect, notFound } from 'next/navigation';
 import ClientForm from '@/components/employee/clients/ClientForm';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
-
 export default async function EditClientPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient() as any; // Type cast for CRM tables
   const { id } = await params;
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get user profile
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   if (!profile?.role || !['admin', 'sales', 'account_manager'].includes(profile.role)) {
     redirect('/employee/dashboard');
   }
-
   // Get client
   const { data: client, error } = await supabase
     .from('clients')
@@ -35,11 +29,9 @@ export default async function EditClientPage({ params }: { params: Promise<{ id:
     .eq('id', id)
     .is('deleted_at', null)
     .single();
-
   if (error || !client) {
     notFound();
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -56,7 +48,6 @@ export default async function EditClientPage({ params }: { params: Promise<{ id:
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
@@ -66,4 +57,3 @@ export default async function EditClientPage({ params }: { params: Promise<{ id:
     </div>
   );
 }
-

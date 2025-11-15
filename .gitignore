@@ -37,3 +37,4 @@ next-env.d.ts
 
 # Ignore large training content files
 data/
+docs/cursor-agent-history/

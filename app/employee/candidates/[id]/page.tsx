@@ -3,20 +3,16 @@ import { redirect, notFound } from 'next/navigation';
 import { ChevronLeft, Edit, Mail, Phone, MapPin, Briefcase, Calendar, DollarSign, FileText, Star } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-
 export default async function CandidateDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient() as any; // Type cast for CRM tables
   const { id } = await params;
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get candidate
   const { data: candidate, error } = await supabase
     .from('candidates')
@@ -24,23 +20,19 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
     .eq('id', id)
     .is('deleted_at', null)
     .single();
-
   if (error || !candidate) {
     notFound();
   }
-
   // Get user profile to check permissions
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   // Check if user has access (admins see all, recruiters see their own)
   if (profile?.role === 'recruiter' && candidate.owner_id !== user.id) {
     redirect('/employee/candidates');
   }
-
   // Format status badge
   const getStatusBadge = (status: string) => {
     const badges = {
@@ -51,7 +43,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
     };
     return badges[status as keyof typeof badges] || badges.inactive;
   };
-
   const formatAvailability = (availability: string | null) => {
     if (!availability) return 'Not specified';
     const labels = {
@@ -62,7 +53,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
     };
     return labels[availability as keyof typeof labels] || availability;
   };
-
   const formatWorkAuth = (workAuth: string | null) => {
     if (!workAuth) return 'Not specified';
     const labels = {
@@ -75,7 +65,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
     };
     return labels[workAuth as keyof typeof labels] || workAuth;
   };
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -117,7 +106,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -152,7 +140,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                   </div>
                 )}
               </div>
-
               {(candidate.linkedin_url || candidate.portfolio_url) && (
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <div className="space-y-2">
@@ -180,7 +167,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               )}
             </div>
-
             {/* Status & Availability */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-heading font-semibold text-trust-blue-900 mb-4">
@@ -203,7 +189,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               </div>
             </div>
-
             {/* Compensation */}
             {(candidate.desired_rate_min || candidate.desired_rate_max) && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -219,7 +204,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               </div>
             )}
-
             {/* Rating */}
             {candidate.overall_rating && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -253,7 +237,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
               </div>
             )}
           </div>
-
           {/* Right Column - Professional Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Experience */}
@@ -271,7 +254,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               </div>
             )}
-
             {/* Skills */}
             {candidate.skills && candidate.skills.length > 0 && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -290,7 +272,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               </div>
             )}
-
             {/* Certifications */}
             {candidate.certifications && candidate.certifications.length > 0 && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -307,7 +288,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               </div>
             )}
-
             {/* Notes */}
             {candidate.notes && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -320,7 +300,6 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
                 </div>
               </div>
             )}
-
             {/* Metadata */}
             <div className="bg-gray-100 rounded-lg p-4 text-xs text-wisdom-gray-600">
               <div className="flex items-center justify-between">
@@ -334,4 +313,3 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
     </div>
   );
 }
-

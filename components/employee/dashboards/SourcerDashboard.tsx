@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { logger } from "@/lib/utils/logger";
 
 interface JDAssignment {
   id: string;
@@ -31,36 +32,18 @@ export default function SourcerDashboard() {
   const [assignments, setAssignments] = useState<JDAssignment[]>([]);
   const [metrics, setMetrics] = useState<DailyMetrics | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    loadDashboard();
-    
-    // Subscribe to real-time updates
-    const channel = supabase
-      .channel('sourcer-dashboard')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'jd_assignments' },
-        () => {
-          loadDashboard();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  const loadDashboard = async () => {
+  const loadDashboard = useCallback(async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       // Load active JD assignments for this sourcer
       const { data: assignmentsData } = await supabase
-        .from('jd_assignments' as any)
+        .from("jd_assignments" as any)
         .select(`
           id,
           job_id,
@@ -77,27 +60,47 @@ export default function SourcerDashboard() {
             )
           )
         `)
-        .eq('sourcer_id', user.id)
-        .in('status', ['assigned', 'sourcing'])
-        .order('priority', { ascending: false })
-        .order('assigned_at', { ascending: true }) as any;
+        .eq("sourcer_id", user.id)
+        .in("status", ["assigned", "sourcing"])
+        .order("priority", { ascending: false })
+        .order("assigned_at", { ascending: true }) as any;
 
       // Load today's metrics
       const { data: metricsData } = await supabase
-        .from('daily_metrics' as any)
-        .select('jds_assigned, resumes_sourced, avg_time_per_jd')
-        .eq('user_id', user.id)
-        .eq('metric_date', new Date().toISOString().split('T')[0])
+        .from("daily_metrics" as any)
+        .select("jds_assigned, resumes_sourced, avg_time_per_jd")
+        .eq("user_id", user.id)
+        .eq("metric_date", new Date().toISOString().split("T")[0])
         .single() as any;
 
       setAssignments(assignmentsData || []);
       setMetrics(metricsData);
     } catch (error) {
-      console.error('Error loading sourcer dashboard:', error);
+      logger.error("Error loading sourcer dashboard:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    void loadDashboard();
+    
+    // Subscribe to real-time updates
+    const channel = supabase
+      .channel("sourcer-dashboard")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "jd_assignments" },
+        () => {
+          void loadDashboard();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [loadDashboard, supabase]);
 
   const getTimeSpent = (assignedAt: string) => {
     const start = new Date(assignedAt);

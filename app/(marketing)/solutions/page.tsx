@@ -1,9 +1,7 @@
 "use client";
-
 import Link from 'next/link';
 import { ArrowRight, Zap, Users, Globe, GraduationCap, Brain, TrendingUp, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-
 export default function SolutionsPage() {
   const solutions = [
     {
@@ -43,19 +41,16 @@ export default function SolutionsPage() {
       color: 'from-trust-blue-600 to-innovation-orange-500'
     },
   ];
-
   const trending = [
     { icon: '🔥', text: 'AI-Powered Custom Solutions for Schools, Restaurants & Retail', badge: 'NEW' },
     { icon: '⚡', text: 'Same-Day Guidewire Developer Placements', badge: 'HOT' },
     { icon: '🌍', text: 'H1B to Canada Express Track (3-Month Visa)', badge: 'TRENDING' },
   ];
-
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6 }
   };
-
   const staggerContainer = {
     animate: {
       transition: {
@@ -63,7 +58,6 @@ export default function SolutionsPage() {
       }
     }
   };
-
   return (
     <>
       {/* Hero Section - Full Bleed */}
@@ -79,7 +73,6 @@ export default function SolutionsPage() {
             >
               <span className="text-sm font-semibold">💼 COMPLETE WORKFORCE SOLUTIONS</span>
             </motion.div>
-            
             <motion.h1 
               className="text-6xl md:text-7xl lg:text-display font-heading font-black mb-8 leading-none"
               initial={{ opacity: 0, y: 40 }}
@@ -88,7 +81,6 @@ export default function SolutionsPage() {
             >
               One Partner.<br />Infinite Possibilities.
             </motion.h1>
-            
             <motion.p 
               className="text-xl md:text-2xl mb-12 text-gray-100 max-w-4xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
@@ -97,7 +89,6 @@ export default function SolutionsPage() {
             >
               From emergency contractor placements to global talent mobility, enterprise consulting to training programs—InTime delivers the full spectrum of workforce solutions. No scope limitations. We scale with you.
             </motion.p>
-            
             <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 30 }}
@@ -115,7 +106,6 @@ export default function SolutionsPage() {
           </div>
         </div>
       </section>
-
       {/* Trending Banner */}
       <div className="bg-gradient-to-r from-innovation-orange-500 to-trust-blue-600 text-white py-3 overflow-hidden">
         <div className="animate-marquee whitespace-nowrap flex items-center gap-12">
@@ -128,7 +118,6 @@ export default function SolutionsPage() {
           ))}
         </div>
       </div>
-
       {/* Solutions Grid */}
       <section className="py-24 bg-white">
         <div className="section-container">
@@ -146,7 +135,6 @@ export default function SolutionsPage() {
               Everything you need to build, scale, and transform your workforce—all from one trusted partner.
             </p>
           </motion.div>
-
           <motion.div 
             className="space-y-12"
             variants={staggerContainer}
@@ -167,7 +155,6 @@ export default function SolutionsPage() {
                       {solution.icon}
                     </div>
                   </div>
-                  
                   <div className="flex-1 text-center lg:text-left">
                     <h3 className="text-4xl font-heading font-bold mb-4">
                       {solution.title}
@@ -184,7 +171,6 @@ export default function SolutionsPage() {
                       ))}
                     </div>
                   </div>
-                  
                   <div className="flex-shrink-0 text-center">
                     <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6">
                       <div className="text-5xl font-heading font-black mb-2">
@@ -195,7 +181,7 @@ export default function SolutionsPage() {
                       </div>
                     </div>
                     <Link 
-                      href={`/solutions/${solution.slug}`}
+                      href={solution.slug === 'consulting' ? '/consulting' : `/solutions/${solution.slug}`}
                       className="inline-flex items-center gap-2 bg-white text-trust-blue hover:bg-gray-100 font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105"
                     >
                       Learn More
@@ -208,7 +194,6 @@ export default function SolutionsPage() {
           </motion.div>
         </div>
       </section>
-
       {/* Why Choose InTime */}
       <section className="py-24 bg-wisdom-gray-50">
         <div className="section-container">
@@ -226,7 +211,6 @@ export default function SolutionsPage() {
               We're not just a vendor—we're a strategic partner invested in your success.
             </p>
           </motion.div>
-
           <motion.div 
             className="grid md:grid-cols-3 gap-8"
             variants={staggerContainer}
@@ -243,7 +227,6 @@ export default function SolutionsPage() {
                 24-48 hour placements. Same-day responses. We move at your speed—without cutting corners.
               </p>
             </motion.div>
-
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
               <div className="text-5xl mb-6">🎯</div>
               <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
@@ -253,7 +236,6 @@ export default function SolutionsPage() {
                 95% first-submission success. Our AI-powered matching finds the perfect fit, not just any fit.
               </p>
             </motion.div>
-
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
               <div className="text-5xl mb-6">🌍</div>
               <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
@@ -263,7 +245,6 @@ export default function SolutionsPage() {
                 50+ countries. 3 continents. One seamless experience. Break borders, not dreams.
               </p>
             </motion.div>
-
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
               <div className="text-5xl mb-6">💼</div>
               <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
@@ -273,7 +254,6 @@ export default function SolutionsPage() {
                 Staffing, consulting, training, cross-border—everything you need from one trusted partner.
               </p>
             </motion.div>
-
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
               <div className="text-5xl mb-6">🤝</div>
               <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
@@ -283,7 +263,6 @@ export default function SolutionsPage() {
                 We're invested in your long-term success. 90-day warranties and lifetime support included.
               </p>
             </motion.div>
-
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 card-dynamic">
               <div className="text-5xl mb-6">📈</div>
               <h3 className="text-2xl font-heading font-bold text-wisdom-gray-700 mb-4">
@@ -296,7 +275,6 @@ export default function SolutionsPage() {
           </motion.div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-32 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
         <div className="section-container text-center">
@@ -321,7 +299,6 @@ export default function SolutionsPage() {
                 Browse Open Roles
               </Link>
             </div>
-
             <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div>
                 <div className="text-4xl font-bold mb-2">🇺🇸 USA</div>

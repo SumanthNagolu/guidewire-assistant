@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, MapPin, DollarSign, Clock, Briefcase, Calendar, Building2, Users } from 'lucide-react';
 import JobApplicationForm from '@/components/marketing/JobApplicationForm';
-
 // Mock job data - in production, this would come from database
 const jobData: Record<string, any> = {
   'senior-guidewire-developer': {
@@ -110,21 +109,17 @@ const jobData: Record<string, any> = {
     ]
   }
 };
-
 interface PageProps {
   params: Promise<{
     id: string;
   }>;
 }
-
 export default async function JobDetailPage({ params }: PageProps) {
   const { id } = await params;
   const job = jobData[id];
-
   if (!job) {
     notFound();
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Back Button */}
@@ -139,7 +134,6 @@ export default async function JobDetailPage({ params }: PageProps) {
           </Link>
         </div>
       </div>
-
       {/* Job Header */}
       <section className="bg-white border-b border-gray-200">
         <div className="section-container py-12">
@@ -151,11 +145,9 @@ export default async function JobDetailPage({ params }: PageProps) {
                 </span>
               </div>
             )}
-            
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 mb-4">
               {job.title}
             </h1>
-            
             <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5" />
@@ -174,7 +166,6 @@ export default async function JobDetailPage({ params }: PageProps) {
                 <span className="font-semibold text-success-green-600">{job.salary}</span>
               </div>
             </div>
-            
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Calendar className="w-4 h-4" />
               Posted {new Date(job.posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -182,7 +173,6 @@ export default async function JobDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
-
       {/* Main Content */}
       <section className="section-container py-12">
         <div className="grid lg:grid-cols-3 gap-8">
@@ -198,7 +188,6 @@ export default async function JobDetailPage({ params }: PageProps) {
                 dangerouslySetInnerHTML={{ __html: job.description }}
               />
             </div>
-
             {/* Responsibilities */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
               <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
@@ -215,7 +204,6 @@ export default async function JobDetailPage({ params }: PageProps) {
                 ))}
               </ul>
             </div>
-
             {/* Requirements */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
               <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
@@ -230,7 +218,6 @@ export default async function JobDetailPage({ params }: PageProps) {
                 ))}
               </ul>
             </div>
-
             {/* Nice to Have */}
             {job.niceToHave && (
               <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -247,7 +234,6 @@ export default async function JobDetailPage({ params }: PageProps) {
                 </ul>
               </div>
             )}
-
             {/* Benefits */}
             {job.benefits && (
               <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -264,7 +250,6 @@ export default async function JobDetailPage({ params }: PageProps) {
                 </ul>
               </div>
             )}
-
             {/* Hiring Process */}
             {job.hiringProcess && (
               <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -292,7 +277,6 @@ export default async function JobDetailPage({ params }: PageProps) {
               </div>
             )}
           </div>
-
           {/* Right Column - Application Form */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
@@ -301,7 +285,6 @@ export default async function JobDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="bg-white border-t border-gray-200 py-12">
         <div className="section-container text-center">
@@ -323,4 +306,3 @@ export default async function JobDetailPage({ params }: PageProps) {
     </div>
   );
 }
-

@@ -1,12 +1,10 @@
 import Link from 'next/link';
 import { ArrowRight, Brain, TrendingUp, Shield, Users, BarChart3, Network, Sparkles } from 'lucide-react';
-
 export const metadata = {
   title: 'Consulting Services | InTime eSolutions - Enterprise Strategy + AI Innovation',
   description: 'Enterprise consulting: strategy, technology, operations, risk, data/AI. PLUS custom AI solutions for schools, restaurants, retail, and professional services.',
   keywords: 'consulting services, strategy consulting, technology consulting, AI solutions, digital transformation, custom software',
 };
-
 export default function ConsultingPage() {
   const enterpriseServices = [
     {
@@ -46,7 +44,6 @@ export default function ConsultingPage() {
       features: ['Data strategy & governance', 'AI/ML model development', 'Business intelligence', 'Predictive analytics'],
     },
   ];
-
   const aiCustomSolutions = [
     {
       icon: '🎓',
@@ -69,13 +66,11 @@ export default function ConsultingPage() {
       description: 'Leadership dashboards, OKR tracking, team collaboration, performance reviews.',
     },
   ];
-
   const trending = [
     { icon: '🔥', text: 'AI-Powered Custom Solutions for Schools & Restaurants', badge: 'NEW' },
     { icon: '⚡', text: 'Enterprise Digital Transformation - Start to Finish', badge: 'HOT' },
     { icon: '🌍', text: 'SMB Consulting (Under $50M Revenue)', badge: 'TRENDING' },
   ];
-
   return (
     <>
       {/* Trending Banner */}
@@ -90,7 +85,6 @@ export default function ConsultingPage() {
           ))}
         </div>
       </div>
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-trust-blue-600 via-trust-blue to-innovation-orange-600 text-white py-24">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
@@ -117,7 +111,6 @@ export default function ConsultingPage() {
           </div>
         </div>
       </section>
-
       {/* Enterprise Consulting */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -132,7 +125,6 @@ export default function ConsultingPage() {
               We deliver the full spectrum of enterprise consulting—from C-suite strategy to hands-on implementation. Faster delivery. Better rates. Same expertise.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {enterpriseServices.map((service, index) => (
               <Link
@@ -164,7 +156,6 @@ export default function ConsultingPage() {
               </Link>
             ))}
           </div>
-
           <div className="mt-12 text-center">
             <Link href="/consulting/services" className="btn-primary inline-flex items-center gap-2">
               View All Enterprise Services
@@ -173,7 +164,6 @@ export default function ConsultingPage() {
           </div>
         </div>
       </section>
-
       {/* AI Custom Solutions */}
       <section className="py-20 bg-gradient-to-br from-innovation-orange-50 to-trust-blue-50">
         <div className="section-container">
@@ -188,7 +178,6 @@ export default function ConsultingPage() {
               While others chase billion-dollar deals, we also build custom AI-powered tools for small businesses. Big impact. Small budgets. Real solutions.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {aiCustomSolutions.map((solution, index) => (
               <div
@@ -205,7 +194,6 @@ export default function ConsultingPage() {
               </div>
             ))}
           </div>
-
           <div className="mt-12 text-center">
             <Link href="/consulting/services" className="btn-secondary inline-flex items-center gap-2">
               Explore Custom Solutions
@@ -214,7 +202,6 @@ export default function ConsultingPage() {
           </div>
         </div>
       </section>
-
       {/* Why InTime Consulting */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -254,7 +241,6 @@ export default function ConsultingPage() {
           </div>
         </div>
       </section>
-
       {/* Industries */}
       <section className="py-20 bg-gray-50">
         <div className="section-container">
@@ -275,7 +261,6 @@ export default function ConsultingPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
         <div className="section-container text-center">
@@ -294,7 +279,6 @@ export default function ConsultingPage() {
               View Consulting Roles
             </Link>
           </div>
-
           <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div>
               <div className="text-4xl font-bold mb-2">🇺🇸 USA</div>
@@ -314,4 +298,3 @@ export default function ConsultingPage() {
     </>
   );
 }
-

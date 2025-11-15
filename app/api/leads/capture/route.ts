@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-
+import { logger } from '@/lib/utils/logger';
 // Validation schema
 const leadSchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -11,27 +11,21 @@ const leadSchema = z.object({
   message: z.string().min(10, 'Message must be at least 10 characters'),
   source: z.enum(['contact_form', 'training_inquiry', 'staffing_inquiry']).default('contact_form'),
 });
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
     // Validate input
     const validatedData = leadSchema.parse(body);
-
     const supabase = await createClient();
-
     // Check if client already exists
-    const { data: existingClient } = await (supabase as any)
+    const { data: existingClient } = await supabase
       .from('clients')
       .select('id, name')
       .eq('email', validatedData.email)
       .is('deleted_at', null)
       .single();
-
     let clientId: string;
     let clientName: string;
-
     if (existingClient) {
       // Client exists, use existing
       clientId = existingClient.id;
@@ -46,29 +40,24 @@ export async function POST(request: NextRequest) {
         tier: 'bronze',
         notes: `Lead captured from website contact form.\n\nContact: ${validatedData.name}\nMessage: ${validatedData.message}\nSource: ${validatedData.source}`,
       };
-
-      const { data: newClient, error: clientError } = await (supabase as any)
+      const { data: newClient, error: clientError } = await supabase
         .from('clients')
         .insert([clientData])
         .select()
         .single();
-
       if (clientError) {
-        console.error('Error creating client:', clientError);
+        logger.error('Error creating client:', clientError);
         throw new Error('Failed to create client');
       }
-
       clientId = newClient.id;
       clientName = newClient.name;
     }
-
     // Create opportunity
     const opportunityTitle = validatedData.source === 'training_inquiry'
       ? `Training Inquiry - ${validatedData.name}`
       : validatedData.source === 'staffing_inquiry'
       ? `Staffing Inquiry - ${validatedData.name}`
       : `Website Inquiry - ${validatedData.name}`;
-
     const opportunityData = {
       title: opportunityTitle,
       client_id: clientId,
@@ -79,20 +68,17 @@ export async function POST(request: NextRequest) {
       source: validatedData.source,
       expected_close_date: null,
     };
-
-    const { data: opportunity, error: oppError } = await (supabase as any)
+    const { data: opportunity, error: oppError } = await supabase
       .from('opportunities')
       .insert([opportunityData])
       .select()
       .single();
-
     if (oppError) {
-      console.error('Error creating opportunity:', oppError);
+      logger.error('Error creating opportunity:', oppError);
       throw new Error('Failed to create opportunity');
     }
-
     // Create activity log
-    await (supabase as any).from('activities').insert([{
+    await supabase.from('activities').insert([{
       entity_type: 'opportunity',
       entity_id: opportunity.id,
       activity_type: 'lead_captured',
@@ -105,10 +91,7 @@ export async function POST(request: NextRequest) {
         message: validatedData.message,
       },
     }]);
-
-    // TODO: Send email notification to sales team
-    // This would integrate with Resend/SendGrid in production
-
+        // This would integrate with Resend/SendGrid in production
     return NextResponse.json({
       success: true,
       message: 'Lead captured successfully',
@@ -119,10 +102,8 @@ export async function POST(request: NextRequest) {
         opportunityTitle: opportunity.title,
       },
     }, { status: 201 });
-
   } catch (error) {
-    console.error('Lead capture error:', error);
-
+    logger.error('Lead capture error:', error);
     if (error instanceof z.ZodError) {
       return NextResponse.json({
         success: false,
@@ -130,11 +111,9 @@ export async function POST(request: NextRequest) {
         errors: error.issues,
       }, { status: 400 });
     }
-
     return NextResponse.json({
       success: false,
       message: error instanceof Error ? error.message : 'Failed to capture lead',
     }, { status: 500 });
   }
 }
-

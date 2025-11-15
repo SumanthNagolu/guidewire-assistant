@@ -75,8 +75,7 @@ export async function getTopicsByProduct(
   const topics = data as TopicData[] | null;
 
   if (error) {
-    console.error('Error fetching topics:', error);
-    return [];
+        return [];
   }
 
   if (!topics || !userId) {
@@ -172,8 +171,7 @@ export async function getTopicById(
   const topic = data as TopicData | null;
 
   if (error || !topic) {
-    console.error('Error fetching topic:', error);
-    return null;
+        return null;
   }
 
   if (!userId) {

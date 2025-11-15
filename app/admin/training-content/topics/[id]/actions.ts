@@ -1,15 +1,12 @@
 'use server';
-
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-
 type ActionState = {
   status: 'idle' | 'success' | 'error';
   message?: string;
   fieldErrors?: Record<string, string>;
 };
-
 const TopicUpdateSchema = z.object({
   topicId: z.string().uuid({ message: 'Invalid topic identifier' }),
   title: z.string().min(3, 'Title must be at least 3 characters'),
@@ -28,13 +25,11 @@ const TopicUpdateSchema = z.object({
   notes: z.string().max(5000, 'Notes are too long').optional().nullable(),
   learningObjectives: z.string().max(5000, 'Learning objectives are too long').optional().nullable(),
 });
-
 export async function updateTopicAction(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
   const rawPrerequisites = formData.getAll('prerequisites').filter(Boolean) as string[];
-
   const payload = {
     topicId: formData.get('topicId'),
     title: formData.get('title'),
@@ -46,9 +41,7 @@ export async function updateTopicAction(
     notes: formData.get('notes'),
     learningObjectives: formData.get('learningObjectives'),
   } as Record<string, unknown>;
-
   const parsed = TopicUpdateSchema.safeParse(payload);
-
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
     for (const issue of parsed.error.issues) {
@@ -63,7 +56,6 @@ export async function updateTopicAction(
       fieldErrors,
     };
   }
-
   const {
     topicId,
     title,
@@ -75,49 +67,39 @@ export async function updateTopicAction(
     notes,
     learningObjectives,
   } = parsed.data;
-
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     return {
       status: 'error',
       message: 'You must be signed in',
     };
   }
-
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single<{ role: string }>();
-
   if (profile?.role !== 'admin') {
     return {
       status: 'error',
       message: 'You do not have permission to update topics',
     };
   }
-
   const { data: existingTopic, error: fetchError } = await supabase
     .from('topics')
     .select('content, products!inner(code)')
     .eq('id', topicId)
     .single<{ content: Record<string, unknown> | null; products: { code: string } }>();
-
   if (fetchError || !existingTopic) {
-    console.error('[Admin Topic] Fetch error:', fetchError);
     return {
       status: 'error',
       message: 'Unable to load topic details. Please try again.',
     };
   }
-
   const existingContent = existingTopic.content ?? {};
-
   const cleanedNotes = notes?.trim() ? notes.trim() : null;
   const learningObjectivesList = learningObjectives
     ? learningObjectives
@@ -125,13 +107,11 @@ export async function updateTopicAction(
         .map((item) => item.trim())
         .filter(Boolean)
     : [];
-
   const updatedContent = {
     ...existingContent,
     notes: cleanedNotes,
     learning_objectives: learningObjectivesList,
   };
-
   const { error: updateError } = await supabase
     .from('topics')
     .update({
@@ -144,19 +124,15 @@ export async function updateTopicAction(
       content: updatedContent,
     })
     .eq('id', topicId);
-
   if (updateError) {
-    console.error('[Admin Topic] Update error:', updateError);
     return {
       status: 'error',
       message: 'Failed to update topic. Please try again.',
     };
   }
-
   revalidatePath('/admin/topics');
   revalidatePath(`/admin/topics/${topicId}`);
   revalidatePath(`/topics/${existingTopic.products.code}`);
-
   return {
     status: 'success',
     message: 'Topic updated successfully',

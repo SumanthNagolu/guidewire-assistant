@@ -43,7 +43,7 @@ export async function submitQuiz(payload: unknown) {
 
   try {
     const result = await submitQuizAttempt(parsed.data);
-    revalidatePath('/dashboard');
+    revalidatePath('/academy');
     return {
       success: true,
       data: result,

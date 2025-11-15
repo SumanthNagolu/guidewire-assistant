@@ -48,12 +48,17 @@ WHERE email_confirmed_at IS NULL;
 
 If you want to test email verification:
 
-### Option 1: Configure SMTP (Recommended for staging)
+### Option 1: Configure SMTP (Recommended for staging/production)
 
+**📖 See detailed guide: `SUPABASE-SMTP-SETUP.md`**
+
+Quick steps:
 1. Supabase Dashboard → **Project Settings** → **Auth** → **SMTP Settings**
-2. Configure your SMTP provider (e.g., SendGrid, Mailgun, Gmail)
-3. Set **Site URL** to your deployed URL (e.g., `https://yourapp.vercel.app`)
-4. Set **Redirect URLs** to include: `https://yourapp.vercel.app/**`
+2. Configure your SMTP provider:
+   - **Outlook/Hotmail**: Use App Password (see `SUPABASE-SMTP-SETUP.md`)
+   - **Resend**: Use API key (recommended for production)
+3. Set **Site URL** to your deployed URL (e.g., `https://intimeesolutions.com`)
+4. Set **Redirect URLs** to include: `https://intimeesolutions.com/**`
 
 ### Option 2: Use Supabase Email Service (Production)
 
@@ -211,6 +216,8 @@ supabase db dump --data-only --schema auth
 
 ## 📖 Related Documentation
 
+- **SUPABASE-SMTP-SETUP.md** - Complete SMTP configuration guide (Outlook/Resend)
+- **CLEANUP-FAILED-INVITES.sql** - Clean up failed user invites
 - **SIGNUP-FIX-GUIDE.md** - Trigger and RLS setup
 - **TROUBLESHOOTING.md** - Login and profile issues
 - **FIX-EMAIL-VERIFICATION.sql** - SQL commands for email issues

@@ -147,13 +147,11 @@ export default function PipelineBoard({ applications, userId, userRole }: Pipeli
         .eq('id', activeId);
 
       if (error) {
-        console.error('Error updating application:', error);
-        // Revert on error
+                // Revert on error
         setItems(applications);
       }
     } catch (err) {
-      console.error('Error:', err);
-      setItems(applications);
+            setItems(applications);
     } finally {
       setLoading(false);
     }

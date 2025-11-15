@@ -8,35 +8,28 @@ import {
   getTopicsPerUserData,
 } from '@/modules/analytics/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 export default async function AnalyticsPage() {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/login');
   }
-
   // Check if user is admin
   const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single<{ role: string }>();
-
   if (profileError || !profile || profile.role !== 'admin') {
-    redirect('/dashboard');
+    redirect('/academy');
   }
-
   // Fetch metrics
   const metricsResult = await getActivationMetrics();
   const timeToFirstResult = await getTimeToFirstCompletionData();
   const topicsPerUserResult = await getTopicsPerUserData();
   const assessmentResult = await getAssessmentAnalytics();
-
   if (!metricsResult.success) {
     return (
       <div className="flex-1 w-full flex flex-col gap-8 p-8">
@@ -49,7 +42,6 @@ export default async function AnalyticsPage() {
       </div>
     );
   }
-
   const metrics = metricsResult.data!;
   const timeToFirstData = timeToFirstResult.data ?? [];
   const topicsPerUserData = topicsPerUserResult.data ?? [];
@@ -62,18 +54,15 @@ export default async function AnalyticsPage() {
     interviewAverageReadiness: 0,
     interviewAtRiskCount: 0,
   };
-
   // Calculate stats for time-to-first
   const activatedUsers = timeToFirstData.filter(
     (item) => item.hoursToFirstCompletion !== null
   );
   const within24h = activatedUsers.filter((item) => item.hoursToFirstCompletion! <= 24);
   const within48h = activatedUsers.filter((item) => item.hoursToFirstCompletion! <= 48);
-
   // Calculate stats for topics-per-user
   const activeUsers = topicsPerUserData.filter((item) => item.topicsCompleted > 0);
   const users10Plus = activeUsers.filter((item) => item.topicsCompleted >= 10);
-
   return (
     <div className="flex-1 w-full flex flex-col gap-8 p-8">
       <div className="flex flex-col gap-2">
@@ -82,10 +71,8 @@ export default async function AnalyticsPage() {
           Track learner activation, engagement, and reminder effectiveness
         </p>
       </div>
-
       {/* Key Metrics Cards */}
       <ActivationMetricsCards metrics={metrics} />
-
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -110,7 +97,6 @@ export default async function AnalyticsPage() {
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>Interview Readiness</CardTitle>
@@ -133,7 +119,6 @@ export default async function AnalyticsPage() {
           </CardContent>
         </Card>
       </div>
-
       {/* Detailed Breakdowns */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Time to First Completion Breakdown */}
@@ -202,7 +187,6 @@ export default async function AnalyticsPage() {
             </div>
           </CardContent>
         </Card>
-
         {/* Topics per User Breakdown */}
         <Card>
           <CardHeader>
@@ -264,7 +248,6 @@ export default async function AnalyticsPage() {
             </div>
           </CardContent>
         </Card>
-
         {/* Reminder System Status */}
         <Card className="md:col-span-2">
           <CardHeader>
@@ -309,7 +292,6 @@ export default async function AnalyticsPage() {
           </CardContent>
         </Card>
       </div>
-
       {/* Recent Users Table */}
       <Card>
         <CardHeader>
@@ -332,7 +314,6 @@ export default async function AnalyticsPage() {
                   const userTopics = topicsPerUserData.find(
                     (item) => item.userId === user.userId
                   );
-
                   return (
                     <tr key={user.userId} className="border-b">
                       <td className="py-2 px-4">
@@ -367,4 +348,3 @@ export default async function AnalyticsPage() {
     </div>
   );
 }
-

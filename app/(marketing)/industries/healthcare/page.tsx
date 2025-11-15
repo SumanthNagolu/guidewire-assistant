@@ -1,12 +1,7 @@
+"use client";
 import { ArrowRight, CheckCircle2, Heart } from 'lucide-react';
 import Link from 'next/link';
-
-export const metadata = {
-  title: 'Healthcare & Life Sciences Staffing | InTime eSolutions',
-  description: 'Healthcare staffing focused on data integrity, patient outcomes, and regulatory compliance. Laboratories, clinical research, and medical devices.',
-  keywords: 'healthcare staffing, medical laboratory jobs, clinical research recruitment, pharmaceutical staffing, life sciences jobs',
-};
-
+import { motion } from 'framer-motion';
 export default function HealthcarePage() {
   const roles = [
     'Biologist',
@@ -30,101 +25,183 @@ export default function HealthcarePage() {
     'Scientist',
     'Specimen Processor',
   ];
-
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, ease: "easeOut" }
+  };
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
   return (
     <>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-trust-blue-600 via-trust-blue to-trust-blue-700 text-white py-20">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
         <div className="section-container relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+          <motion.div 
+            className="max-w-4xl"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.div 
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
               <Heart className="h-4 w-4" />
               <span className="text-sm font-medium">Healthcare & Life Sciences Staffing</span>
-            </div>
-            <h1 className="text-h1 font-heading mb-6">
+            </motion.div>
+            <motion.h1 
+              className="text-h1 font-heading mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
               Healthcare Staffing That Protects Quality and Speed
-            </h1>
-            <p className="text-xl mb-8 text-sky-blue-500 leading-relaxed">
+            </motion.h1>
+            <motion.p 
+              className="text-xl mb-8 text-sky-blue-500 leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
               InTime supports healthcare and life sciences organizations facing critical talent shortages. We understand the stakes: data integrity, patient outcomes, and regulatory compliance.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="btn-secondary">
+            </motion.p>
+            <motion.div 
+              className="flex flex-wrap gap-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Link href="/contact" className="btn-secondary inline-flex items-center whitespace-nowrap">
                 Find Healthcare Talent
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link href="/company/about" className="btn-outline">
+              <Link href="/company/about" className="btn-outline whitespace-nowrap">
                 Our Healthcare Expertise
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
-
       {/* Our Approach */}
       <section className="py-16 bg-white">
         <div className="section-container">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-h2 font-heading mb-8 text-trust-blue text-center">
+            <motion.h2 
+              className="text-h2 font-heading mb-8 text-trust-blue text-center"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               Precision in Healthcare Staffing
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
+            </motion.h2>
+            <motion.div 
+              className="grid md:grid-cols-3 gap-8 mb-12"
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
               {[
                 { title: 'Values Alignment', desc: 'Ensuring cultural fit and patient-first mindset' },
                 { title: 'Compliance First', desc: 'Strict adherence to regulatory requirements' },
                 { title: 'Quality Pipeline', desc: 'Vetted specialists ready to mobilize' },
               ].map((item, index) => (
-                <div key={index} className="text-center">
+                <motion.div key={index} variants={fadeInUp} className="text-center card-lift">
                   <div className="h-16 w-16 bg-success-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 className="h-8 w-8 text-success-green" />
                   </div>
                   <h3 className="font-semibold text-trust-blue-700 mb-2">{item.title}</h3>
                   <p className="text-wisdom-gray-600">{item.desc}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
-            <p className="text-lg text-wisdom-gray-700 leading-relaxed text-center">
+            </motion.div>
+            <motion.p 
+              className="text-lg text-wisdom-gray-700 leading-relaxed text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               Our process matches specialized professionals to precise roles while ensuring values alignment and clear communication. From laboratories to clinical research and medical devices, we maintain a vetted pipeline and provide onboarding support that protects quality and speed.
-            </p>
+            </motion.p>
           </div>
         </div>
       </section>
-
       {/* Roles We Staff */}
       <section className="py-16 bg-wisdom-gray-50">
         <div className="section-container">
           <div className="text-center mb-12">
-            <h2 className="text-h2 font-heading mb-4 text-trust-blue">
+            <motion.h2 
+              className="text-h2 font-heading mb-4 text-trust-blue"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               Healthcare Roles We Staff
-            </h2>
-            <p className="text-lg text-wisdom-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p 
+              className="text-lg text-wisdom-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               From biologists to regulatory affairs specialists, we deliver healthcare talent that elevates standards.
-            </p>
+            </motion.p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <motion.div 
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {roles.map((role, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-white p-4 rounded-xl border-2 border-transparent hover:border-success-green transition-all duration-300 hover:shadow-lg"
+                variants={fadeInUp}
+                className="bg-white p-4 rounded-xl border-2 border-transparent hover:border-success-green transition-all duration-300 hover:shadow-lg card-lift"
               >
                 <div className="flex items-center gap-3">
                   <div className="h-2 w-2 bg-success-green rounded-full"></div>
                   <h3 className="font-medium text-trust-blue-700 text-sm">{role}</h3>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
-
       {/* Focus Areas */}
       <section className="py-16 bg-trust-blue-50">
         <div className="section-container">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-h2 font-heading mb-8 text-trust-blue text-center">
+            <motion.h2 
+              className="text-h2 font-heading mb-8 text-trust-blue text-center"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               Our Healthcare Focus Areas
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
+            </motion.h2>
+            <motion.div 
+              className="grid md:grid-cols-2 gap-6"
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
               {[
                 { title: 'Laboratories', desc: 'Clinical, research, and diagnostic lab staffing' },
                 { title: 'Clinical Research', desc: 'CRA, CRC, and clinical trial specialists' },
@@ -133,32 +210,49 @@ export default function HealthcarePage() {
                 { title: 'Life Sciences', desc: 'Biotech, genomics, and translational research' },
                 { title: 'Specialty Chemicals', desc: 'Formulation, scale-up, and quality teams' },
               ].map((area, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl border-l-4 border-success-green">
+                <motion.div key={index} variants={fadeInUp} className="bg-white p-6 rounded-xl border-l-4 border-success-green card-lift">
                   <h3 className="font-semibold text-trust-blue-700 mb-2">{area.title}</h3>
                   <p className="text-wisdom-gray-600">{area.desc}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-success-green to-success-green-600 text-white">
         <div className="section-container text-center">
-          <h2 className="text-h2 font-heading mb-6">
+          <motion.h2 
+            className="text-h2 font-heading mb-6"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Ready to Build Your Healthcare Team?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+          </motion.h2>
+          <motion.p 
+            className="text-xl mb-8 max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Tell us your focus area and timelines—we'll mobilize the right specialists while maintaining strict compliance.
-          </p>
-          <Link href="/contact" className="btn-primary inline-flex items-center">
-            Start Your Search
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Link href="/contact" className="btn-primary inline-flex items-center whitespace-nowrap">
+              Start Your Search
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </>
   );
 }
-

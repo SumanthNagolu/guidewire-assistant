@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "InTime Web Activity Monitor",
+  "version": "0.1.0",
+  "description": "Captures web browsing activity and scroll behavior for productivity analysis.",
+  "permissions": ["storage", "tabs", "scripting", "activeTab"],
+  "host_permissions": ["<all_urls>", "http://localhost:3000/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  }
+}
+
+

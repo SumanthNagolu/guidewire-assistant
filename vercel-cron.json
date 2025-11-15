@@ -1,0 +1,25 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/morning-standup",
+      "schedule": "0 9 * * 1-5"
+    },
+    {
+      "path": "/api/cron/end-of-day-summary",
+      "schedule": "0 18 * * 1-5"
+    },
+    {
+      "path": "/api/cron/weekly-review",
+      "schedule": "0 17 * * 5"
+    },
+    {
+      "path": "/api/cron/calculate-scores",
+      "schedule": "0 23 * * *"
+    },
+    {
+      "path": "/api/cron/detect-bottlenecks",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
+

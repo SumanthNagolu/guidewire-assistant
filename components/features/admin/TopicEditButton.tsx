@@ -12,8 +12,7 @@ export default function TopicEditButton({ topicId, title }: TopicEditButtonProps
   const router = useRouter();
 
   const handleClick = () => {
-    console.log('[TopicEditButton] Navigating to:', `/admin/topics/${topicId}`);
-    router.push(`/admin/topics/${topicId}`);
+        router.push(`/admin/topics/${topicId}`);
   };
 
   return (

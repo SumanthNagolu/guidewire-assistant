@@ -78,8 +78,7 @@ export default function InterviewSimulator({ templates }: Props) {
         setSessionId(response.data.id);
         await streamInterviewerResponse(response.data.id, templateId);
       } catch (error) {
-        console.error(error);
-        toast.error('Failed to launch interview session.');
+                toast.error('Failed to launch interview session.');
       }
     });
   };
@@ -131,8 +130,7 @@ export default function InterviewSimulator({ templates }: Props) {
             assistantBuffer += parsed.value;
             setPendingAssistantMessage(assistantBuffer);
           } catch (error) {
-            console.error('Failed to parse token payload', error);
-          }
+                      }
         }
 
         if (eventType === 'close') {
@@ -142,8 +140,7 @@ export default function InterviewSimulator({ templates }: Props) {
               setSessionId(parsed.sessionId);
             }
           } catch (error) {
-            console.error('Failed to parse close payload', error);
-          }
+                      }
 
           const finalMessage = assistantBuffer.trim();
           if (finalMessage) {
@@ -174,8 +171,7 @@ export default function InterviewSimulator({ templates }: Props) {
         }
       }
     } catch (error) {
-      console.error('Interview stream error', error);
-      toast.error('Connection interrupted. Please try again.');
+            toast.error('Connection interrupted. Please try again.');
     } finally {
       setIsStreaming(false);
     }
@@ -226,8 +222,7 @@ export default function InterviewSimulator({ templates }: Props) {
       });
       toast.success('Interview summary ready.');
     } catch (error) {
-      console.error(error);
-      toast.error('Failed to finalize interview.');
+            toast.error('Failed to finalize interview.');
     } finally {
       setIsStreaming(false);
     }

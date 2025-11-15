@@ -1,12 +1,10 @@
 import { ArrowRight, MapPin, Clock, DollarSign, Building2 } from 'lucide-react';
 import Link from 'next/link';
-
 export const metadata = {
   title: 'Join Our Team | InTime eSolutions Careers',
   description: 'Explore career opportunities at InTime eSolutions. Join a team committed to excellence, innovation, and professional growth.',
   keywords: 'InTime careers, IT jobs, join our team, job openings, employment opportunities',
 };
-
 export default function JoinOurTeamPage() {
   // Mock data - replace with actual data from your database
   const internalJobs = [
@@ -59,7 +57,6 @@ export default function JoinOurTeamPage() {
       requirements: ['Selenium/Cypress expertise', 'CI/CD experience', 'Agile methodology'],
     },
   ];
-
   return (
     <>
       {/* Hero Section */}
@@ -78,7 +75,6 @@ export default function JoinOurTeamPage() {
           </div>
         </div>
       </section>
-
       {/* Benefits Section */}
       <section className="py-12 bg-trust-blue-50 border-b border-trust-blue-100">
         <div className="section-container">
@@ -98,7 +94,6 @@ export default function JoinOurTeamPage() {
           </div>
         </div>
       </section>
-
       {/* Job Listings */}
       <section className="py-16 bg-white">
         <div className="section-container">
@@ -126,7 +121,6 @@ export default function JoinOurTeamPage() {
               </select>
             </div>
           </div>
-
           <div className="space-y-4">
             {internalJobs.map((job) => (
               <div
@@ -163,11 +157,9 @@ export default function JoinOurTeamPage() {
                         Posted {job.posted}
                       </span>
                     </div>
-                    
                     <p className="text-wisdom-gray-700 mb-3 mt-3">
                       {job.description}
                     </p>
-
                     <div className="flex flex-wrap gap-2">
                       {job.requirements.map((req, idx) => (
                         <span
@@ -179,17 +171,16 @@ export default function JoinOurTeamPage() {
                       ))}
                     </div>
                   </div>
-
                   <div className="flex lg:flex-col gap-2">
                     <Link
-                      href={job.slug ? `/careers/jobs/${job.slug}` : `/contact`}
+                      href={`/contact?job=${job.slug || job.title}`}
                       className="btn-primary text-center whitespace-nowrap inline-flex items-center justify-center"
                     >
                       Apply Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                     <Link
-                      href={job.slug ? `/careers/jobs/${job.slug}` : `/contact`}
+                      href={`/contact?job=${job.slug || job.title}`}
                       className="border-2 border-trust-blue text-trust-blue hover:bg-trust-blue hover:text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 text-sm text-center"
                     >
                       Learn More
@@ -201,7 +192,6 @@ export default function JoinOurTeamPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16 bg-trust-blue text-white">
         <div className="section-container text-center">
@@ -220,4 +210,3 @@ export default function JoinOurTeamPage() {
     </>
   );
 }
-

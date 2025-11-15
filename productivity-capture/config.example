@@ -1,0 +1,7 @@
+# API Configuration
+API_URL=http://localhost:3000
+USER_ID=admin@intimesolutions.com
+
+# Capture Settings
+CAPTURE_INTERVAL=30        # Seconds between captures
+SCREENSHOT_QUALITY=60      # JPEG quality (1-100)

@@ -148,12 +148,10 @@ export default function OpportunitiesBoard({ opportunities, userId, userRole }: 
         .eq('id', activeId);
 
       if (error) {
-        console.error('Error updating opportunity:', error);
-        setItems(opportunities);
+                setItems(opportunities);
       }
     } catch (err) {
-      console.error('Error:', err);
-      setItems(opportunities);
+            setItems(opportunities);
     } finally {
       setLoading(false);
     }

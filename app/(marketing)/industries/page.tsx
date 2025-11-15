@@ -1,13 +1,20 @@
+"use client";
 import Link from 'next/link';
 import { ArrowRight, Heart, DollarSign, Factory, Briefcase, Code, Truck, ShoppingBag, Users, Building2, Scale, Wrench, Package, Brain, Car, Smartphone } from 'lucide-react';
-
-export const metadata = {
-  title: 'Industries We Serve | InTime eSolutions - 15+ Specialized Markets',
-  description: 'Expert talent for Healthcare, Financial Services, Manufacturing, IT, Legal, Engineering, Logistics, Retail, and more. Industry-specific recruitment and staffing solutions.',
-  keywords: 'industry staffing, healthcare recruitment, financial services staffing, manufacturing talent, IT staffing by industry',
-};
-
+import { motion } from 'framer-motion';
 export default function IndustriesPage() {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, ease: "easeOut" }
+  };
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
   const industries = [
     {
       icon: <Heart className="h-6 w-6" />,
@@ -130,42 +137,64 @@ export default function IndustriesPage() {
       color: 'bg-stone-50 hover:bg-stone-100'
     },
   ];
-
   const trending = [
     { icon: '🔥', text: 'Healthcare IT - Epic & Cerner Certified Talent', badge: 'HOT' },
     { icon: '⚡', text: 'AI/ML Engineers - 72-Hour Placements', badge: 'NEW' },
     { icon: '🌍', text: 'Manufacturing - Lean Six Sigma Teams', badge: 'TRENDING' },
   ];
-
   return (
     <>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-trust-blue-600 via-trust-blue to-trust-blue-700 text-white py-24">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
         <div className="section-container relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full mb-6">
+          <motion.div 
+            className="max-w-5xl mx-auto text-center"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.div 
+              className="inline-block bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full mb-6"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
               <span className="text-sm font-semibold">🏢 15+ SPECIALIZED INDUSTRIES</span>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">
+            </motion.div>
+            <motion.h1 
+              className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
               Industry Experts. Not General Recruiters.
-            </h1>
-            <p className="text-xl md:text-2xl mb-10 text-gray-100 max-w-4xl mx-auto">
+            </motion.h1>
+            <motion.p 
+              className="text-xl md:text-2xl mb-10 text-gray-100 max-w-4xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
               We don't just find candidates. We speak your industry's language—from HIPAA to FINRA, Lean Six Sigma to PE licenses, WMS to bar certifications. Deep expertise. Fast delivery. Every time.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4">
+            </motion.p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Link href="/contact" className="btn-secondary inline-flex items-center whitespace-nowrap gap-2 text-lg px-8 py-4">
                 <span>Find Industry Talent</span>
                 <ArrowRight className="h-5 w-5" />
               </Link>
-              <Link href="/solutions" className="btn-outline inline-flex items-center gap-2 text-lg px-8 py-4">
+              <Link href="/solutions" className="btn-outline inline-flex items-center whitespace-nowrap gap-2 text-lg px-8 py-4">
                 View Our Solutions
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
-
       {/* Trending Banner */}
       <div className="bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white py-3 overflow-hidden">
         <div className="animate-marquee whitespace-nowrap flex items-center gap-12">
@@ -178,103 +207,138 @@ export default function IndustriesPage() {
           ))}
         </div>
       </div>
-
       {/* Industries Grid */}
       <section className="py-20 bg-white">
         <div className="section-container">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 mb-4">
               15 Industries. Deep Expertise in Each.
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We don't dabble. Every industry team includes former practitioners who understand your unique challenges, compliance requirements, and talent needs.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+          </motion.div>
+          <motion.div 
+            className="grid md:grid-cols-3 lg:grid-cols-4 gap-6"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {industries.map((industry, index) => (
-              <Link
-                key={index}
-                href={`/industries/${industry.slug}`}
-                className={`group ${industry.color} rounded-2xl p-6 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-trust-blue`}
-              >
-                <div className="h-12 w-12 bg-white rounded-xl flex items-center justify-center mb-4 text-trust-blue shadow-sm group-hover:scale-110 transition-transform">
-                  {industry.icon}
-                </div>
-                
-                <h3 className="text-lg font-heading font-bold text-gray-900 mb-2 group-hover:text-trust-blue transition-colors">
-                  {industry.title}
-                </h3>
-                
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-2">
-                  {industry.description}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <div className="text-xs font-semibold text-gray-500">
-                    {industry.marketSize} Market
+              <motion.div key={index} variants={fadeInUp}>
+                <Link
+                  href={`/industries/${industry.slug}`}
+                  className={`block group ${industry.color} rounded-2xl p-6 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-trust-blue card-lift`}
+                >
+                  <div className="h-12 w-12 bg-white rounded-xl flex items-center justify-center mb-4 text-trust-blue shadow-sm group-hover:scale-110 transition-transform">
+                    {industry.icon}
                   </div>
-                  <ArrowRight className="h-4 w-4 text-trust-blue opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </div>
-              </Link>
+                  <h3 className="text-lg font-heading font-bold text-gray-900 mb-2 group-hover:text-trust-blue transition-colors">
+                    {industry.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-2">
+                    {industry.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-semibold text-gray-500">
+                      {industry.marketSize} Market
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-trust-blue opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
-
       {/* What Makes Us Different */}
       <section className="py-20 bg-gradient-to-br from-trust-blue-50 to-success-green-50">
         <div className="section-container">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-heading font-bold text-center text-gray-900 mb-12">
+            <motion.h2 
+              className="text-4xl font-heading font-bold text-center text-gray-900 mb-12"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               Industry-Specific Recruiting Done Right
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
+            </motion.h2>
+            <motion.div 
+              className="grid md:grid-cols-3 gap-8"
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
+              <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 shadow-lg card-dynamic">
                 <div className="text-5xl mb-4">🎯</div>
                 <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">Compliance Built-In</h3>
                 <p className="text-gray-600">
                   HIPAA, SOX, FINRA, OSHA, PE licenses, bar certifications—we verify everything your industry requires.
                 </p>
-              </div>
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
+              </motion.div>
+              <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 shadow-lg card-dynamic">
                 <div className="text-5xl mb-4">⚡</div>
                 <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">48-72 Hour Placements</h3>
                 <p className="text-gray-600">
                   Emergency staffing? Peak season surge? We deploy industry-certified talent in 48-72 hours.
                 </p>
-              </div>
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
+              </motion.div>
+              <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 shadow-lg card-dynamic">
                 <div className="text-5xl mb-4">💼</div>
                 <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">Former Practitioners</h3>
                 <p className="text-gray-600">
                   Our recruiters aren't generalists. They're former engineers, nurses, lawyers, accountants.
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
         <div className="section-container text-center">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">
+          <motion.h2 
+            className="text-4xl md:text-5xl font-heading font-bold mb-6"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Your Industry. Our Expertise. Perfect Match.
-          </h2>
-          <p className="text-xl mb-10 text-white/90 max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-xl mb-10 text-white/90 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Stop working with generalist recruiters who don't understand your world. Partner with industry specialists who speak your language.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-4">
+          </motion.p>
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Link href="/contact" className="btn-secondary inline-flex items-center whitespace-nowrap gap-2 text-lg px-8 py-4">
               <span>Discuss Your Industry Needs</span>
               <ArrowRight className="h-5 w-5" />
             </Link>
-            <Link href="/careers/open-positions" className="btn-outline inline-flex items-center gap-2 text-lg px-8 py-4">
+            <Link href="/careers/open-positions" className="btn-outline inline-flex items-center whitespace-nowrap gap-2 text-lg px-8 py-4">
               Browse Jobs by Industry
             </Link>
-          </div>
-
+          </motion.div>
           <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div>
               <div className="text-4xl font-bold mb-2">🇺🇸 USA</div>
@@ -291,8 +355,6 @@ export default function IndustriesPage() {
           </div>
         </div>
       </section>
-
     </>
   );
 }
-

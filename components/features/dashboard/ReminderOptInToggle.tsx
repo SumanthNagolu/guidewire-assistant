@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { updateReminderSettingsAction } from '@/app/(dashboard)/dashboard/reminders/actions';
+import { updateReminderSettingsAction } from '@/app/(academy)/academy/reminders/actions';
 
 type ReminderOptInToggleProps = {
   initialOptedIn: boolean;

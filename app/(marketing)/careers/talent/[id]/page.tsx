@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, MapPin, DollarSign, Clock, Award, GraduationCap, Briefcase, Calendar, Star, CheckCircle2 } from 'lucide-react';
 import TalentInquiryForm from '@/components/marketing/TalentInquiryForm';
-
 // Mock talent data - in production, this would come from database
 const talentData: Record<string, any> = {
   'guidewire-developer-sr': {
@@ -91,21 +90,17 @@ const talentData: Record<string, any> = {
     ]
   }
 };
-
 interface PageProps {
   params: Promise<{
     id: string;
   }>;
 }
-
 export default async function TalentDetailPage({ params }: PageProps) {
   const { id } = await params;
   const talent = talentData[id];
-
   if (!talent) {
     notFound();
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Back Button */}
@@ -120,7 +115,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
           </Link>
         </div>
       </div>
-
       {/* Talent Header */}
       <section className="bg-white border-b border-gray-200">
         <div className="section-container py-12">
@@ -134,7 +128,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
                   </span>
                 </div>
               </div>
-
               {/* Info */}
               <div className="flex-1">
                 <div className="mb-4">
@@ -142,15 +135,12 @@ export default async function TalentDetailPage({ params }: PageProps) {
                     ✅ {talent.availability}
                   </span>
                 </div>
-                
                 <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
                   {talent.name}
                 </h1>
-                
                 <p className="text-2xl text-gray-700 font-medium mb-6">
                   {talent.title}
                 </p>
-                
                 <div className="grid md:grid-cols-2 gap-4 text-gray-600">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-5 h-5 text-trust-blue-600" />
@@ -174,7 +164,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
-
       {/* Main Content */}
       <section className="section-container py-12">
         <div className="grid lg:grid-cols-3 gap-8">
@@ -189,13 +178,11 @@ export default async function TalentDetailPage({ params }: PageProps) {
                 {talent.summary}
               </p>
             </div>
-
             {/* Skills */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
               <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
                 Technical Skills
               </h2>
-              
               <div className="space-y-6">
                 <div>
                   <h3 className="text-sm font-semibold text-gray-600 uppercase mb-3">
@@ -212,7 +199,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
                     ))}
                   </div>
                 </div>
-                
                 <div>
                   <h3 className="text-sm font-semibold text-gray-600 uppercase mb-3">
                     Secondary Skills
@@ -230,7 +216,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
                 </div>
               </div>
             </div>
-
             {/* Certifications */}
             {talent.certifications && (
               <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -248,7 +233,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
                 </ul>
               </div>
             )}
-
             {/* Key Highlights */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
               <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -266,7 +250,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
                 ))}
               </ul>
             </div>
-
             {/* Recent Projects */}
             {talent.recentProjects && (
               <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -297,7 +280,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
                 </div>
               </div>
             )}
-
             {/* Education */}
             {talent.education && (
               <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -309,7 +291,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
               </div>
             )}
           </div>
-
           {/* Right Column - Inquiry Form */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
@@ -318,7 +299,6 @@ export default async function TalentDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="bg-white border-t border-gray-200 py-12">
         <div className="section-container text-center">
@@ -347,4 +327,3 @@ export default async function TalentDetailPage({ params }: PageProps) {
     </div>
   );
 }
-

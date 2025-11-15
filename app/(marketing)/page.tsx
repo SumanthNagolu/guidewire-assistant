@@ -1,21 +1,17 @@
 "use client";
-
 import Link from "next/link";
 import { Zap, TrendingUp, Globe, Briefcase, GraduationCap, Users, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
-
 export default function HomePage() {
   const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.3 });
-  
   // Animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6, ease: "easeOut" }
   };
-
   const staggerContainer = {
     animate: {
       transition: {
@@ -23,13 +19,11 @@ export default function HomePage() {
       }
     }
   };
-
   const scaleIn = {
     initial: { opacity: 0, scale: 0.9 },
     animate: { opacity: 1, scale: 1 },
     transition: { duration: 0.5 }
   };
-
   return (
     <div className="min-h-screen bg-white overflow-hidden">
       {/* Hero Section - Full Bleed */}
@@ -38,7 +32,6 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[linear-gradient(30deg,#fff_12%,transparent_12.5%,transparent_87%,#fff_87.5%,#fff),linear-gradient(150deg,#fff_12%,transparent_12.5%,transparent_87%,#fff_87.5%,#fff),linear-gradient(30deg,#fff_12%,transparent_12.5%,transparent_87%,#fff_87.5%,#fff),linear-gradient(150deg,#fff_12%,transparent_12.5%,transparent_87%,#fff_87.5%,#fff)]"></div>
         </div>
-        
         <div className="section-wide relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             <motion.h1 
@@ -51,7 +44,6 @@ export default function HomePage() {
               Power Your Business.<br />
               <span className="text-success-green">Do It InTime.</span>
             </motion.h1>
-            
             <motion.p 
               className="text-xl md:text-2xl mb-10 text-gray-100 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
@@ -60,7 +52,6 @@ export default function HomePage() {
             >
               Where Excellence Meets Opportunity - Staffing, Skill Development, and Cross-Border Solutions That Deliver Results
             </motion.p>
-            
             <motion.div 
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
               initial={{ opacity: 0, y: 30 }}
@@ -74,7 +65,6 @@ export default function HomePage() {
                 Explore Opportunities
               </Link>
             </motion.div>
-            
             <motion.div 
               className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-200"
               initial={{ opacity: 0 }}
@@ -97,7 +87,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* The InTime Difference */}
       <section className="py-24 bg-white">
         <div className="section-container">
@@ -116,7 +105,6 @@ export default function HomePage() {
             </h2>
             <p className="text-lg text-wisdom-gray-600 italic">— Sadhguru</p>
           </motion.div>
-          
           <motion.div 
             className="grid md:grid-cols-3 gap-12"
             variants={staggerContainer}
@@ -136,7 +124,6 @@ export default function HomePage() {
                 We're fast because we're prepared, not because we cut corners. Excellence at velocity is our promise.
               </p>
             </motion.div>
-
             {/* Pillar 2 */}
             <motion.div variants={fadeInUp} className="text-center group card-lift bg-white p-8 rounded-2xl">
               <div className="w-24 h-24 mx-auto mb-6 bg-success-green-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -149,7 +136,6 @@ export default function HomePage() {
                 Every placement is a career transformation. Every partnership is a growth catalyst. We measure success in changed lives.
               </p>
             </motion.div>
-
             {/* Pillar 3 */}
             <motion.div variants={fadeInUp} className="text-center group card-lift bg-white p-8 rounded-2xl">
               <div className="w-24 h-24 mx-auto mb-6 bg-trust-blue-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -163,7 +149,6 @@ export default function HomePage() {
               </p>
             </motion.div>
           </motion.div>
-
           <motion.div 
             className="text-center mt-12"
             initial={{ opacity: 0 }}
@@ -178,7 +163,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* Solutions Overview */}
       <section className="py-24 bg-wisdom-gray-50">
         <div className="section-container">
@@ -193,7 +177,6 @@ export default function HomePage() {
               Comprehensive Solutions for<br />Every Talent Need
             </h2>
           </motion.div>
-          
           <motion.div 
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
             variants={staggerContainer}
@@ -228,7 +211,6 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-
             {/* Card 2 */}
             <motion.div variants={scaleIn} className="bg-white rounded-2xl p-8 card-dynamic border-t-4 border-success-green">
               <div className="w-14 h-14 mb-6 bg-success-green-50 rounded-xl flex items-center justify-center">
@@ -256,7 +238,6 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-
             {/* Card 3 */}
             <motion.div variants={scaleIn} className="bg-white rounded-2xl p-8 card-dynamic border-t-4 border-innovation-orange">
               <div className="w-14 h-14 mb-6 bg-innovation-orange-50 rounded-xl flex items-center justify-center">
@@ -284,7 +265,6 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-
             {/* Card 4 */}
             <motion.div variants={scaleIn} className="bg-white rounded-2xl p-8 card-dynamic border-t-4 border-wisdom-gray">
               <div className="w-14 h-14 mb-6 bg-wisdom-gray-100 rounded-xl flex items-center justify-center">
@@ -307,7 +287,7 @@ export default function HomePage() {
                   AI/ML & Data Analytics
                 </li>
               </ul>
-              <Link href="/solutions/consulting" className="inline-flex items-center text-wisdom-gray-700 hover:text-trust-blue font-semibold group">
+              <Link href="/consulting" className="inline-flex items-center text-wisdom-gray-700 hover:text-trust-blue font-semibold group">
                 Learn More
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -315,13 +295,11 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* Success Metrics with Animated Counters */}
       <section ref={statsRef} className="py-24 bg-wisdom-gray-700 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent)]"></div>
         </div>
-        
         <div className="section-wide relative z-10">
           <motion.div 
             className="text-center mb-20"
@@ -334,7 +312,6 @@ export default function HomePage() {
               Results That Speak<br />Louder Than Words
             </h2>
           </motion.div>
-          
           <motion.div 
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12"
             variants={staggerContainer}
@@ -350,7 +327,6 @@ export default function HomePage() {
                 Careers Transformed
               </div>
             </motion.div>
-            
             <motion.div variants={fadeInUp} className="text-center">
               <div className="text-6xl md:text-7xl font-heading font-black text-success-green mb-2">
                 {statsInView && <CountUp end={200} duration={2.5} suffix="+" />}
@@ -359,7 +335,6 @@ export default function HomePage() {
                 Clients Served
               </div>
             </motion.div>
-            
             <motion.div variants={fadeInUp} className="text-center">
               <div className="text-6xl md:text-7xl font-heading font-black text-success-green mb-2">
                 {statsInView && <CountUp end={92} duration={2.5} suffix="%" />}
@@ -368,7 +343,6 @@ export default function HomePage() {
                 Placement Success
               </div>
             </motion.div>
-            
             <motion.div variants={fadeInUp} className="text-center">
               <div className="text-6xl md:text-7xl font-heading font-black text-success-green mb-2">
                 {statsInView && <CountUp end={24} duration={2.5} />}
@@ -377,7 +351,6 @@ export default function HomePage() {
                 Hour Response Time
               </div>
             </motion.div>
-            
             <motion.div variants={fadeInUp} className="text-center">
               <div className="text-6xl md:text-7xl font-heading font-black text-success-green mb-2">
                 ${statsInView && <CountUp end={75} duration={2.5} />}M+
@@ -386,7 +359,6 @@ export default function HomePage() {
                 Salaries Negotiated
               </div>
             </motion.div>
-            
             <motion.div variants={fadeInUp} className="text-center">
               <div className="text-6xl md:text-7xl font-heading font-black text-success-green mb-2">
                 {statsInView && <CountUp end={3} duration={2.5} />}
@@ -398,7 +370,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* Get Started CTA */}
       <section className="py-32 bg-gradient-to-r from-success-green to-trust-blue text-white">
         <div className="section-container">
@@ -415,7 +386,6 @@ export default function HomePage() {
             <p className="text-xl mb-16 text-gray-100 leading-relaxed">
               Whether you need talent, training, or career opportunities, we're here to help you succeed.
             </p>
-            
             <motion.div 
               className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto"
               variants={staggerContainer}
@@ -431,7 +401,6 @@ export default function HomePage() {
                   I Need Talent
                 </Link>
               </motion.div>
-              
               {/* For Professionals */}
               <motion.div variants={scaleIn} className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 hover:bg-white/20 transition-all duration-300 card-lift">
                 <h3 className="text-2xl font-heading font-semibold mb-4">For Professionals</h3>
@@ -441,7 +410,6 @@ export default function HomePage() {
                 </Link>
               </motion.div>
             </motion.div>
-            
             <motion.div 
               className="mt-16 text-gray-200"
               initial={{ opacity: 0 }}

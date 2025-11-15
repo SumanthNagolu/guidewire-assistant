@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { logger } from "@/lib/utils/logger";
 
 interface TeamMember {
   id: string;
@@ -48,41 +49,20 @@ export default function PodManagerDashboard() {
   const [loading, setLoading] = useState(true);
   const [podId, setPodId] = useState<string | null>(null);
   const [podName, setPodName] = useState('');
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    loadDashboard();
-    
-    // Real-time updates
-    const channel = supabase
-      .channel('pod-manager-dashboard')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'daily_metrics' },
-        () => loadDashboard()
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'bottleneck_alerts' },
-        () => loadDashboard()
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  const loadDashboard = async () => {
+  const loadDashboard = useCallback(async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       // Find pod where this user is manager
       const { data: podData } = await supabase
-        .from('pods' as any)
-        .select('id, name, type, target_placements_per_sprint, target_interviews_per_sprint')
-        .eq('manager_id', user.id)
+        .from("pods" as any)
+        .select("id, name, type, target_placements_per_sprint, target_interviews_per_sprint")
+        .eq("manager_id", user.id)
         .single() as any;
 
       if (!podData) {
@@ -95,7 +75,7 @@ export default function PodManagerDashboard() {
 
       // Load team members
       const { data: membersData } = await supabase
-        .from('pod_members' as any)
+        .from("pod_members" as any)
         .select(`
           id,
           user_id,
@@ -106,29 +86,29 @@ export default function PodManagerDashboard() {
             email
           )
         `)
-        .eq('pod_id', podData.id)
-        .eq('is_active', true) as any;
+        .eq("pod_id", podData.id)
+        .eq("is_active", true) as any;
 
       // Enrich with today's metrics
       const teamWithMetrics = await Promise.all(
         (membersData || []).map(async (member: any) => {
           const { data: metrics } = await supabase
-            .from('daily_metrics' as any)
-            .select('resumes_sourced, calls_made, submissions_made')
-            .eq('user_id', member.user_id)
-            .eq('metric_date', new Date().toISOString().split('T')[0])
+            .from("daily_metrics" as any)
+            .select("resumes_sourced, calls_made, submissions_made")
+            .eq("user_id", member.user_id)
+            .eq("metric_date", new Date().toISOString().split("T")[0])
             .single() as any;
 
           // Determine if target met based on role
           let targetMet = false;
-          if (member.role === 'sourcer' && metrics?.resumes_sourced >= 30) targetMet = true;
-          if (member.role === 'screener' && metrics?.calls_made >= 40) targetMet = true;
-          if (member.role === 'account_manager' && metrics?.submissions_made >= 5) targetMet = true;
+          if (member.role === "sourcer" && metrics?.resumes_sourced >= 30) targetMet = true;
+          if (member.role === "screener" && metrics?.calls_made >= 40) targetMet = true;
+          if (member.role === "account_manager" && metrics?.submissions_made >= 5) targetMet = true;
 
           return {
             ...member,
             today_metrics: metrics || {},
-            target_met: targetMet
+            target_met: targetMet,
           };
         })
       );
@@ -137,27 +117,27 @@ export default function PodManagerDashboard() {
 
       // Load pod metrics
       const { count: placementsCount } = await supabase
-        .from('placements' as any)
-        .select('*', { count: 'exact', head: true })
-        .gte('start_date', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString())
-        .eq('status', 'active') as any;
+        .from("placements" as any)
+        .select("*", { count: "exact", head: true })
+        .gte("start_date", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString())
+        .eq("status", "active") as any;
 
       const { count: interviewsCount } = await supabase
-        .from('interviews' as any)
-        .select('*', { count: 'exact', head: true })
-        .gte('scheduled_at', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()) as any;
+        .from("interviews" as any)
+        .select("*", { count: "exact", head: true })
+        .gte("scheduled_at", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()) as any;
 
       const { count: submissionsCount } = await supabase
-        .from('applications' as any)
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'submitted')
-        .gte('submitted_at', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()) as any;
+        .from("applications" as any)
+        .select("*", { count: "exact", head: true })
+        .eq("status", "submitted")
+        .gte("submitted_at", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()) as any;
 
       const { data: revenueData } = await supabase
-        .from('daily_metrics' as any)
-        .select('revenue_generated')
-        .eq('pod_id', podData.id)
-        .gte('metric_date', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]) as any;
+        .from("daily_metrics" as any)
+        .select("revenue_generated")
+        .eq("pod_id", podData.id)
+        .gte("metric_date", new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]) as any;
 
       const revenue = revenueData?.reduce((sum: number, m: any) => sum + (parseFloat(m.revenue_generated) || 0), 0) || 0;
 
@@ -172,27 +152,53 @@ export default function PodManagerDashboard() {
         interviews_target: podData.target_interviews_per_sprint,
         submissions_count: submissionsCount || 0,
         revenue,
-        health_score: healthScore
+        health_score: healthScore,
       });
 
       // Load alerts for this pod
       const { data: alertsData } = await supabase
-        .from('bottleneck_alerts' as any)
-        .select('id, alert_type, severity, title, description, entity_id, created_at')
-        .eq('assigned_to_pod', podData.id)
-        .in('status', ['open', 'acknowledged'])
-        .order('severity', { ascending: false })
-        .order('created_at', { ascending: false })
+        .from("bottleneck_alerts" as any)
+        .select("id, alert_type, severity, title, description, entity_id, created_at")
+        .eq("assigned_to_pod", podData.id)
+        .in("status", ["open", "acknowledged"])
+        .order("severity", { ascending: false })
+        .order("created_at", { ascending: false })
         .limit(5) as any;
 
       setAlerts(alertsData || []);
-
     } catch (error) {
-      console.error('Error loading pod manager dashboard:', error);
+      logger.error("Error loading pod manager dashboard:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    void loadDashboard();
+
+    // Real-time updates
+    const channel = supabase
+      .channel("pod-manager-dashboard")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "daily_metrics" },
+        () => {
+          void loadDashboard();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "bottleneck_alerts" },
+        () => {
+          void loadDashboard();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [loadDashboard, supabase]);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {

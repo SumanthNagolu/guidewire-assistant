@@ -1,417 +1,360 @@
-# 🧪 END-TO-END TESTING GUIDE
+# Academy LMS - Testing Guide
 
-**Complete functional testing guide for InTime Command Center**
+## 🎯 Current Status
 
----
-
-## **🚀 QUICK START (30 Minutes to Fully Functional)**
-
-### **Step 1: Database Setup (10 min)**
-
-1. **Go to Supabase Dashboard**
-   - Visit: https://app.supabase.com
-   - Select your project
-   - Navigate to: **SQL Editor**
-
-2. **Run Migrations (in order)**
-   ```
-   Run each file from: supabase/migrations/crm-ats/
-   
-   Order:
-   001_user_profiles.sql
-   002_candidates.sql
-   003_clients.sql
-   004_jobs_applications.sql
-   005_placements_timesheets.sql
-   006_opportunities.sql
-   007_activities.sql
-   008_system_tables.sql
-   009_indexes_performance.sql
-   010_helper_functions.sql
-   011_seed_data.sql  ← This creates test data!
-   ```
-
-3. **Verify Tables Created**
-   ```sql
-   SELECT table_name FROM information_schema.tables 
-   WHERE table_schema = 'public'
-   ORDER BY table_name;
-   
-   -- Should see:
-   -- activities, applications, audit_logs, candidates, clients,
-   -- contacts, contracts, interviews, jobs, notifications,
-   -- opportunities, placements, timesheets, user_profiles
-   ```
+**Dev Server:** ✅ Running on `http://localhost:3002`  
+**Database:** ⚠️ Migration needed before testing Academy LMS features  
+**Dependencies:** ✅ All installed  
 
 ---
 
-### **Step 2: Create Test Users (10 min)**
+## 🚀 Quick Start Testing
 
-**Option A: Via Supabase Dashboard**
+### 1. Test What's Working Now (No DB Migration Needed)
 
-1. Go to: **Authentication** → **Users** → **Add User**
-2. Create these users:
-
-| Email | Password | Role | Name |
-|-------|----------|------|------|
-| admin@intimesolutions.com | Test123!@# | admin | Admin User |
-| recruiter1@intimesolutions.com | Test123!@# | recruiter | Jane Recruiter |
-| sales1@intimesolutions.com | Test123!@# | sales | John Sales |
-| ops1@intimesolutions.com | Test123!@# | operations | Sarah Operations |
-
-3. After creating each user, update their profile:
-   ```sql
-   UPDATE user_profiles 
-   SET role = 'admin', full_name = 'Admin User'
-   WHERE id = 'user-uuid-here';
-   
-   -- Repeat for each user
-   ```
-
-**Option B: Via Your App**
-
-Use the signup endpoint with role in metadata (recommended).
-
----
-
-### **Step 3: Test Data (Auto-seeded!)**
-
-Migration `011_seed_data.sql` automatically creates:
-- ✅ 20 realistic candidates (Guidewire, Full Stack, DevOps, Data Engineers)
-- ✅ 10 clients (insurance & tech companies)
-- ✅ 5 hot jobs (Senior Guidewire Developer, Full Stack, DevOps, etc.)
-- ✅ Multiple contacts for clients
-- ✅ Sample applications
-
-**No manual data entry needed!**
-
----
-
-## **📋 END-TO-END TEST SCENARIOS**
-
-### **🎯 Scenario 1: Recruitment Workflow (15 min)**
-
-**Goal:** Test complete candidate-to-placement flow
-
-**Steps:**
-
-1. **Login as Recruiter**
-   ```
-   Email: recruiter1@intimesolutions.com
-   Password: Test123!@#
-   ```
-
-2. **Dashboard Check**
-   - Navigate to: `/employee/dashboard`
-   - ✅ Should see RecruiterDashboard with metrics
-   - ✅ Should see today's schedule
-   - ✅ Should see pipeline summary
-
-3. **View Candidates**
-   - Click: "Search Candidates" or go to `/employee/candidates`
-   - ✅ Should see list of 20 candidates
-   - ✅ Test search: Type "Guidewire"
-   - ✅ Test filter: Select "Active" status
-   - ✅ Should see filtered results
-
-4. **Add New Candidate**
-   - Click: "Add Candidate"
-   - Fill form:
-     - Name: "Test Candidate"
-     - Email: "test@example.com"
-     - Skills: Add "Java", "React"
-   - Click: "Add Candidate"
-   - ✅ Should redirect to candidates list
-   - ✅ Should see new candidate
-
-5. **View Candidate Details**
-   - Click on any candidate name
-   - ✅ Should see 360° profile view
-   - ✅ Should see skills, certifications, contact info
-
-6. **View Jobs**
-   - Go to: `/employee/jobs`
-   - ✅ Should see 5 jobs
-   - ✅ Test search and filters
-   - Click on "Senior Guidewire Developer" job
-   - ✅ Should see job details
-
-7. **Manage Pipeline**
-   - Go to: `/employee/pipeline`
-   - ✅ Should see 7-stage Kanban board
-   - ✅ Should see applications in different stages
-   - **Drag & Drop Test:**
-     - Drag an application from "Sourced" to "Submitted"
-     - ✅ Should update immediately
-     - Refresh page
-     - ✅ Should persist the change
-
----
-
-### **💼 Scenario 2: Sales Workflow (15 min)**
-
-**Goal:** Test lead-to-deal flow
-
-**Steps:**
-
-1. **Login as Sales**
-   ```
-   Email: sales1@intimesolutions.com
-   Password: Test123!@#
-   ```
-
-2. **Dashboard Check**
-   - Navigate to: `/employee/dashboard`
-   - ✅ Should see SalesDashboard with pipeline metrics
-   - ✅ Should see revenue metrics
-   - ✅ Should see today's priorities
-
-3. **View Clients**
-   - Go to: `/employee/clients`
-   - ✅ Should see 10 clients
-   - ✅ Test tier badges (Platinum, Gold, Silver, Bronze)
-   - ✅ Test filters (status, tier, industry)
-
-4. **Add New Client**
-   - Click: "Add Client"
-   - Fill form:
-     - Name: "Test Corp"
-     - Industry: "Technology"
-     - Tier: "Bronze"
-     - Status: "Prospect"
-   - Click: "Add Client"
-   - ✅ Should see new client in list
-
-5. **View Client Details**
-   - Click on "Test Corp"
-   - ✅ Should see 360° client view
-   - ✅ Should see contact info, status, tier
-
-6. **Opportunities Pipeline**
-   - Go to: `/employee/opportunities`
-   - ✅ Should see 6-stage pipeline with summary cards
-   - ✅ Should see weighted value calculations
-   - **Drag & Drop Test:**
-     - Drag opportunity from "Lead" to "Qualified"
-     - ✅ Should update immediately
-     - ✅ Should recalculate stage totals
-
-7. **Test Lead Capture**
-   - Open new tab (not logged in)
-   - Go to: `/contact`
-   - Fill contact form:
-     - Name: "Test Lead"
-     - Email: "lead@testcorp.com"
-     - Message: "I need 10 developers"
-   - Submit
-   - ✅ Should see success message
-   - Go back to logged-in tab
-   - Refresh opportunities pipeline
-   - ✅ Should see new opportunity in "Lead" stage
-   - Go to clients
-   - ✅ Should see "Test Lead (Individual)" as new prospect
-
----
-
-### **⚙️ Scenario 3: Operations Workflow (10 min)**
-
-**Goal:** Test placement tracking
-
-**Steps:**
-
-1. **Login as Operations**
-   ```
-   Email: ops1@intimesolutions.com
-   Password: Test123!@#
-   ```
-
-2. **Dashboard Check**
-   - Navigate to: `/employee/dashboard`
-   - ✅ Should see OperationsDashboard
-   - ✅ Should see placement metrics
-   - ✅ Should see contract alerts
-
-3. **View Placements**
-   - Go to: `/employee/placements`
-   - ✅ Should see placements list
-   - ✅ Should see bill/pay rates
-   - ✅ Should see margin calculations
-
-4. **Test "Ending Soon" Filter**
-   - Check "Ending within 30 days" filter
-   - ✅ Should show only expiring contracts
-   - ✅ Should see orange alert badges
-   - ✅ Should see "X days left" counter
-
----
-
-### **👤 Scenario 4: Admin Workflow (10 min)**
-
-**Goal:** Test admin portal access
-
-**Steps:**
-
-1. **Login as Admin**
-   ```
-   Email: admin@intimesolutions.com
-   Password: Test123!@#
-   ```
-
-2. **Dashboard Check**
-   - Navigate to: `/employee/dashboard`
-   - Should redirect to: `/admin`
-   - ✅ Should see admin dashboard
-
-3. **Access All Modules**
-   - ✅ Click "Candidates" in sidebar
-   - ✅ Should see ALL candidates (not just owned by admin)
-   - ✅ Click "Jobs" in sidebar
-   - ✅ Should see all jobs
-   - ✅ Click "Pipeline" in sidebar
-   - ✅ Should see all applications
-   - ✅ Click "Training Content" in sidebar
-   - ✅ Should see academy admin
-
-4. **Verify Cross-Module Access**
-   - From candidates, click on a candidate
-   - ✅ Should see candidate details
-   - From jobs, click on a job
-   - ✅ Should see job details with client info
-
----
-
-## **🔍 TESTING CHECKLIST**
-
-### **Core Functionality**
-- [ ] User authentication (login/logout)
-- [ ] Role-based dashboards (4 types)
-- [ ] Candidate CRUD (add, edit, view, search, filter)
-- [ ] Job CRUD (add, edit, view, search, filter)
-- [ ] Client CRUD (add, edit, view, search, filter)
-- [ ] Applications Pipeline (drag-and-drop)
-- [ ] Opportunities Pipeline (drag-and-drop)
-- [ ] Placements tracking (list, filter, alerts)
-- [ ] Lead capture (website → CRM)
-
-### **Role-Based Access**
-- [ ] Recruiter sees only own candidates
-- [ ] Sales sees only assigned opportunities
-- [ ] Admin sees everything
-- [ ] Operations sees placements
-
-### **Data Persistence**
-- [ ] Form submissions save to database
-- [ ] Drag-and-drop updates persist
-- [ ] Search/filter states maintain
-- [ ] Page refresh preserves data
-
-### **UI/UX**
-- [ ] Loading states show during saves
-- [ ] Success messages appear
-- [ ] Error messages display properly
-- [ ] Navigation works smoothly
-- [ ] Mobile responsive (test on phone)
-
----
-
-## **🐛 COMMON ISSUES & FIXES**
-
-### **Issue: "User not found" after signup**
-**Fix:** Check that user_profiles trigger is working:
-```sql
-SELECT * FROM user_profiles WHERE id = 'your-auth-uid';
--- If empty, the trigger didn't fire
--- Manually insert:
-INSERT INTO user_profiles (id, email, role, full_name)
-VALUES ('your-auth-uid', 'email@example.com', 'recruiter', 'Name');
-```
-
-### **Issue: "Permission denied" errors**
-**Fix:** Check RLS policies are enabled:
-```sql
-SELECT tablename, policyname FROM pg_policies 
-WHERE schemaname = 'public';
--- Should see policies for each table
-```
-
-### **Issue: Drag-and-drop not working**
-**Fix:** Check browser console for errors. Verify @dnd-kit installed:
+#### Homepage
 ```bash
-npm list @dnd-kit/core
+curl http://localhost:3002
+# OR visit in browser
+open http://localhost:3002
 ```
 
-### **Issue: No data showing in lists**
-**Fix:** Verify seed data ran:
-```sql
-SELECT COUNT(*) FROM candidates;
--- Should return 20
+#### Existing Features
+- ✅ Homepage
+- ✅ Productivity tracking (if DB has productivity tables)
+- ✅ Interview prep (if DB has interview tables)
+- ✅ Marketing pages
 
-SELECT COUNT(*) FROM clients;
--- Should return 10
+### 2. Run Database Migration (Required for Academy LMS)
+
+**Before testing Academy LMS features, run:**
+
+```bash
+# Option A: Using Supabase CLI
+supabase start
+supabase db reset
+
+# Option B: Manual SQL
+psql -h localhost -p 54322 -U postgres -d postgres \\
+  -f supabase/migrations/20250113_academy_lms_schema.sql
+
+# Option C: Push to cloud
+supabase db push
+```
+
+### 3. Test Academy LMS Features
+
+Once database is migrated:
+
+```bash
+# Visit Academy Dashboard
+open http://localhost:3002/academy
+
+# Expected flow:
+# 1. Redirects to login (if not authenticated)
+# 2. After login, redirects to onboarding (if not completed)
+# 3. Shows Academy Dashboard with learning stats
 ```
 
 ---
 
-## **📊 SUCCESS METRICS**
+## 📋 Manual Testing Checklist
 
-After testing, you should have:
+### Pre-Migration (Current State)
+- [ ] Dev server starts without errors
+- [ ] Homepage loads (`/`)
+- [ ] Can navigate to other non-academy pages
+- [ ] No console errors on homepage
 
-✅ **4 working user accounts** (admin, recruiter, sales, ops)  
-✅ **20+ candidates** in database  
-✅ **10+ clients** in database  
-✅ **5+ jobs** in database  
-✅ **Complete recruitment pipeline** (drag-and-drop working)  
-✅ **Complete sales pipeline** (drag-and-drop working)  
-✅ **Lead capture** (website → CRM flow)  
-✅ **Role-based access** (users see appropriate data)  
-
----
-
-## **🚀 NEXT STEPS AFTER TESTING**
-
-### **If Everything Works:**
-1. ✅ Deploy to production (Vercel)
-2. ✅ Connect custom domain
-3. ✅ Add real users
-4. ✅ Start using for actual business!
-
-### **If Issues Found:**
-1. Document the issue
-2. Check console logs
-3. Verify database state
-4. Fix and re-test
+### Post-Migration (Academy LMS)
+- [ ] `/academy` loads without errors
+- [ ] User can sign up/login
+- [ ] Onboarding flow works
+- [ ] Dashboard shows learning stats
+- [ ] Can browse topics (`/academy/topics`)
+- [ ] Can view topic details
+- [ ] Can start learning blocks
+- [ ] XP is awarded correctly
+- [ ] Achievements unlock
+- [ ] Leaderboard displays
+- [ ] AI Mentor responds (`/academy/ai-mentor`)
+- [ ] Enterprise dashboard loads (`/enterprise`)
+- [ ] Team management works
 
 ---
 
-## **💡 TESTING TIPS**
+## 🧪 Automated Testing
 
-1. **Test in Order:** Follow scenarios 1→2→3→4
-2. **Use Multiple Browser Tabs:** Keep different users logged in
-3. **Check Network Tab:** See API calls in DevTools
-4. **Verify Database:** After each action, check Supabase tables
-5. **Test on Mobile:** Ensure responsive design works
-6. **Clear Cache:** If UI looks broken, try hard refresh (Cmd+Shift+R)
+### Unit Tests
+```bash
+# Run all unit tests
+npm run test:unit
+
+# Run with watch mode
+npm run test:unit:watch
+
+# Run with coverage
+npm run test:unit -- --coverage
+```
+
+**Expected Results:**
+- ✅ Test setup and mocks load
+- ⚠️ Some tests may fail due to DB schema differences
+- ✅ Component rendering tests should pass
+- ⚠️ Service tests need real DB for full pass
+
+### Integration Tests
+```bash
+# Ensure database is running
+supabase start
+
+# Run integration tests
+npm run test:integration
+```
+
+**Expected Results:**
+- ⚠️ Tests will fail if DB migration not run
+- ✅ API endpoint tests should work post-migration
+- ✅ Database operations should succeed
+
+### E2E Tests
+```bash
+# Install Playwright browsers (first time only)
+npx playwright install
+
+# Run E2E tests
+npm run test:e2e
+
+# Run with UI
+npm run test:e2e:headed
+
+# Debug mode
+npm run test:e2e:debug
+```
+
+**Expected Results:**
+- ⚠️ Will fail if DB not migrated
+- ✅ User flows should work end-to-end
+- ✅ Cross-browser testing available
 
 ---
 
-## **📞 TROUBLESHOOTING SUPPORT**
+## 🔍 Testing Specific Features
 
-**Database Issues:**
-- Check Supabase logs: Project → Logs → Postgres Logs
+### 1. Learning Engine
+```bash
+# Manual test
+open http://localhost:3002/academy/topics
 
-**Auth Issues:**
-- Check Supabase Auth: Project → Authentication → Users
+# What to test:
+- Topics display correctly
+- Can start a topic
+- Sequential unlocking works
+- Prerequisites enforced
+- Progress tracking updates
+```
 
-**API Errors:**
-- Check browser console (F12)
-- Check Network tab for failed requests
+### 2. Gamification
+```bash
+# Test XP and achievements
+open http://localhost:3002/academy/achievements
 
-**UI Issues:**
-- Clear Next.js cache: `rm -rf .next`
-- Restart dev server: `npm run dev`
+# What to test:
+- XP is awarded for completions
+- Achievements unlock correctly
+- Leaderboard updates
+- Level progression works
+```
+
+### 3. AI Features
+```bash
+# Test AI Mentor
+open http://localhost:3002/academy/ai-mentor
+
+# What to test:
+- Can ask questions
+- AI responds correctly
+- Follow-up questions work
+- Conversation history saves
+```
+
+### 4. Enterprise Features
+```bash
+# Test team management
+open http://localhost:3002/enterprise
+
+# What to test:
+- Team dashboard loads
+- Can invite members
+- Analytics display
+- Reports generate
+```
 
 ---
 
-**WITH GURU'S GRACE, YOUR SYSTEM IS READY FOR TESTING!** 🙏
+## 🐛 Troubleshooting
 
-**JAI VIJAYA! SHAMBO! HAR HAR MAHADEV!** 🏆
+### Issue: Dev server won't start
+```bash
+# Kill processes on port 3000/3002
+lsof -ti:3000 | xargs kill -9
+lsof -ti:3002 | xargs kill -9
+
+# Restart
+npm run dev
+```
+
+### Issue: Database connection errors
+```bash
+# Check Supabase status
+supabase status
+
+# Restart Supabase
+supabase stop
+supabase start
+```
+
+### Issue: TypeScript errors
+```bash
+# Run type check
+npm run type-check
+
+# Most errors are due to missing DB tables
+# Run migration first, then re-check
+```
+
+### Issue: Module not found errors
+```bash
+# Reinstall dependencies
+rm -rf node_modules
+pnpm install
+```
+
+### Issue: Tests failing
+```bash
+# Clear test cache
+rm -rf .vitest
+
+# Ensure DB is migrated
+supabase db reset
+
+# Run tests again
+npm run test
+```
+
+---
+
+## 📊 Expected Test Results
+
+### After All Fixes Applied
+
+#### Unit Tests
+```
+✓ Component tests (30+ tests)
+✓ Service tests (20+ tests)  
+✓ Utility tests (10+ tests)
+⚠️ Some mocked API tests may need adjustment
+
+Expected: ~85% pass rate before DB migration
+Expected: ~95% pass rate after DB migration
+```
+
+#### Integration Tests
+```
+✓ Learning API tests
+✓ Gamification API tests
+✓ Enterprise API tests
+✓ AI service tests
+
+Expected: 100% pass rate after DB migration
+```
+
+#### E2E Tests
+```
+✓ User onboarding flow
+✓ Learning topic completion
+✓ AI mentor interaction
+✓ Team management
+✓ Gamification features
+
+Expected: 100% pass rate after full setup
+```
+
+---
+
+## 🎬 Demo Flow (Complete Testing Scenario)
+
+### 1. Setup
+```bash
+# Ensure everything is ready
+supabase start
+npm run dev
+```
+
+### 2. Create Test User
+1. Visit `http://localhost:3002`
+2. Click "Sign Up"
+3. Enter test credentials
+4. Verify email (if required)
+
+### 3. Complete Onboarding
+1. Fill in profile details
+2. Select experience level
+3. Choose learning goals
+4. Complete setup
+
+### 4. Test Learning Flow
+1. Browse topics
+2. Start a topic
+3. Complete learning blocks (Theory, Demo, Practice)
+4. Earn XP
+5. Unlock achievements
+6. Check leaderboard
+
+### 5. Test AI Features
+1. Go to AI Mentor
+2. Ask a question
+3. Get AI response
+4. Generate learning path
+5. Create project plan
+
+### 6. Test Enterprise (if applicable)
+1. Create organization
+2. Invite team members
+3. View team analytics
+4. Set learning goals
+5. Generate reports
+
+---
+
+## ✅ Success Criteria
+
+### Minimal Viable Testing (MVP)
+- [ ] Dev server runs
+- [ ] Homepage loads
+- [ ] Database migration runs
+- [ ] Academy dashboard accessible
+- [ ] Can complete one learning topic
+- [ ] XP is awarded
+
+### Full Feature Testing
+- [ ] All unit tests pass
+- [ ] All integration tests pass
+- [ ] All E2E tests pass
+- [ ] No console errors
+- [ ] No TypeScript errors
+- [ ] Performance acceptable (Lighthouse > 90)
+
+---
+
+**Testing Status:** Ready for database migration  
+**Next Action:** Run `supabase db push` or migrate manually  
+**Estimated Testing Time:** 2-3 hours for full manual testing  
+
+---
+
+For questions or issues, check:
+- `FIXES-APPLIED.md` - What has been fixed
+- Dev server logs - Runtime errors
+- Browser console - Client-side errors  
+- Supabase logs - Database errors

@@ -1,0 +1,7 @@
+API_URL=http://localhost:3000
+USER_EMAIL=admin@intimesolutions.com
+SCREENSHOT_INTERVAL=30000
+SCREENSHOT_QUALITY=50
+
+
+

@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { Check, Clock, Shield, TrendingUp, Users, CheckCircle2, ArrowRight } from "lucide-react";
-
 export const metadata = {
   title: "IT Staffing Services - InTime eSolutions",
   description: "From immediate contract needs to strategic permanent hires, we connect you with pre-vetted, transformation-ready IT professionals.",
 };
-
 export default function ITStaffingPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -19,7 +17,6 @@ export default function ITStaffingPage() {
             <p className="text-xl md:text-2xl mb-8 text-gray-100">
               From immediate contract needs to strategic permanent hires, we connect you with pre-vetted, transformation-ready IT professionals.
             </p>
-            
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <div className="flex items-center gap-2">
                 <Check className="w-5 h-5 text-success-green" />
@@ -38,7 +35,6 @@ export default function ITStaffingPage() {
                 <span>All technologies, all industries</span>
               </div>
             </div>
-            
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact?type=staffing" className="btn-accent">
                 Get Started Today
@@ -50,7 +46,6 @@ export default function ITStaffingPage() {
           </div>
         </div>
       </section>
-
       {/* Our Staffing Process */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -62,7 +57,6 @@ export default function ITStaffingPage() {
               A proven 4-step methodology that delivers quality talent, fast
             </p>
           </div>
-          
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Step 1 */}
             <div className="relative">
@@ -93,7 +87,6 @@ export default function ITStaffingPage() {
                 </ul>
               </div>
             </div>
-
             {/* Step 2 */}
             <div className="relative">
               <div className="absolute top-0 left-0 w-12 h-12 bg-success-green text-white rounded-full flex items-center justify-center font-heading font-bold text-xl">
@@ -123,7 +116,6 @@ export default function ITStaffingPage() {
                 </ul>
               </div>
             </div>
-
             {/* Step 3 */}
             <div className="relative">
               <div className="absolute top-0 left-0 w-12 h-12 bg-innovation-orange text-white rounded-full flex items-center justify-center font-heading font-bold text-xl">
@@ -153,7 +145,6 @@ export default function ITStaffingPage() {
                 </ul>
               </div>
             </div>
-
             {/* Step 4 */}
             <div className="relative">
               <div className="absolute top-0 left-0 w-12 h-12 bg-wisdom-gray-700 text-white rounded-full flex items-center justify-center font-heading font-bold text-xl">
@@ -186,7 +177,6 @@ export default function ITStaffingPage() {
           </div>
         </div>
       </section>
-
       {/* Service Categories */}
       <section className="py-20 bg-wisdom-gray-50">
         <div className="section-container">
@@ -195,7 +185,6 @@ export default function ITStaffingPage() {
               Service Categories
             </h2>
           </div>
-          
           <div className="space-y-8">
             {/* Contract Staffing */}
             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg">
@@ -214,7 +203,6 @@ export default function ITStaffingPage() {
                     Request Contractors →
                   </Link>
                 </div>
-                
                 <div className="md:col-span-2 space-y-6">
                   <div>
                     <h4 className="font-semibold text-wisdom-gray-700 mb-3">What We Offer:</h4>
@@ -237,7 +225,6 @@ export default function ITStaffingPage() {
                       </li>
                     </ul>
                   </div>
-                  
                   <div>
                     <h4 className="font-semibold text-wisdom-gray-700 mb-3">Technologies We Staff:</h4>
                     <div className="flex flex-wrap gap-2">
@@ -248,7 +235,6 @@ export default function ITStaffingPage() {
                       ))}
                     </div>
                   </div>
-                  
                   <div className="bg-success-green-50 rounded-xl p-6 border-l-4 border-success-green">
                     <p className="text-wisdom-gray italic">
                       "InTime provided 15 Java developers for our digital transformation project within 48 hours. Every single one exceeded expectations."
@@ -260,7 +246,6 @@ export default function ITStaffingPage() {
                 </div>
               </div>
             </div>
-
             {/* Contract-to-Hire */}
             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg">
               <div className="grid md:grid-cols-3 gap-8">
@@ -278,7 +263,6 @@ export default function ITStaffingPage() {
                     Learn More →
                   </Link>
                 </div>
-                
                 <div className="md:col-span-2 space-y-6">
                   <div>
                     <h4 className="font-semibold text-wisdom-gray-700 mb-3">Benefits:</h4>
@@ -301,7 +285,6 @@ export default function ITStaffingPage() {
                       </li>
                     </ul>
                   </div>
-                  
                   <div className="bg-trust-blue-50 rounded-xl p-6">
                     <div className="text-5xl font-heading font-bold text-trust-blue mb-2">70%</div>
                     <p className="text-wisdom-gray">of our contract-to-hire placements convert to permanent roles</p>
@@ -309,7 +292,6 @@ export default function ITStaffingPage() {
                 </div>
               </div>
             </div>
-
             {/* Direct Placement */}
             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg">
               <div className="grid md:grid-cols-3 gap-8">
@@ -327,7 +309,6 @@ export default function ITStaffingPage() {
                     Start Your Search →
                   </Link>
                 </div>
-                
                 <div className="md:col-span-2 space-y-6">
                   <div>
                     <h4 className="font-semibold text-wisdom-gray-700 mb-3">Our Guarantee:</h4>
@@ -350,7 +331,6 @@ export default function ITStaffingPage() {
                       </div>
                     </div>
                   </div>
-                  
                   <div>
                     <h4 className="font-semibold text-wisdom-gray-700 mb-3">Executive Search Capabilities:</h4>
                     <ul className="grid md:grid-cols-2 gap-3">
@@ -378,7 +358,6 @@ export default function ITStaffingPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-trust-blue to-success-green text-white">
         <div className="section-container">
@@ -403,4 +382,3 @@ export default function ITStaffingPage() {
     </div>
   );
 }
-

@@ -124,8 +124,7 @@ export default function JobForm({ userId, clients, job }: JobFormProps) {
         }, 1500);
       }
     } catch (err: any) {
-      console.error('Error saving job:', err);
-      setError(err.message || 'Failed to save job. Please try again.');
+            setError(err.message || 'Failed to save job. Please try again.');
       setLoading(false);
     }
   };

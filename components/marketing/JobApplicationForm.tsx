@@ -76,8 +76,7 @@ export default function JobApplicationForm({ jobId, jobTitle }: JobApplicationFo
         coverLetter: ''
       });
     } catch (error) {
-      console.error('Application submission error:', error);
-      setSubmitStatus('error');
+            setSubmitStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);

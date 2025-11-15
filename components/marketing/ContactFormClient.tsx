@@ -57,8 +57,7 @@ export default function ContactFormClient() {
       // Reset success message after 5 seconds
       setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
-      console.error('Form submission error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
+            setError(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "sonner";
-
+import { validateEnvironment } from "@/lib/config/validate-env";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+validateEnvironment();
 export const metadata: Metadata = {
   title: "InTime eSolutions - Transform Your Career. Power Your Business.",
   description: "Where Excellence Meets Opportunity - IT Staffing, Skill Development, and Cross-Border Solutions That Deliver Results.",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <GoogleAnalytics />
         {children}
         <Toaster />
         <Sonner />
@@ -23,4 +25,3 @@ export default function RootLayout({
     </html>
   );
 }
-

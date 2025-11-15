@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { logger } from "@/lib/utils/logger";
 
 interface PendingSubmission {
   id: string;
@@ -44,34 +45,18 @@ export default function AccountManagerDashboard() {
   const [metrics, setMetrics] = useState<DailyMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    loadDashboard();
-    
-    // Real-time updates
-    const channel = supabase
-      .channel('am-dashboard')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'applications' },
-        () => loadDashboard()
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  const loadDashboard = async () => {
+  const loadDashboard = useCallback(async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       // Load pending submissions (screened, not yet submitted to client)
       const { data: applicationsData } = await supabase
-        .from('applications' as any)
+        .from("applications" as any)
         .select(`
           id,
           candidate_id,
@@ -94,34 +79,55 @@ export default function AccountManagerDashboard() {
             )
           )
         `)
-        .eq('status', 'screening')
-        .order('candidate_rating', { ascending: false })
-        .order('created_at', { ascending: true })
+        .eq("status", "screening")
+        .order("candidate_rating", { ascending: false })
+        .order("created_at", { ascending: true })
         .limit(20) as any;
 
       setPending(applicationsData || []);
 
       // Load today's metrics
       const { data: metricsData } = await supabase
-        .from('daily_metrics' as any)
-        .select('submissions_received, submissions_made, interviews_scheduled, offers_received')
-        .eq('user_id', user.id)
-        .eq('metric_date', new Date().toISOString().split('T')[0])
+        .from("daily_metrics" as any)
+        .select("submissions_received, submissions_made, interviews_scheduled, offers_received")
+        .eq("user_id", user.id)
+        .eq("metric_date", new Date().toISOString().split("T")[0])
         .single() as any;
 
-      setMetrics(metricsData || {
-        submissions_received: 0,
-        submissions_made: 0,
-        interviews_scheduled: 0,
-        offers_received: 0
-      });
-
+      setMetrics(
+        metricsData || {
+          submissions_received: 0,
+          submissions_made: 0,
+          interviews_scheduled: 0,
+          offers_received: 0,
+        }
+      );
     } catch (error) {
-      console.error('Error loading AM dashboard:', error);
+      logger.error("Error loading AM dashboard:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    void loadDashboard();
+
+    // Real-time updates
+    const channel = supabase
+      .channel("am-dashboard")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "applications" },
+        () => {
+          void loadDashboard();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [loadDashboard, supabase]);
 
   const toggleSelection = (id: string) => {
     const newSelected = new Set(selected);
@@ -178,10 +184,10 @@ export default function AccountManagerDashboard() {
 
       // Clear selection and reload
       setSelected(new Set());
-      loadDashboard();
+      await loadDashboard();
 
     } catch (error) {
-      console.error('Error submitting candidates:', error);
+      logger.error("Error submitting candidates:", error);
     } finally {
       setSubmitting(false);
     }

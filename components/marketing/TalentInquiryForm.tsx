@@ -76,8 +76,7 @@ export default function TalentInquiryForm({ talentId, talentName, talentTitle }:
         message: ''
       });
     } catch (error) {
-      console.error('Inquiry submission error:', error);
-      setSubmitStatus('error');
+            setSubmitStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);

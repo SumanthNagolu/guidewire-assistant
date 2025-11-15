@@ -71,8 +71,7 @@ export default function MentorChat({ topicId, topicTitle }: MentorChatProps) {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
         const errorMessage = errorData.error || `Request failed with status ${response.status}`;
-        console.error('[AI Mentor] API error:', response.status, errorMessage);
-        throw new Error(errorMessage);
+                throw new Error(errorMessage);
       }
 
       // Get conversation ID from headers
@@ -151,8 +150,7 @@ export default function MentorChat({ topicId, topicTitle }: MentorChatProps) {
       }
     } catch (error) {
       toast.error('Failed to get response from AI mentor');
-      console.error('Chat error:', error);
-      
+            
       // Remove the empty assistant message on error
       setMessages((prev) => prev.slice(0, -1));
     } finally {

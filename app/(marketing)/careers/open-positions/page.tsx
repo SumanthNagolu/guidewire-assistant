@@ -1,12 +1,10 @@
 import { ArrowRight, MapPin, Clock, DollarSign, Building2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-
 export const metadata = {
   title: 'Open Positions | InTime eSolutions Careers',
   description: 'Browse client job openings we\'re actively recruiting for. Find your next IT, consulting, or engineering opportunity.',
   keywords: 'job openings, IT jobs, client positions, contract jobs, consulting opportunities',
 };
-
 export default function OpenPositionsPage() {
   // Mock data - replace with actual data from your database
   const clientJobs = [
@@ -82,7 +80,6 @@ export default function OpenPositionsPage() {
       requirements: ['Selenium', 'Cypress', 'Performance testing', 'CI/CD', 'Team leadership'],
     },
   ];
-
   return (
     <>
       {/* Hero Section */}
@@ -101,7 +98,6 @@ export default function OpenPositionsPage() {
           </div>
         </div>
       </section>
-
       {/* Quick Stats */}
       <section className="py-12 bg-success-green-50 border-b border-success-green-100">
         <div className="section-container">
@@ -125,7 +121,6 @@ export default function OpenPositionsPage() {
           </div>
         </div>
       </section>
-
       {/* Job Listings */}
       <section className="py-16 bg-white">
         <div className="section-container">
@@ -153,7 +148,6 @@ export default function OpenPositionsPage() {
               </select>
             </div>
           </div>
-
           <div className="space-y-4">
             {clientJobs.map((job) => (
               <div
@@ -201,11 +195,9 @@ export default function OpenPositionsPage() {
                         Posted {job.posted}
                       </span>
                     </div>
-                    
                     <p className="text-wisdom-gray-700 mb-3 mt-3">
                       {job.description}
                     </p>
-
                     <div className="flex flex-wrap gap-2">
                       {job.requirements.map((req, idx) => (
                         <span
@@ -217,10 +209,9 @@ export default function OpenPositionsPage() {
                       ))}
                     </div>
                   </div>
-
                   <div className="flex lg:flex-col gap-2">
                     <Link
-                      href={job.slug ? `/careers/jobs/${job.slug}` : `/contact`}
+                      href={`/contact?job=${job.slug || job.title}`}
                       className="bg-success-green hover:bg-success-green-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-center whitespace-nowrap inline-flex items-center justify-center"
                     >
                       Apply Now
@@ -236,7 +227,6 @@ export default function OpenPositionsPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16 bg-success-green text-white">
         <div className="section-container text-center">
@@ -255,4 +245,3 @@ export default function OpenPositionsPage() {
     </>
   );
 }
-

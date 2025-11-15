@@ -3,20 +3,16 @@ import { redirect, notFound } from 'next/navigation';
 import { ChevronLeft, Edit, Mail, Phone, Globe, MapPin, Building2, DollarSign, Users, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-
 export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient() as any; // Type cast for CRM tables
   const { id } = await params;
-
   // Check authentication
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/employee/login');
   }
-
   // Get client with contacts and jobs
   const { data: client, error } = await supabase
     .from('clients')
@@ -28,11 +24,9 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     .eq('id', id)
     .is('deleted_at', null)
     .single();
-
   if (error || !client) {
     notFound();
   }
-
   const getStatusBadge = (status: string) => {
     const badges = {
       active: 'bg-success-green-100 text-success-green-700 border-success-green-200',
@@ -41,7 +35,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     };
     return badges[status as keyof typeof badges] || badges.active;
   };
-
   const getTierBadge = (tier: string | null) => {
     if (!tier) return '';
     const badges = {
@@ -58,7 +51,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     };
     return { badge: badges[tier as keyof typeof badges], label: labels[tier as keyof typeof labels] };
   };
-
   const formatRevenue = (revenue: number | null) => {
     if (!revenue) return null;
     if (revenue >= 1000000000) return `$${(revenue / 1000000000).toFixed(1)}B`;
@@ -66,11 +58,9 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     if (revenue >= 1000) return `$${(revenue / 1000).toFixed(1)}K`;
     return `$${revenue}`;
   };
-
   const tierStyle = client.tier ? getTierBadge(client.tier) : null;
   const contactCount = client.contacts?.[0]?.count || 0;
   const jobCount = client.jobs?.[0]?.count || 0;
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -100,7 +90,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -126,7 +115,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 )}
               </div>
             </div>
-
             {/* Contact Information */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-heading font-semibold text-trust-blue-900 mb-4">Contact Information</h3>
@@ -157,7 +145,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 )}
               </div>
             </div>
-
             {/* Quick Stats */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-heading font-semibold text-trust-blue-900 mb-4">Quick Stats</h3>
@@ -172,7 +159,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 </div>
               </div>
             </div>
-
             {/* Company Details */}
             {(client.annual_revenue || client.employee_count) && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -200,7 +186,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
               </div>
             )}
           </div>
-
           {/* Right Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Notes */}
@@ -213,7 +198,6 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 <div className="text-wisdom-gray-700 whitespace-pre-wrap">{client.notes}</div>
               </div>
             )}
-
             {/* Metadata */}
             <div className="bg-gray-100 rounded-lg p-4 text-xs text-wisdom-gray-600">
               <div className="flex items-center justify-between">
@@ -227,4 +211,3 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     </div>
   );
 }
-

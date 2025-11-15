@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import UserMenu from "./UserMenu";
 import { usePathname } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const LogoSymbol = () => (
   <svg
@@ -38,10 +41,39 @@ const LogoSymbol = () => (
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
+  const supabase = useMemo(() => createClient(), []);
+
+  // Check if user is admin
+  useEffect(() => {
+    let isMounted = true;
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (isMounted) {
+        setUser(user);
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (isMounted) {
+        setUser(session?.user ?? null);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  const isAdmin = user?.email === 'admin@intimesolutions.com';
 
   // Dynamic second word based on current page
   const getSecondWord = () => {
+    if (pathname?.startsWith('/companions')) return 'Companions';
     if (pathname?.startsWith('/academy')) return 'Academy';
     if (pathname?.startsWith('/resources')) return 'Resources';
     if (pathname?.startsWith('/careers')) return 'Careers';
@@ -57,13 +89,16 @@ export default function Navbar() {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-lg">
       <div className="section-container">
         <div className="flex items-center h-20">
-          {/* Logo */}
-                <Link href="/" className="flex items-center gap-1">
-                  <img 
-                    src="/logo8.png" 
-                    alt="InTime Logo" 
-                    className="h-12 w-auto"
-                  />
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-1">
+          <Image
+            src="/logo8.png"
+            alt="InTime Logo"
+            width={48}
+            height={48}
+            className="h-12 w-auto"
+            priority
+          />
             <div className="flex items-center h-12">
               <div className="text-3xl font-heading leading-none">
                 <span className="text-trust-blue font-bold">InTime</span>{" "}
@@ -214,9 +249,16 @@ export default function Navbar() {
               Resources
             </Link>
 
-            <Link href="/academy" className="text-trust-blue hover:text-success-green font-bold transition-colors">
+            <Link href="/academy-info" className="text-trust-blue hover:text-success-green font-bold transition-colors">
               Academy
             </Link>
+
+            {/* Admin-only Companions link */}
+            {isAdmin && (
+              <Link href="/companions" className="text-trust-blue hover:text-success-green font-bold transition-colors">
+                Companions
+              </Link>
+            )}
 
             {/* User Menu with same spacing */}
             <UserMenu />
@@ -267,7 +309,7 @@ export default function Navbar() {
                     <Link href="/resources" className="block text-trust-blue hover:text-success-green font-bold">
               Resources
             </Link>
-                    <Link href="/academy" className="block text-trust-blue hover:text-success-green font-bold">
+                    <Link href="/academy-info" className="block text-trust-blue hover:text-success-green font-bold">
               Academy
             </Link>
             <Link href="/contact" className="block btn-primary text-center text-sm mt-4">

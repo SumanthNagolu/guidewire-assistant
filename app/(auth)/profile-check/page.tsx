@@ -1,11 +1,9 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
 export default function ProfileCheckPage() {
   const [status, setStatus] = useState<{
     user: any;
@@ -16,31 +14,25 @@ export default function ProfileCheckPage() {
     profile: null,
     error: null,
   });
-
   useEffect(() => {
     async function checkStatus() {
       const supabase = createClient();
-      
       try {
         // Check auth
         const { data: { user }, error: authError } = await supabase.auth.getUser();
-        
         if (authError) {
           setStatus({ user: null, profile: null, error: authError.message });
           return;
         }
-
         if (!user) {
           setStatus({ user: null, profile: null, error: 'Not authenticated' });
           return;
         }
-
         // Check for duplicate profiles first
         const { data: allProfiles, error: countError } = await supabase
           .from('user_profiles')
           .select('*')
           .eq('id', user.id);
-
         if (countError) {
           setStatus({ 
             user, 
@@ -49,7 +41,6 @@ export default function ProfileCheckPage() {
           });
           return;
         }
-
         if (!allProfiles || allProfiles.length === 0) {
           setStatus({ 
             user, 
@@ -58,7 +49,6 @@ export default function ProfileCheckPage() {
           });
           return;
         }
-
         if (allProfiles.length > 1) {
           setStatus({ 
             user, 
@@ -67,7 +57,6 @@ export default function ProfileCheckPage() {
           });
           return;
         }
-
         setStatus({ user, profile: allProfiles[0], error: null });
       } catch (err) {
         setStatus({ 
@@ -77,10 +66,8 @@ export default function ProfileCheckPage() {
         });
       }
     }
-
     checkStatus();
   }, []);
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-2xl">
@@ -94,7 +81,6 @@ export default function ProfileCheckPage() {
               <p className="text-sm text-red-700 mt-1">{status.error}</p>
             </div>
           )}
-
           {status.user && (
             <div className="rounded-lg border p-4">
               <h3 className="font-semibold mb-2">Auth Status: ✅ Authenticated</h3>
@@ -111,21 +97,19 @@ export default function ProfileCheckPage() {
               </pre>
             </div>
           )}
-
           {status.profile && (
             <div className="rounded-lg border p-4">
               <h3 className="font-semibold mb-2">Profile Status</h3>
               <pre className="text-xs bg-gray-100 p-2 rounded overflow-auto">
                 {JSON.stringify(status.profile, null, 2)}
               </pre>
-              
               {status.profile.onboarding_completed ? (
                 <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
                   <p className="text-sm text-green-800">
                     ✅ Onboarding completed - You should be able to access the dashboard
                   </p>
-                  <Link href="/dashboard">
-                    <Button className="mt-2">Go to Dashboard</Button>
+                  <Link href="/academy">
+                    <Button className="mt-2">Go to Academy</Button>
                   </Link>
                 </div>
               ) : (
@@ -140,13 +124,11 @@ export default function ProfileCheckPage() {
               )}
             </div>
           )}
-
           {!status.user && !status.error && (
             <div className="text-center py-8">
               <p className="text-muted-foreground">Loading...</p>
             </div>
           )}
-
           <div className="flex gap-2 pt-4">
             <Link href="/login">
               <Button variant="outline">Go to Login</Button>
@@ -160,4 +142,3 @@ export default function ProfileCheckPage() {
     </div>
   );
 }
-

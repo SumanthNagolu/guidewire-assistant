@@ -1,0 +1,45 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Create Account
+      - generic [ref=e6]: Start your Guidewire training journey today
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - generic [ref=e10]:
+            - text: First Name
+            - textbox "First Name" [ref=e11]:
+              - /placeholder: John
+          - generic [ref=e12]:
+            - text: Last Name
+            - textbox "Last Name" [ref=e13]:
+              - /placeholder: Doe
+        - generic [ref=e14]:
+          - text: Email
+          - textbox "Email" [ref=e15]:
+            - /placeholder: you@example.com
+        - generic [ref=e16]:
+          - text: Password
+          - textbox "Password" [ref=e17]:
+            - /placeholder: ••••••••
+          - paragraph [ref=e18]: Must be at least 8 characters
+      - generic [ref=e19]:
+        - button "Sign Up" [ref=e20] [cursor=pointer]
+        - generic [ref=e25]: Or continue with
+        - button "Google" [ref=e26] [cursor=pointer]:
+          - img
+          - text: Google
+        - paragraph [ref=e27]:
+          - text: Already have an account?
+          - link "Sign in" [ref=e28] [cursor=pointer]:
+            - /url: /login
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e34] [cursor=pointer]:
+    - img [ref=e35]
+  - alert [ref=e38]
+```

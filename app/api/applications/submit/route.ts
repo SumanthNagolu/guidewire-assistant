@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
-
+import { logger } from '@/lib/utils/logger';
 // Validation schema
 const applicationSchema = z.object({
   jobId: z.string(),
@@ -19,30 +19,25 @@ const applicationSchema = z.object({
   resumeText: z.string().min(50, 'Resume/skills summary is too short'),
   coverLetter: z.string().optional()
 });
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
     // Validate input
     const validatedData = applicationSchema.parse(body);
-
     // Initialize Supabase client
     const supabase = await createClient();
-
     // Check if candidate already exists by email
     let candidateId;
-    const { data: existingCandidate } = await (supabase as any)
+    const { data: existingCandidate } = await supabase
       .from('candidates')
       .select('id')
       .eq('email', validatedData.email)
       .single();
-
     if (existingCandidate) {
       candidateId = existingCandidate.id;
     } else {
       // Create new candidate record
-      const { data: newCandidate, error: candidateError } = await (supabase as any)
+      const { data: newCandidate, error: candidateError } = await supabase
         .from('candidates')
         .insert({
           first_name: validatedData.firstName,
@@ -60,23 +55,19 @@ export async function POST(request: Request) {
         })
         .select('id')
         .single();
-
       if (candidateError) {
-        console.error('Error creating candidate:', candidateError);
+        logger.error('Error creating candidate:', candidateError);
         throw new Error('Failed to create candidate record');
       }
-
       candidateId = newCandidate.id;
     }
-
     // Find matching job (if exists)
-    const { data: job } = await (supabase as any)
+    const { data: job } = await supabase
       .from('jobs')
       .select('id')
       .eq('title', validatedData.jobTitle)
       .eq('status', 'open')
       .single();
-
     let applicationData: any = {
       candidate_id: candidateId,
       stage: 'applied',
@@ -84,23 +75,19 @@ export async function POST(request: Request) {
       notes: validatedData.coverLetter || null,
       resume_submitted_at: new Date().toISOString()
     };
-
     // If job exists, create application
     if (job) {
       applicationData.job_id = job.id;
     }
-
-    const { error: applicationError } = await (supabase as any)
+    const { error: applicationError } = await supabase
       .from('applications')
       .insert(applicationData);
-
     if (applicationError) {
-      console.error('Error creating application:', applicationError);
+      logger.error('Error creating application:', applicationError);
       // Don't throw error here - candidate was created successfully
     }
-
     // Log activity
-    await (supabase as any)
+    await supabase
       .from('activities')
       .insert({
         entity_type: 'candidate',
@@ -115,10 +102,7 @@ export async function POST(request: Request) {
           expected_salary: validatedData.expectedSalary
         }
       });
-
-    // TODO: Send email notification to recruiters
-    // This would integrate with Resend or SendGrid
-    
+        // This would integrate with Resend or SendGrid
     return NextResponse.json(
       { 
         success: true, 
@@ -127,10 +111,8 @@ export async function POST(request: Request) {
       },
       { status: 200 }
     );
-
   } catch (error) {
-    console.error('Application submission error:', error);
-
+    logger.error('Application submission error:', error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { 
@@ -141,7 +123,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
     return NextResponse.json(
       { 
         success: false, 
@@ -151,4 +132,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

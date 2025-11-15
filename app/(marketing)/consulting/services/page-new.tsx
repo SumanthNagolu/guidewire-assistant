@@ -1,12 +1,10 @@
 import { ArrowRight, Brain, TrendingUp, Shield, Users, Code2, BarChart3, Network, Sparkles, Store, GraduationCap, Building2 } from 'lucide-react';
 import Link from 'next/link';
-
 export const metadata = {
   title: 'Consulting Services | InTime eSolutions - Big 4 Excellence + AI Innovation',
   description: 'Enterprise consulting rivaling Deloitte, EY, PwC—strategy, technology, operations, risk. PLUS AI-powered B2C solutions: teaching platforms, POS systems, custom tools.',
   keywords: 'management consulting, strategy consulting, technology consulting, digital transformation, AI solutions, custom software, business consulting, enterprise solutions',
 };
-
 export default function ServicesPage() {
   const enterpriseServices = [
     {
@@ -52,7 +50,6 @@ export default function ServicesPage() {
       features: ['Data strategy & governance', 'AI/ML model development', 'Business intelligence (Power BI, Tableau)', 'Predictive analytics', 'Big data engineering'],
     },
   ];
-
   const aiCustomSolutions = [
     {
       icon: <GraduationCap className="h-8 w-8" />,
@@ -79,7 +76,6 @@ export default function ServicesPage() {
       examples: ['Manager performance dashboards', 'Team OKR tracking tools', 'Employee engagement platforms', '360-degree feedback systems', 'Skills gap analysis tools'],
     },
   ];
-
   return (
     <>
       {/* Hero Section */}
@@ -108,7 +104,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
       {/* Enterprise Consulting Services (Big 4 Level) */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -123,7 +118,6 @@ export default function ServicesPage() {
               We compete with Deloitte, EY, PwC, and KPMG—but deliver faster, at better rates, with more agility. Same depth. Less bureaucracy.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {enterpriseServices.map((service, index) => (
               <div
@@ -162,7 +156,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
       {/* AI-Powered Custom Solutions (Our Unique Edge) */}
       <section className="py-20 bg-gradient-to-br from-innovation-orange-50 to-trust-blue-50">
         <div className="section-container">
@@ -177,7 +170,6 @@ export default function ServicesPage() {
               While Deloitte chases billion-dollar enterprises, we also build custom AI-powered tools for schools, restaurants, retail stores, and professional practices. Big impact. Small budgets. Real solutions.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 gap-8">
             {aiCustomSolutions.map((solution, index) => (
               <div
@@ -218,7 +210,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
       {/* Why InTime vs Big 4 */}
       <section className="py-20 bg-white">
         <div className="section-container">
@@ -258,7 +249,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
       {/* Industries We Serve */}
       <section className="py-20 bg-gray-50">
         <div className="section-container">
@@ -279,7 +269,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-trust-blue-600 to-innovation-orange-500 text-white">
         <div className="section-container text-center">
@@ -298,7 +287,6 @@ export default function ServicesPage() {
               View Open Consulting Roles
             </Link>
           </div>
-
           <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div>
               <div className="text-4xl font-bold mb-2">🇺🇸 USA</div>
@@ -318,4 +306,3 @@ export default function ServicesPage() {
     </>
   );
 }
-

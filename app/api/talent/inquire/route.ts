@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
-
+import { logger } from '@/lib/utils/logger';
 // Validation schema
 const inquirySchema = z.object({
   talentId: z.string(),
@@ -19,30 +19,25 @@ const inquirySchema = z.object({
   budget: z.string().optional(),
   message: z.string().min(10, 'Please provide project details')
 });
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
     // Validate input
     const validatedData = inquirySchema.parse(body);
-
     // Initialize Supabase client
     const supabase = await createClient();
-
     // Check if client exists by email
     let clientId;
-    const { data: existingClient } = await (supabase as any)
+    const { data: existingClient } = await supabase
       .from('clients')
       .select('id')
       .eq('email', validatedData.email)
       .single();
-
     if (existingClient) {
       clientId = existingClient.id;
     } else {
       // Create new client record
-      const { data: newClient, error: clientError } = await (supabase as any)
+      const { data: newClient, error: clientError } = await supabase
         .from('clients')
         .insert({
           company_name: validatedData.company,
@@ -55,16 +50,13 @@ export async function POST(request: Request) {
         })
         .select('id')
         .single();
-
       if (clientError) {
-        console.error('Error creating client:', clientError);
+        logger.error('Error creating client:', clientError);
         throw new Error('Failed to create client record');
       }
-
       clientId = newClient.id;
-
       // Create client contact
-      await (supabase as any)
+      await supabase
         .from('contacts')
         .insert({
           client_id: clientId,
@@ -76,9 +68,8 @@ export async function POST(request: Request) {
           is_primary: true
         });
     }
-
     // Create opportunity for the talent inquiry
-    const { data: opportunity, error: opportunityError } = await (supabase as any)
+    const { data: opportunity, error: opportunityError } = await supabase
       .from('opportunities')
       .insert({
         client_id: clientId,
@@ -94,21 +85,18 @@ Project Type: ${validatedData.projectType}
 Start Date: ${validatedData.startDate}
 Duration: ${validatedData.duration || 'Not specified'}
 Budget: ${validatedData.budget || 'Not specified'}
-
 Project Details:
 ${validatedData.message}
         `.trim()
       })
       .select('id')
       .single();
-
     if (opportunityError) {
-      console.error('Error creating opportunity:', opportunityError);
+      logger.error('Error creating opportunity:', opportunityError);
       // Don't throw error here - client was created successfully
     }
-
     // Log activity
-    await (supabase as any)
+    await supabase
       .from('activities')
       .insert({
         entity_type: 'opportunity',
@@ -128,10 +116,7 @@ ${validatedData.message}
           contact_phone: validatedData.phone
         }
       });
-
-    // TODO: Send email notification to sales team
-    // This would integrate with Resend or SendGrid
-    
+        // This would integrate with Resend or SendGrid
     return NextResponse.json(
       { 
         success: true, 
@@ -140,10 +125,8 @@ ${validatedData.message}
       },
       { status: 200 }
     );
-
   } catch (error) {
-    console.error('Talent inquiry submission error:', error);
-
+    logger.error('Talent inquiry submission error:', error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { 
@@ -154,7 +137,6 @@ ${validatedData.message}
         { status: 400 }
       );
     }
-
     return NextResponse.json(
       { 
         success: false, 
@@ -164,4 +146,3 @@ ${validatedData.message}
     );
   }
 }
-

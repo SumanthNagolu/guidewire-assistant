@@ -3,42 +3,34 @@ import { redirect } from 'next/navigation';
 import ContentUploadForm from '@/components/features/admin/ContentUploadForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, FileText, Video, Presentation } from 'lucide-react';
-
 export default async function ContentUploadPage() {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
     redirect('/login');
   }
-
   // Check if user is admin
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .single();
-
   if (profile?.role !== 'admin') {
-    redirect('/dashboard');
+    redirect('/academy');
   }
-
   // Get all products for the dropdown
   const { data: products } = await supabase
     .from('products')
     .select('id, code, name')
     .order('name');
-
   // Get all topics for the dropdown
   const { data: topics } = await supabase
     .from('topics')
     .select('id, title, product_id')
     .eq('is_published', true)
     .order('position');
-
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
@@ -50,7 +42,6 @@ export default async function ContentUploadPage() {
           Upload lesson content (slides, videos, assignments) to Supabase Storage
         </p>
       </div>
-
       {/* Info Cards */}
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
@@ -69,7 +60,6 @@ export default async function ContentUploadPage() {
             </p>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm">
@@ -86,7 +76,6 @@ export default async function ContentUploadPage() {
             </p>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm">
@@ -104,10 +93,8 @@ export default async function ContentUploadPage() {
           </CardContent>
         </Card>
       </div>
-
       {/* Upload Form */}
       <ContentUploadForm products={products || []} topics={Array.isArray(topics) ? topics : []} />
-
       {/* Instructions */}
       <Card className="border-blue-200 bg-blue-50">
         <CardHeader>
@@ -130,4 +117,3 @@ export default async function ContentUploadPage() {
     </div>
   );
 }
-

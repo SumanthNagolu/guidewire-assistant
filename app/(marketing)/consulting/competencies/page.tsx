@@ -1,12 +1,10 @@
 import { ArrowRight, Cog, Globe, Database, Shield, Cloud, BarChart3, HardDrive, Smartphone, Code, Brain, CloudCog, ShieldCheck, Zap, LineChart } from 'lucide-react';
 import Link from 'next/link';
-
 export const metadata = {
   title: 'Technology Competencies | InTime eSolutions - Enterprise-Grade Expertise',
   description: 'Enterprise technology consulting across Cloud, AI/ML, Digital Transformation, DevOps, Cybersecurity, and Data Engineering. Big 4 expertise, startup agility.',
   keywords: 'technology consulting, enterprise transformation, DevOps, cloud computing, AI ML, cybersecurity, data engineering, digital transformation',
 };
-
 export default function CompetenciesPage() {
   const competencies = [
     {
@@ -190,7 +188,6 @@ export default function CompetenciesPage() {
       useCases: ['Database modernization', 'Performance optimization', 'Migration to cloud', 'High-availability setup']
     },
   ];
-
   const differentiators = [
     {
       title: 'Big 4 Expertise, Startup Agility',
@@ -213,7 +210,6 @@ export default function CompetenciesPage() {
       icon: '🤖'
     }
   ];
-
   return (
     <>
       {/* Hero Section */}
@@ -237,7 +233,6 @@ export default function CompetenciesPage() {
           </div>
         </div>
       </section>
-
       {/* Why Choose InTime - Differentiators */}
       <section className="py-16 bg-white">
         <div className="section-container">
@@ -249,7 +244,6 @@ export default function CompetenciesPage() {
               Same expertise. Same methodologies. Better value. Better speed.
             </p>
           </div>
-          
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {differentiators.map((item, index) => (
               <div key={index} className="bg-gradient-to-br from-trust-blue-50 to-sky-blue-50 p-6 rounded-2xl text-center border border-trust-blue-100">
@@ -261,7 +255,6 @@ export default function CompetenciesPage() {
           </div>
         </div>
       </section>
-
       {/* Competencies Grid */}
       <section className="py-16 bg-wisdom-gray-50">
         <div className="section-container">
@@ -273,7 +266,6 @@ export default function CompetenciesPage() {
               Deep expertise across every layer of your technology stack—from infrastructure to AI, data to security.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 gap-8">
             {competencies.map((competency, index) => (
               <div
@@ -293,11 +285,9 @@ export default function CompetenciesPage() {
                     </h3>
                   </div>
                 </div>
-                
                 <p className="text-wisdom-gray-600 mb-6 leading-relaxed">
                   {competency.description}
                 </p>
-
                 <div className="mb-6">
                   <div className="text-sm font-semibold text-wisdom-gray-700 mb-3">Core Capabilities:</div>
                   <div className="grid grid-cols-2 gap-2">
@@ -309,7 +299,6 @@ export default function CompetenciesPage() {
                     ))}
                   </div>
                 </div>
-
                 <div className="border-t border-gray-200 pt-4">
                   <div className="text-xs font-semibold text-wisdom-gray-600 mb-2">Typical Use Cases:</div>
                   <div className="flex flex-wrap gap-2">
@@ -325,7 +314,6 @@ export default function CompetenciesPage() {
           </div>
         </div>
       </section>
-
       {/* Our Approach */}
       <section className="py-16 bg-white">
         <div className="section-container">
@@ -366,7 +354,6 @@ export default function CompetenciesPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-trust-blue to-trust-blue-600 text-white">
         <div className="section-container text-center">
